@@ -28,7 +28,8 @@ public class FlightServiceImpl implements FlightService {
         }
         final Flight flight = FlightMapper.toFlight(request);
         flight.setAirlineId(airlineId);
-        return getFlightResponse(flight);
+        final Flight saved = flightRepository.save(flight);
+        return getFlightResponse(saved);
     }
 
     @Override
@@ -53,7 +54,8 @@ public class FlightServiceImpl implements FlightService {
             throw new Exception("Flight number already exists");
         }
         FlightMapper.toFlight(request, flight);
-        return getFlightResponse(flight);
+        final Flight saved = flightRepository.save(flight);
+        return getFlightResponse(saved);
     }
 
     @Override
@@ -73,11 +75,10 @@ public class FlightServiceImpl implements FlightService {
     }
 
     private FlightResponse getFlightResponse(Flight flight) {
-        final Flight saved = flightRepository.save(flight);
-        final AircraftResponse aircraftResponse = AircraftResponse.builder().id(saved.getAircraftId()).build();
-        final AirlineResponse airlineResponse = AirlineResponse.builder().id(saved.getAirlineId()).build();
-        final AirportResponse departureAirport =  AirportResponse.builder().id(saved.getDepartureAirportId()).build();
-        final AirportResponse arrivalAirport =  AirportResponse.builder().id(saved.getArrivalAirportId()).build();
-        return FlightMapper.toFlight(saved, aircraftResponse, airlineResponse, departureAirport, arrivalAirport);
+        final AircraftResponse aircraftResponse = AircraftResponse.builder().id(flight.getAircraftId()).build();
+        final AirlineResponse airlineResponse = AirlineResponse.builder().id(flight.getAirlineId()).build();
+        final AirportResponse departureAirport =  AirportResponse.builder().id(flight.getDepartureAirportId()).build();
+        final AirportResponse arrivalAirport =  AirportResponse.builder().id(flight.getArrivalAirportId()).build();
+        return FlightMapper.toFlight(flight, aircraftResponse, airlineResponse, departureAirport, arrivalAirport);
     }
 }
