@@ -57,7 +57,7 @@ public class FlightController {
     @PutMapping("/{id}")
     public ResponseEntity<FlightResponse> updateFlight(
             @PathVariable Long id,
-            @Valid @RequestBody FlightRequest request) throws Exception {
+            @RequestBody FlightRequest request) throws Exception {
         return ResponseEntity.ok(flightService.updateFlight(id, request));
     }
 
