@@ -1,0 +1,50 @@
+package com.learning.common.payload.response;
+
+import com.learning.common.enums.AircraftStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+import java.time.LocalDate;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class AircraftResponse {
+    private Long id;
+    private String code;
+    private String model;
+    private String manufacturer;
+    private Integer seatingCapacity;
+    private Integer economySeats;
+    private Integer premiumEconomySeats;
+    private Integer businessSeats;
+    private Integer firstClassSeats;
+    private Integer rangeKm;
+    private Integer cruisingSpeedKmh;
+    private Integer maxAltitudeFt;
+    private Integer yearOfManufacture;
+    private LocalDate registrationDate;
+    private LocalDate nextMaintenanceDate;
+    private AircraftStatus status;
+    private Boolean isAvailable;
+
+    private Long airlineId;
+    private String airlineName;
+    private String airlineIataCode;
+
+    private Long currentAirportId;
+    private String currentAirportName;
+    private String currentAirportCode;
+    private String currentAirportCity;
+
+    private Integer totalSeats;
+    private Boolean requiresMaintenance;
+    private Boolean isOperational;
+
+    private Instant createdAt;
+    private Instant updatedAt;
+}

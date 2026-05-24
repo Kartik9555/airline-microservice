@@ -1,0 +1,21 @@
+server:
+  port: 5005
+spring:
+  application:
+    name: flight-ops-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=yt_airline_flight_db&binaryTransfer=true&reWriteBatchedInserts=true
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: ALWAYS
+      schema-locations: classpath:init-schema.sql
+      platform: postgres
+  jpa:
+    open-in-view: false
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
