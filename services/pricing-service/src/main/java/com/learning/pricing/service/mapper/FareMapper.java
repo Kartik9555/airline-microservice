@@ -43,10 +43,9 @@ public class FareMapper {
                 .fullRefund(fare.getFlexibilityBenefits() != null ? fare.getFlexibilityBenefits().getFullRefund() : false)
                 .loungeAccess(fare.getPremiumServiceBenefits() != null ? fare.getPremiumServiceBenefits().getLoungeAccess() : false)
                 .airportTransfer(fare.getPremiumServiceBenefits() != null ? fare.getPremiumServiceBenefits().getAirportTransfer() : false)
-                // todo watch fare rules
-                .fareRulesId(fare.getFareRule().getId())
-//                .fareRules(fare.getFareRules())
-//                .baggagePolicy(fare.getBaggagePolicy())
+                .fareRuleId(fare.getFareRule() != null ? fare.getFareRule().getId() : null)
+                .fareRule(FareRuleMapper.toFareRule(fare.getFareRule()))
+                .baggagePolicy(BaggagePolicyMapper.toBaggagePolicy(fare.getBaggagePolicy()))
                 .createdAt(fare.getCreatedAt())
                 .updatedAt(fare.getUpdatedAt())
                 .build();

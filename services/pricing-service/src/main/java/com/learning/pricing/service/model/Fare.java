@@ -59,9 +59,10 @@ public class Fare {
     @Column(nullable = false)
     private String fareLabel;
 
-//    private BaggagePolicy baggagePolicy;
+    @OneToOne(mappedBy = "fare", cascade = CascadeType.ALL, orphanRemoval = true)
+    private BaggagePolicy baggagePolicy;
 
-    @OneToOne
+    @OneToOne(mappedBy = "fare", cascade = CascadeType.ALL, orphanRemoval = true)
     private FareRule fareRule;
 
     @Builder.Default

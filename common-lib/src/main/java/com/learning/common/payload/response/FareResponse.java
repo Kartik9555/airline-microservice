@@ -49,9 +49,9 @@ public class FareResponse {
     private Boolean loungeAccess;
     private Boolean airportTransfer;
 
-    private Long fareRulesId;
-    // private FareRulesResponse fareRules;
-    // private BaggagePolicyResponse baggagePolicy;
+    private Long fareRuleId;
+    private FareRuleResponse fareRule;
+    private BaggagePolicyResponse baggagePolicy;
 
     private Instant createdAt;
     private Instant updatedAt;
