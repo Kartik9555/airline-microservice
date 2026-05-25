@@ -1,10 +1,7 @@
 package com.learning.seat.service.mapper;
 
-import com.learning.common.payload.response.SeatMapResponse;
 import com.learning.common.payload.response.SeatResponse;
 import com.learning.seat.service.model.Seat;
-
-import java.time.LocalDateTime;
 
 public class SeatMapper {
 
