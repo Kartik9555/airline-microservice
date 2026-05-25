@@ -16,10 +16,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BaggagePolicyRequest {
 
-    @NotBlank(message = "Baggage Policy Name is mandatory")
+    @NotBlank(message = "Baggage Policy Name is required")
     private String name;
 
-    @NotNull(message = "Fare ID is mandatory")
+    @NotNull(message = "Fare ID is required")
     private Long fareId;
 
     private String description;

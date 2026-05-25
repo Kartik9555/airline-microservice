@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CabinClassRequest {
 
-    @NotBlank(message = "Cabin Class Name is mandatory")
+    @NotBlank(message = "Cabin Class Name is required")
     private CabinClassType name;
 
-    @NotBlank(message = "Code is mandatory")
+    @NotBlank(message = "Code is required")
     private String code;
 
     private String description;
 
-    @NotNull(message = "Aircraft ID is mandatory")
+    @NotNull(message = "Aircraft ID is required")
     private Long aircraftId;
 
     private Integer displayOrder;
