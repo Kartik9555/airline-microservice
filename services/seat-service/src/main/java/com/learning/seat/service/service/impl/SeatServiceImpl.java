@@ -2,7 +2,6 @@ package com.learning.seat.service.service.impl;
 
 import com.learning.common.enums.SeatType;
 import com.learning.common.payload.request.SeatRequest;
-import com.learning.common.payload.response.SeatMapResponse;
 import com.learning.common.payload.response.SeatResponse;
 import com.learning.seat.service.mapper.SeatMapper;
 import com.learning.seat.service.model.Seat;
@@ -85,9 +84,9 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public SeatMapResponse updateSeats(Long seatId, SeatRequest request) throws Exception {
-        seatRepository.findById(seatId)
+    public SeatResponse updateSeats(Long seatId, SeatRequest request) throws Exception {
+        final Seat seat = seatRepository.findById(seatId)
                 .orElseThrow(() -> new Exception("Seat with id " + seatId + "not found"));
-        return null;
+        return SeatMapper.toSeat(seat);
     }
 }

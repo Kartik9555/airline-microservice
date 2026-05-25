@@ -18,7 +18,7 @@ public class SeatMapServiceImpl implements SeatMapService {
 
     private final SeatMapRepository seatMapRepository;
     private final CabinClassRepository cabinClassRepository;
-    private SeatService seatService;
+    private final SeatService seatService;
 
     @Override
     public SeatMapResponse getSeatMapById(Long id) throws Exception {
