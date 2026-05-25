@@ -8,6 +8,7 @@ import com.learning.seat.service.model.SeatMap;
 import com.learning.seat.service.repository.CabinClassRepository;
 import com.learning.seat.service.repository.SeatMapRepository;
 import com.learning.seat.service.service.SeatMapService;
+import com.learning.seat.service.service.SeatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class SeatMapServiceImpl implements SeatMapService {
 
     private final SeatMapRepository seatMapRepository;
     private final CabinClassRepository cabinClassRepository;
+    private SeatService seatService;
 
     @Override
     public SeatMapResponse getSeatMapById(Long id) throws Exception {
@@ -45,7 +47,7 @@ public class SeatMapServiceImpl implements SeatMapService {
         seatMap.setAirlineId(airlineId);
 
         final SeatMap saved = seatMapRepository.save(seatMap);
-        // todo generate seats for seat map
+        seatService.generateSeat(saved.getId());
         return SeatMapMapper.toSeatMap(saved);
     }
 

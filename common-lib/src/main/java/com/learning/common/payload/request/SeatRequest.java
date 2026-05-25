@@ -1,23 +1,34 @@
-package com.learning.common.payload.response;
+package com.learning.common.payload.request;
 
 import com.learning.common.enums.SeatType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SeatResponse {
-    private Long id;
+public class SeatRequest {
+
+    @NotBlank(message = "Seat Number is required")
     private String seatNumber;
+
+    @NotNull(message = "Seat Row is required")
     private Integer seatRow;
+
     private Character columnLetter;
+
+    @NotNull(message = "Seat Type is required")
     private SeatType seatType;
+
+    @NotNull(message = "Seat Map ID is required")
+    private Long seatMapId;
+
+    private Long cabinClassId;
 
     private Boolean isAvailable;
     private Boolean isBlocked;
@@ -26,7 +37,6 @@ public class SeatResponse {
 
     private Double basePrice;
     private Double premiumSurcharge;
-    private Double totalPrice;
 
     private Boolean hasExtraLegRoom;
     private Boolean hasBassinet;
@@ -40,19 +50,4 @@ public class SeatResponse {
     private Integer seatPitch;
     private Integer seatWidth;
     private Integer reclineAngle;
-
-    private Long seatMapId;
-    private String seatMapName;
-    private Long cabinClassId;
-    private String cabinClassName;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private String createdBy;
-    private String updatedBy;
-
-    private Boolean isPremiumSeat;
-    private Boolean isBookable;
-    private String fullPosition;
-    private String seatCharacteristics;
 }
