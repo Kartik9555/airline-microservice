@@ -44,7 +44,7 @@ public class FareMapper {
                 .loungeAccess(fare.getPremiumServiceBenefits() != null ? fare.getPremiumServiceBenefits().getLoungeAccess() : false)
                 .airportTransfer(fare.getPremiumServiceBenefits() != null ? fare.getPremiumServiceBenefits().getAirportTransfer() : false)
                 // todo watch fare rules
-//                .fareRulesId(fare.getFa())
+                .fareRulesId(fare.getFareRule().getId())
 //                .fareRules(fare.getFareRules())
 //                .baggagePolicy(fare.getBaggagePolicy())
                 .createdAt(fare.getCreatedAt())

@@ -6,15 +6,7 @@ import com.learning.common.embeddable.InFlightBenefits;
 import com.learning.common.embeddable.PremiumServiceBenefits;
 import com.learning.common.embeddable.SeatBenefits;
 import com.learning.common.enums.CabinClassType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -69,7 +61,8 @@ public class Fare {
 
 //    private BaggagePolicy baggagePolicy;
 
-//    private FareRule fareRule;
+    @OneToOne
+    private FareRule fareRule;
 
     @Builder.Default
     @Embedded
