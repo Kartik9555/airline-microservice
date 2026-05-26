@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CabinClassRequest {
 
-    @NotBlank(message = "Cabin Class Name is required")
+    @NotNull(message = "Cabin Class Name is required")
     private CabinClassType name;
 
     @NotBlank(message = "Code is required")
