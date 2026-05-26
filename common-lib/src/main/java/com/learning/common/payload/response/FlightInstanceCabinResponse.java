@@ -19,7 +19,7 @@ public class FlightInstanceCabinResponse {
     private CabinClassType cabinClassType;
     private CabinClassResponse cabinClass;
     @Builder.Default
-    private List<SeaInstanceResponse> seats = new ArrayList<>();
+    private List<SeatInstanceResponse> seats = new ArrayList<>();
     @Builder.Default
     private SeatMapResponse seatMap = new SeatMapResponse();
     private Integer totalSeats;

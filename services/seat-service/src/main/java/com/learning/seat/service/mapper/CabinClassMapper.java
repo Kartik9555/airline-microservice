@@ -38,7 +38,7 @@ public class CabinClassMapper {
                 .seatType(cabinClass.getSeatType())
                 .createdAt(cabinClass.getCreatedAt())
                 .updatedAt(cabinClass.getUpdatedAt())
-//                .seatMap()
+                .seatMap(cabinClass.getSeatMap() != null ? SeatMapMapper.toSeatMap(cabinClass.getSeatMap()) : null)
                 .build();
     }
 

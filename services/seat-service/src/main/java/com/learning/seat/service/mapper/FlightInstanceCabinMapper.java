@@ -15,6 +15,7 @@ public class FlightInstanceCabinMapper {
                 .cabinClassType(flightInstanceCabin.getCabinClass() != null ? flightInstanceCabin.getCabinClass().getName() : null)
                 .bookedSeats(flightInstanceCabin.getBookedSeats())
                 .seatMap(SeatMapMapper.toSeatMap(flightInstanceCabin.getCabinClass() != null ? flightInstanceCabin.getCabinClass().getSeatMap() : null))
+                .seats(flightInstanceCabin.getSeats() != null ? flightInstanceCabin.getSeats().stream().map(SeatInstanceMapper::toSeatInstance).toList() : null)
                 .build();
     }
 }
