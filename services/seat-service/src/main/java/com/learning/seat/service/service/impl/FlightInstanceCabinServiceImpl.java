@@ -52,18 +52,16 @@ public class FlightInstanceCabinServiceImpl implements FlightInstanceCabinServic
         final FlightInstanceCabin saved = flightInstanceCabinRepository.save(flightInstanceCabin);
         List<SeatInstance> seatInstances = seatMap.getSeats()
                 .stream()
-                .map(seat ->  {
-                    return SeatInstance.builder()
-                            .flightId(request.getFlightId())
-                            .flightInstanceCabin(saved)
-                            .flightInstanceId(request.getFlightInstanceId())
-                            .seat(seat)
-                            .status(SeatAvailabilityStatus.AVAILABLE)
-                            .isBooked(false)
-                            .isAvailable(true)
-                            .premiumSurcharge(getPremiumSurcharge(seat.getSeatType(), 1000.0, 500.0))
-                            .build();
-                })
+                .map(seat -> SeatInstance.builder()
+                        .flightId(request.getFlightId())
+                        .flightInstanceCabin(saved)
+                        .flightInstanceId(request.getFlightInstanceId())
+                        .seat(seat)
+                        .status(SeatAvailabilityStatus.AVAILABLE)
+                        .isBooked(false)
+                        .isAvailable(true)
+                        .premiumSurcharge(getPremiumSurcharge(seat.getSeatType(), 1000.0, 500.0))
+                        .build())
                 .toList();
         seatInstanceRepository.saveAll(seatInstances);
         saved.setSeats(seatInstances);
