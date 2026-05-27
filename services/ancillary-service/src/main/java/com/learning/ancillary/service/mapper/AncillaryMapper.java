@@ -1,15 +1,15 @@
 package com.learning.ancillary.service.mapper;
 
 import com.learning.ancillary.service.model.Ancillary;
+import com.learning.ancillary.service.model.InsuranceCoverage;
 import com.learning.common.payload.request.AncillaryRequest;
 import com.learning.common.payload.response.AncillaryResponse;
-import com.learning.common.payload.response.InsuranceCoverageResponse;
 
 import java.util.List;
 
 public class AncillaryMapper {
 
-    public static AncillaryResponse toAncillary(Ancillary ancillary, List<InsuranceCoverageResponse> coverages) {
+    public static AncillaryResponse toAncillary(Ancillary ancillary, List<InsuranceCoverage> coverages) {
         if (ancillary == null) return null;
         return AncillaryResponse.builder()
                 .id(ancillary.getId())
@@ -19,7 +19,7 @@ public class AncillaryMapper {
                 .name(ancillary.getName())
                 .description(ancillary.getDescription())
                 .metadata(ancillary.getMetadata())
-                .coverages(coverages)
+                .coverages(coverages == null ? null : coverages.stream().map(InsuranceCoverageMapper::toInsuranceCoverage).toList())
                 .displayOrder(ancillary.getDisplayOrder())
                 .airlineId(ancillary.getAirlineId())
                 .build();

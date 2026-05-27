@@ -3,7 +3,17 @@ package com.learning.ancillary.service.model;
 import com.learning.ancillary.service.service.impl.AncillaryMetadataConverter;
 import com.learning.common.domain.AncillaryMetadata;
 import com.learning.common.enums.AncillaryType;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -54,6 +64,9 @@ public class Ancillary {
 
     @OneToMany(mappedBy = "ancillary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InsuranceCoverage> coverages;
+
+    @OneToMany(mappedBy = "ancillary", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FlightCabinAncillary> flightCabinAncillaries;
 
     @LastModifiedDate
     @Column(nullable = false)

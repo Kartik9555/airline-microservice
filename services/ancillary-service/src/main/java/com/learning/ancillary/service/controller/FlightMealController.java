@@ -66,7 +66,7 @@ public class FlightMealController {
         return ResponseEntity.ok(flightMealService.updateFlightMealAvailability(id, available));
     }
 
-    @GetMapping("/calculate-price")
+    @GetMapping("/price/total")
     public ResponseEntity<Double> calculateMealPrice(@RequestParam List<Long> ids) throws Exception {
         return ResponseEntity.ok(flightMealService.calculateMealPrice(ids));
     }
