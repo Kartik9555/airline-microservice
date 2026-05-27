@@ -3,7 +3,7 @@ package com.learning.ancillary.service.service.impl;
 import com.learning.ancillary.service.mapper.InsuranceCoverageMapper;
 import com.learning.ancillary.service.model.Ancillary;
 import com.learning.ancillary.service.model.InsuranceCoverage;
-import com.learning.ancillary.service.model.InsuranceCoverageRepository;
+import com.learning.ancillary.service.repository.InsuranceCoverageRepository;
 import com.learning.ancillary.service.repository.AncillaryRepository;
 import com.learning.ancillary.service.service.InsuranceCoverageService;
 import com.learning.common.payload.request.InsuranceCoverageRequest;

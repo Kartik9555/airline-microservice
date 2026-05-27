@@ -1,5 +1,6 @@
-package com.learning.ancillary.service.model;
+package com.learning.ancillary.service.repository;
 
+import com.learning.ancillary.service.model.InsuranceCoverage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
