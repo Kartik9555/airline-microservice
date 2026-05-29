@@ -19,3 +19,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true

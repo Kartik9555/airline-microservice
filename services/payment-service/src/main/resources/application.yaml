@@ -26,3 +26,9 @@ razorpay:
     key-secret: "ut6ntmC7D9z4D9sPG006Mzln"
   callback:
     base-url: "http://localhost:5173"
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
