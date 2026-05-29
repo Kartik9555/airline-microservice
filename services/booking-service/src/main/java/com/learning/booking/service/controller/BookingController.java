@@ -5,6 +5,7 @@ import com.learning.common.enums.BookingStatus;
 import com.learning.common.payload.request.BookingRequest;
 import com.learning.common.payload.response.ApiResponse;
 import com.learning.common.payload.response.BookingResponse;
+import com.learning.common.payload.response.PaymentInitiateResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +54,7 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<BookingResponse> createBooking(
+    public ResponseEntity<PaymentInitiateResponse> createBooking(
             @RequestHeader("X-User-Id") Long userId,
             @Valid @RequestBody BookingRequest bookingRequest) throws Exception {
         return ResponseEntity.status(CREATED)
