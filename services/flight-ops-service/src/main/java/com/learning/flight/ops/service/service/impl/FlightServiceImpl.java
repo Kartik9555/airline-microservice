@@ -10,6 +10,9 @@ import com.learning.flight.ops.service.mapper.FlightMapper;
 import com.learning.flight.ops.service.model.Flight;
 import com.learning.flight.ops.service.repository.FlightRepository;
 import com.learning.flight.ops.service.service.FlightService;
+import com.learning.flight.ops.service.service.outbound.AircraftOutboundService;
+import com.learning.flight.ops.service.service.outbound.AirlineOutboundService;
+import com.learning.flight.ops.service.service.outbound.AirportOutboundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +22,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FlightServiceImpl implements FlightService {
 
-    final FlightRepository flightRepository;
+    private final FlightRepository flightRepository;
+    private final AirlineOutboundService airlineService;
+    private final AircraftOutboundService aircraftService;
+    private final AirportOutboundService airportService;
 
     @Override
     public FlightResponse createFlight(Long airlineId, FlightRequest request) throws Exception {
@@ -78,11 +84,10 @@ public class FlightServiceImpl implements FlightService {
     }
 
     private FlightResponse getFlightResponse(Flight flight) {
-        // todo service to service communication
-        final AircraftResponse aircraftResponse = AircraftResponse.builder().id(flight.getAircraftId()).build();
-        final AirlineResponse airlineResponse = AirlineResponse.builder().id(flight.getAirlineId()).build();
-        final AirportResponse departureAirport =  AirportResponse.builder().id(flight.getDepartureAirportId()).build();
-        final AirportResponse arrivalAirport =  AirportResponse.builder().id(flight.getArrivalAirportId()).build();
+        final AircraftResponse aircraftResponse = aircraftService.getAircraftById(flight.getAircraftId());
+        final AirlineResponse airlineResponse = airlineService.getAirlineById(flight.getAirlineId());
+        final AirportResponse departureAirport =  airportService.getAirportById(flight.getDepartureAirportId());
+        final AirportResponse arrivalAirport =  airportService.getAirportById(flight.getArrivalAirportId());
         return FlightMapper.toFlight(flight, aircraftResponse, airlineResponse, departureAirport, arrivalAirport);
     }
 }
