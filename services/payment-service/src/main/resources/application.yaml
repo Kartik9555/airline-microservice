@@ -1,0 +1,28 @@
+server:
+  port: 5009
+spring:
+  application:
+    name: payment-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=yt_airline_payment_db&binaryTransfer=true&reWriteBatchedInserts=true
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: ALWAYS
+      schema-locations: classpath:init-schema.sql
+      platform: postgres
+  jpa:
+    open-in-view: false
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+razorpay:
+  api:
+    key-id: "rzp_test_SHbyIekhtpodFK"
+    key-secret: "ut6ntmC7D9z4D9sPG006Mzln"
+  callback:
+    base-url: "http://localhost:5173"
