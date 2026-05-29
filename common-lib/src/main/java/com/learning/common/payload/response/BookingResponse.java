@@ -41,10 +41,10 @@ public class BookingResponse {
     private PaymentStatus paymentStatus;
     private String paymentLink;
     private Long fareId;
-    private String fareName;;
+    private String fareName;
     private Double fareBaseFare;
     private Double fareTaxesAndFees;
-    private Double fareAirlineFees;;
+    private Double fareAirlineFees;
     private Integer totalPassengers;
     private Double totalAmount;
     private String specialRequests;

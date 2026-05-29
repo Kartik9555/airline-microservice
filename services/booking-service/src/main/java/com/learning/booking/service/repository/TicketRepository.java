@@ -1,6 +1,5 @@
 package com.learning.booking.service.repository;
 
-import com.learning.booking.service.model.Passenger;
 import com.learning.booking.service.model.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
