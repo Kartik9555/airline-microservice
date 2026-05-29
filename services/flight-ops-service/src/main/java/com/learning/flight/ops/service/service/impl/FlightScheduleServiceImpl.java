@@ -12,6 +12,7 @@ import com.learning.flight.ops.service.repository.FlightRepository;
 import com.learning.flight.ops.service.repository.FlightScheduleRepository;
 import com.learning.flight.ops.service.service.FlightInstanceService;
 import com.learning.flight.ops.service.service.FlightScheduleService;
+import com.learning.flight.ops.service.service.outbound.AirportOutboundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
     private final FlightScheduleRepository flightScheduleRepository;
     private final FlightRepository flightRepository;
     private final FlightInstanceService flightInstanceService;
+    private final AirportOutboundService airportService;
 
     @Override
     public FlightScheduleResponse getFlightScheduleById(Long id) throws Exception {
@@ -97,13 +99,8 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
     }
 
     private FlightScheduleResponse getFlightScheduleResponse(FlightSchedule flightSchedule) {
-        // todo service to service communication
-        final AirportResponse departureAirport = AirportResponse.builder()
-                .id(flightSchedule.getDepartureAirportId())
-                .build();
-        final AirportResponse arrivalAirport = AirportResponse.builder()
-                .id(flightSchedule.getArrivalAirportId())
-                .build();
+        final AirportResponse departureAirport = airportService.getAirportById(flightSchedule.getDepartureAirportId());
+        final AirportResponse arrivalAirport = airportService.getAirportById(flightSchedule.getArrivalAirportId());
         return FlightScheduleMapper.toFlightSchedule(flightSchedule, departureAirport, arrivalAirport);
     }
 }

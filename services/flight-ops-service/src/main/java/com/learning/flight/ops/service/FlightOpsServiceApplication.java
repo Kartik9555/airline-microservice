@@ -2,10 +2,12 @@ package com.learning.flight.ops.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication(scanBasePackages = "com.learning")
-@EnableScheduling
+@EnableJpaAuditing
+@EnableFeignClients
 public class FlightOpsServiceApplication {
 
     static void main(String[] args) {

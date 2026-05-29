@@ -11,6 +11,9 @@ import com.learning.flight.ops.service.model.FlightInstance;
 import com.learning.flight.ops.service.repository.FlightInstanceRepository;
 import com.learning.flight.ops.service.repository.FlightRepository;
 import com.learning.flight.ops.service.service.FlightInstanceService;
+import com.learning.flight.ops.service.service.outbound.AircraftOutboundService;
+import com.learning.flight.ops.service.service.outbound.AirlineOutboundService;
+import com.learning.flight.ops.service.service.outbound.AirportOutboundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +28,9 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
 
     private final FlightInstanceRepository flightInstanceRepository;
     private final FlightRepository flightRepository;
+    private final AirlineOutboundService airlineService;
+    private final AircraftOutboundService aircraftService;
+    private final AirportOutboundService airportService;
 
     @Override
     public FlightInstanceResponse getFlightInstanceById(Long id) throws Exception {
@@ -53,18 +59,12 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
         final Flight flight = flightRepository.findById(request.getFlightId())
                 .orElseThrow(() -> new Exception("Flight not found with id: " + request.getFlightId()));
 
-        // todo service to service communication
-        final AircraftResponse aircraft = AircraftResponse.builder()
-                .id(1L)
-                .totalSeats(90)
-                .airlineId(airlineId)
-                .build();
-
+        final AircraftResponse aircraft = aircraftService.getAircraftById(flight.getAircraftId());
         final FlightInstance flightInstance = FlightInstanceMapper.toFlightInstance(request, flight);
         flightInstance.setTotalSeats(aircraft.getTotalSeats());
         flightInstance.setAvailableSeats(aircraft.getTotalSeats());
         final FlightInstance saved = flightInstanceRepository.save(flightInstance);
-        // TODO: create seat instances
+        // TODO: create seat instances, publish kafka event
         return getFlightInstanceResponse(saved);
     }
 
@@ -86,11 +86,10 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     }
 
     private FlightInstanceResponse getFlightInstanceResponse(FlightInstance flightInstance) {
-        // todo service to service communication
-        final AirlineResponse airlineResponse = AirlineResponse.builder().id(flightInstance.getAirlineId()).build();
-        final AircraftResponse aircraftResponse = AircraftResponse.builder().airlineId(flightInstance.getAirlineId()).build();
-        final AirportResponse departureAirport =  AirportResponse.builder().id(flightInstance.getDepartureAirportId()).build();
-        final AirportResponse arrivalAirport =  AirportResponse.builder().id(flightInstance.getArrivalAirportId()).build();
+        final AirlineResponse airlineResponse = airlineService.getAirlineById(flightInstance.getAirlineId());
+        final AircraftResponse aircraftResponse = aircraftService.getAircraftById(flightInstance.getFlight().getAircraftId());
+        final AirportResponse departureAirport = airportService.getAirportById(flightInstance.getDepartureAirportId());
+        final AirportResponse arrivalAirport = airportService.getAirportById(flightInstance.getArrivalAirportId());
         return FlightInstanceMapper.toFlightInstance(flightInstance, aircraftResponse, airlineResponse, departureAirport, arrivalAirport);
     }
 }

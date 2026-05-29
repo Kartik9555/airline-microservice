@@ -1,18 +1,17 @@
 package com.learning.flight.ops.service.service.outbound;
 
 import com.learning.common.payload.response.AirportResponse;
+import com.learning.flight.ops.service.client.LocationServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
 public class AirportOutboundService {
 
-    private final RestTemplate restTemplate;
+    private final LocationServiceClient client;
 
     public AirportResponse getAirportById(Long id) {
-        String url = "http://localhost:5004/api/v1/airports/" + id;
-        return restTemplate.getForObject(url, AirportResponse.class);
+        return client.getAirportById(id);
     }
 }
