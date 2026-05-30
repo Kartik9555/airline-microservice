@@ -63,6 +63,7 @@ public class BaggagePolicy {
     @Builder.Default
     private Boolean priorityBaggage = false;
 
+    @Builder.Default
     private Boolean extraBaggageAllowance = false;
 
     private Long airlineId;

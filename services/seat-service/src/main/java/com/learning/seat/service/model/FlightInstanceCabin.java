@@ -42,6 +42,7 @@ public class FlightInstanceCabin {
 
     private Integer bookedSeats;
 
+    @Builder.Default
     @OneToMany(mappedBy = "flightInstanceCabin", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeatInstance> seats = new ArrayList<>();
 

@@ -50,7 +50,9 @@ public class SeatInstance {
     @Enumerated(EnumType.STRING)
     private SeatAvailabilityStatus status = SeatAvailabilityStatus.AVAILABLE;
 
+    @Builder.Default
     private Boolean isBooked = false;
+    @Builder.Default
     private Boolean isAvailable = false;
 
     private Double fare;

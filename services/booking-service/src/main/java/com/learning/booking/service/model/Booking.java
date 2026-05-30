@@ -57,6 +57,7 @@ public class Booking {
     @Column(nullable = false)
     private Long airlineId;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private CabinClassType cabinClassType = CabinClassType.ECONOMY;
 
