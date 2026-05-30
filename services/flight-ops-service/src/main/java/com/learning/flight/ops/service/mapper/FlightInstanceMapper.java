@@ -10,10 +10,10 @@ import com.learning.flight.ops.service.model.FlightInstance;
 
 public class FlightInstanceMapper {
 
-    public static FlightInstance toFlightInstance(FlightInstanceRequest request, Flight flight) {
+    public static FlightInstance toFlightInstance(FlightInstanceRequest request, Flight flight, AirlineResponse airline) {
         if (request == null) return null;
         return FlightInstance.builder()
-                .airlineId(flight.getAirlineId())
+                .airlineId(airline.getId())
                 .flight(flight)
                 .departureAirportId(request.getDepartureAirportId())
                 .arrivalAirportId(request.getArrivalAirportId())

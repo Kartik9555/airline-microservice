@@ -28,6 +28,7 @@ public class JwtProviderService {
                 .claim("email", auth.getName())
                 .claim("authorities", roles)
                 .claim("userId", userId)
+                .signWith(secretKey)
                 .compact();
     }
 

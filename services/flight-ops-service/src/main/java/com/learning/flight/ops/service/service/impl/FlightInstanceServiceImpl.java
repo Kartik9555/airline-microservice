@@ -40,27 +40,27 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     }
 
     @Override
-    public Page<FlightInstanceResponse> getByAirlineId(Long airlineId,
+    public Page<FlightInstanceResponse> getByAirlineId(Long userId,
                                                        Long departureAirportId,
                                                        Long arrivalAirportId,
                                                        Long flightId,
                                                        LocalDate onDate,
                                                        Pageable pageable) {
-        // todo watch airlineId
+        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         final LocalDateTime startDate = onDate != null ? onDate.atStartOfDay() : null;
         final LocalDateTime endDate = onDate != null ? onDate.atTime(23, 59, 59) : null;
-        return flightInstanceRepository.findByAirlineId(airlineId, departureAirportId, arrivalAirportId, flightId, startDate, endDate, pageable)
+        return flightInstanceRepository.findByAirlineId(airline.getId(), departureAirportId, arrivalAirportId, flightId, startDate, endDate, pageable)
                 .map(this::getFlightInstanceResponse);
     }
 
     @Override
-    public FlightInstanceResponse createFlightInstance(Long airlineId, FlightInstanceRequest request) throws Exception {
-        // todo watch airlineId
+    public FlightInstanceResponse createFlightInstance(Long userId, FlightInstanceRequest request) throws Exception {
+        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         final Flight flight = flightRepository.findById(request.getFlightId())
                 .orElseThrow(() -> new Exception("Flight not found with id: " + request.getFlightId()));
 
         final AircraftResponse aircraft = aircraftService.getAircraftById(flight.getAircraftId());
-        final FlightInstance flightInstance = FlightInstanceMapper.toFlightInstance(request, flight);
+        final FlightInstance flightInstance = FlightInstanceMapper.toFlightInstance(request, flight, airline);
         flightInstance.setTotalSeats(aircraft.getTotalSeats());
         flightInstance.setAvailableSeats(aircraft.getTotalSeats());
         final FlightInstance saved = flightInstanceRepository.save(flightInstance);

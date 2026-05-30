@@ -1,7 +1,7 @@
-package com.learning.flight.ops.service.service.outbound;
+package com.learning.booking.service.service.outbound;
 
+import com.learning.booking.service.client.AirlineCoreServiceClient;
 import com.learning.common.payload.response.AirlineResponse;
-import com.learning.flight.ops.service.client.AirlineCoreServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,6 @@ import org.springframework.stereotype.Service;
 public class AirlineOutboundService {
 
     private final AirlineCoreServiceClient client;
-
-    public AirlineResponse getAirlineById(Long airlineId) {
-        return client.getAirlineById(airlineId);
-    }
 
     public AirlineResponse getAirlineByUserId(Long userId) {
         return client.getAirlineByOwner(userId);

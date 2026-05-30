@@ -35,17 +35,17 @@ public class FlightScheduleController {
 
     @GetMapping
     public ResponseEntity<List<FlightScheduleResponse>> getFlightScheduleByAirline(
-            @RequestHeader("X-Airline-Id") Long airlineId) throws Exception {
-        return ResponseEntity.ok(flightScheduleService.getFlightScheduleByAirline(airlineId));
+            @RequestHeader("X-User-Id") Long userId) throws Exception {
+        return ResponseEntity.ok(flightScheduleService.getFlightScheduleByAirline(userId));
     }
 
     @PostMapping
     public ResponseEntity<FlightScheduleResponse> createFlightSchedule(
-            @RequestHeader("X-Airline-Id") Long airlineId,
+            @RequestHeader("X-User-Id") Long userId,
             @Valid @RequestBody FlightScheduleRequest request
     ) throws Exception {
         return ResponseEntity.status(CREATED)
-                .body(flightScheduleService.createFlightSchedule(airlineId, request));
+                .body(flightScheduleService.createFlightSchedule(userId, request));
     }
 
     @PutMapping("/{id}")

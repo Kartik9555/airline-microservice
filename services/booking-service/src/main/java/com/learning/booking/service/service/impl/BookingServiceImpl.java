@@ -8,6 +8,7 @@ import com.learning.booking.service.repository.BookingRepository;
 import com.learning.booking.service.service.BookingService;
 import com.learning.booking.service.service.PassengerService;
 import com.learning.booking.service.service.TicketService;
+import com.learning.booking.service.service.outbound.AirlineOutboundService;
 import com.learning.booking.service.service.outbound.AncillaryOutboundService;
 import com.learning.booking.service.service.outbound.FlightOutboundService;
 import com.learning.booking.service.service.outbound.PaymentOutboundService;
@@ -19,6 +20,7 @@ import com.learning.common.payload.dto.PaymentDTO;
 import com.learning.common.payload.request.BookingRequest;
 import com.learning.common.payload.request.PassengerRequest;
 import com.learning.common.payload.request.PaymentInitiateRequest;
+import com.learning.common.payload.response.AirlineResponse;
 import com.learning.common.payload.response.BookingResponse;
 import com.learning.common.payload.response.FareResponse;
 import com.learning.common.payload.response.FlightCabinAncillaryResponse;
@@ -48,6 +50,7 @@ public class BookingServiceImpl implements BookingService {
     private final SeatOutboundService seatService;
     private final AncillaryOutboundService ancillaryService;
     private final PaymentOutboundService paymentService;
+    private final AirlineOutboundService airlineService;
 
     @Override
     public BookingResponse getBookingById(Long id) throws Exception {
@@ -57,12 +60,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponse> getBookingsByAirline(Long airlineId, String searchQuery, BookingStatus status, Long flightInstanceId, String sortDirection) {
+    public List<BookingResponse> getBookingsByAirline(Long userId, String searchQuery, BookingStatus status, Long flightInstanceId, String sortDirection) {
         final Sort sort = "desc".equalsIgnoreCase(sortDirection) ?
                 Sort.by("bookingDate").descending()
                 : Sort.by("bookingDate").ascending();
-
-        return bookingRepository.findByAirlineWithFilter(airlineId, searchQuery, status, flightInstanceId, sort)
+        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
+        return bookingRepository.findByAirlineWithFilter(airline.getId(), searchQuery, status, flightInstanceId, sort)
                 .stream()
                 .map(this::getBookingResponse)
                 .toList()
@@ -77,10 +80,10 @@ public class BookingServiceImpl implements BookingService {
             final Passenger passenger = passengerService.createPassenger(userId, passengerRequest);
             passengers.add(passenger);
         }
-        // todo flight exists and get airlineId
+        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         final FlightResponse flight = flightService.getFlightById(request.getFlightId());
         final Booking booking = BookingMapper.toBooking(request, userId, passengers, bookingReference);
-        booking.setAirlineId(flight.getAirline().getId());
+        booking.setAirlineId(airline.getId());
 
         List<Long> seatInstanceIds = request.getPassengers().stream().map(PassengerRequest::getSeatInstanceId).toList();
         booking.setSeatInstanceIds(seatInstanceIds);

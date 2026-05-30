@@ -1,6 +1,7 @@
 package com.learning.seat.service.service.impl;
 
 import com.learning.common.payload.request.SeatMapRequest;
+import com.learning.common.payload.response.AirlineResponse;
 import com.learning.common.payload.response.SeatMapResponse;
 import com.learning.seat.service.mapper.SeatMapMapper;
 import com.learning.seat.service.model.CabinClass;
@@ -9,6 +10,7 @@ import com.learning.seat.service.repository.CabinClassRepository;
 import com.learning.seat.service.repository.SeatMapRepository;
 import com.learning.seat.service.service.SeatMapService;
 import com.learning.seat.service.service.SeatService;
+import com.learning.seat.service.service.outbound.AirlineOutboundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class SeatMapServiceImpl implements SeatMapService {
     private final SeatMapRepository seatMapRepository;
     private final CabinClassRepository cabinClassRepository;
     private final SeatService seatService;
+    private final AirlineOutboundService airlineService;
 
     @Override
     public SeatMapResponse getSeatMapById(Long id) throws Exception {
@@ -35,16 +38,17 @@ public class SeatMapServiceImpl implements SeatMapService {
     }
 
     @Override
-    public SeatMapResponse createSeatMap(Long airlineId, SeatMapRequest request) throws Exception {
+    public SeatMapResponse createSeatMap(Long userId, SeatMapRequest request) throws Exception {
         final CabinClass cabinClass = cabinClassRepository.findById(request.getCabinClassId())
                 .orElseThrow( () -> new Exception("Cabin Clas with id " + request.getCabinClassId() + " not found"));
 
-        if(seatMapRepository.existsByAirlineIdAndCabinClassIdAndName(airlineId, cabinClass.getId(), request.getName())) {
+        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
+        if(seatMapRepository.existsByAirlineIdAndCabinClassIdAndName(airline.getId(), cabinClass.getId(), request.getName())) {
             throw new Exception("Seat Map already exists");
         }
 
         final SeatMap seatMap = SeatMapMapper.toSeatMap(request, cabinClass);
-        seatMap.setAirlineId(airlineId);
+        seatMap.setAirlineId(airline.getId());
 
         final SeatMap saved = seatMapRepository.save(seatMap);
         seatService.generateSeat(saved.getId());

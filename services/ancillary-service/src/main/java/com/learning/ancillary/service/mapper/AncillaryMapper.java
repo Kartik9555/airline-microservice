@@ -3,6 +3,7 @@ package com.learning.ancillary.service.mapper;
 import com.learning.ancillary.service.model.Ancillary;
 import com.learning.ancillary.service.model.InsuranceCoverage;
 import com.learning.common.payload.request.AncillaryRequest;
+import com.learning.common.payload.response.AirlineResponse;
 import com.learning.common.payload.response.AncillaryResponse;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class AncillaryMapper {
                 .build();
     }
 
-    public static Ancillary toAncillary(AncillaryRequest request) {
+    public static Ancillary toAncillary(AncillaryRequest request, AirlineResponse airline) {
         if (request == null) return null;
         return Ancillary.builder()
                 .type(request.getType())
@@ -35,6 +36,7 @@ public class AncillaryMapper {
                 .description(request.getDescription())
                 .metadata(request.getMetadata())
                 .displayOrder(request.getDisplayOrder())
+                .airlineId(airline.getId())
                 .build();
     }
 

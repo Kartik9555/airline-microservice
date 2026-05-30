@@ -39,12 +39,12 @@ public class BookingController {
 
     @GetMapping("/airline")
     public ResponseEntity<List<BookingResponse>> getBookingsByAirline(
-            @RequestHeader("X-Airline-Id") Long airlineId,
+            @RequestHeader("X-User-Id") Long userId,
             @RequestParam(required = false) String searchQuery,
             @RequestParam(required = false) BookingStatus status,
             @RequestParam(required = false) Long flightInstanceId,
             @RequestParam(defaultValue = "DESC") String sortDirection) throws Exception {
-        return ResponseEntity.ok(bookingService.getBookingsByAirline(airlineId, searchQuery, status, flightInstanceId, sortDirection));
+        return ResponseEntity.ok(bookingService.getBookingsByAirline(userId, searchQuery, status, flightInstanceId, sortDirection));
     }
 
     @GetMapping("/user/history")

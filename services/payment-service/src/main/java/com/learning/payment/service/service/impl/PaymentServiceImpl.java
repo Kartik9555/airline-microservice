@@ -13,6 +13,7 @@ import com.learning.payment.service.model.Payment;
 import com.learning.payment.service.repository.PaymentRepository;
 import com.learning.payment.service.service.PaymentService;
 import com.learning.payment.service.service.gateway.RazorpayService;
+import com.learning.payment.service.service.outbound.UserOutboundService;
 import com.razorpay.RazorpayException;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
@@ -33,6 +34,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final RazorpayService razorpayService;
+    private final UserOutboundService userService;
 
     @Override
     public PaymentInitiateResponse initiatePayment(PaymentInitiateRequest request) throws RazorpayException {
@@ -48,12 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
         final PaymentInitiateResponse response = PaymentMapper.toPayment(saved);
         if (request.getProvider() == PaymentProvider.RAZORPAY) {
             // todo fetch user details using feign client
-            UserDTO user = UserDTO.builder()
-                    .id(1L)
-                    .fullName("Pablo Panday")
-                    .email("pablo.panday@gmail.com")
-                    .phone("9876543210")
-                    .build();
+            final UserDTO user = userService.getUserById(request.getUserId());
             final PaymentLinkResponse paymentLinkResponse = razorpayService.createPaymentLink(user, saved);;
             response.setCheckoutUrl(paymentLinkResponse.getPaymentLinkUrl());
             response.setProviderPaymentId(paymentLinkResponse.getPaymentLinkId());

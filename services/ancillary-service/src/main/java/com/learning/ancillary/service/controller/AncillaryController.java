@@ -34,16 +34,16 @@ public class AncillaryController {
 
     @GetMapping
     public ResponseEntity<List<AncillaryResponse>> getAncillaryByAirlineId(
-            @RequestHeader("X-Airline-Id") Long airlineId) throws Exception {
-        return ResponseEntity.ok(ancillaryService.getByAirlineId(airlineId));
+            @RequestHeader("X-User-Id") Long userId) throws Exception {
+        return ResponseEntity.ok(ancillaryService.getByAirlineId(userId));
     }
 
     @PostMapping
     public ResponseEntity<AncillaryResponse> createAncillary(
-            @RequestHeader("X-Airline-Id") Long airlineId,
+            @RequestHeader("X-User-Id") Long userId,
             @Valid @RequestBody AncillaryRequest request) throws Exception {
         return ResponseEntity.status(CREATED)
-                .body(ancillaryService.createAncillary(airlineId, request));
+                .body(ancillaryService.createAncillary(userId, request));
     }
 
     @PutMapping("/{id}")

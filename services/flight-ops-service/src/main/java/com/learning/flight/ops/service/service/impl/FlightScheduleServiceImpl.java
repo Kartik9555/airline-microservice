@@ -3,6 +3,7 @@ package com.learning.flight.ops.service.service.impl;
 import com.learning.common.enums.FlightStatus;
 import com.learning.common.payload.request.FlightInstanceRequest;
 import com.learning.common.payload.request.FlightScheduleRequest;
+import com.learning.common.payload.response.AirlineResponse;
 import com.learning.common.payload.response.AirportResponse;
 import com.learning.common.payload.response.FlightScheduleResponse;
 import com.learning.flight.ops.service.mapper.FlightScheduleMapper;
@@ -12,6 +13,7 @@ import com.learning.flight.ops.service.repository.FlightRepository;
 import com.learning.flight.ops.service.repository.FlightScheduleRepository;
 import com.learning.flight.ops.service.service.FlightInstanceService;
 import com.learning.flight.ops.service.service.FlightScheduleService;
+import com.learning.flight.ops.service.service.outbound.AirlineOutboundService;
 import com.learning.flight.ops.service.service.outbound.AirportOutboundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
     private final FlightRepository flightRepository;
     private final FlightInstanceService flightInstanceService;
     private final AirportOutboundService airportService;
+    private final AirlineOutboundService airlineService;
 
     @Override
     public FlightScheduleResponse getFlightScheduleById(Long id) throws Exception {
@@ -38,17 +41,17 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
     }
 
     @Override
-    public List<FlightScheduleResponse> getFlightScheduleByAirline(Long airlineId) throws Exception {
-        // todo watch airlineId
-        return flightScheduleRepository.findByFlightAirlineId(airlineId)
+    public List<FlightScheduleResponse> getFlightScheduleByAirline(Long userId) throws Exception {
+        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
+        return flightScheduleRepository.findByFlightAirlineId(airline.getId())
                 .stream()
                 .map(this::getFlightScheduleResponse)
                 .toList();
     }
 
     @Override
-    public FlightScheduleResponse createFlightSchedule(Long airlineId, FlightScheduleRequest request) throws Exception {
-        // todo watch airlineId
+    public FlightScheduleResponse createFlightSchedule(Long userId, FlightScheduleRequest request) throws Exception {
+        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         final Flight flight = flightRepository.findById(request.getFlightId())
                 .orElseThrow(() -> new Exception("Flight not found with id: " + request.getFlightId()));
 
@@ -76,7 +79,7 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
             if(operatingDays.contains(date.getDayOfWeek())) {
                 flightInstanceRequest.setDepartureDateTime(LocalDateTime.of(date, saved.getDepartureTime()));
                 flightInstanceRequest.setArrivalDateTime(LocalDateTime.of(date, saved.getArrivalTime()));
-                flightInstanceService.createFlightInstance(airlineId, flightInstanceRequest);
+                flightInstanceService.createFlightInstance(airline.getId(), flightInstanceRequest);
             }
         }
         return getFlightScheduleResponse(saved);

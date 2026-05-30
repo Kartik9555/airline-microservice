@@ -32,7 +32,7 @@ public class JwtUtil {
     }
 
     public Long extractUserId(String token) {
-        return extractAllClaims(token).get("id", Long.class);
+        return extractAllClaims(token).get("userId", Long.class);
     }
 
     public boolean isTokenValid(String token) {

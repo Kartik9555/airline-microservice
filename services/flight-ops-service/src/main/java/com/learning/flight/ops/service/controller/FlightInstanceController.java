@@ -38,7 +38,7 @@ public class FlightInstanceController {
 
     @GetMapping
     public ResponseEntity<Page<FlightInstanceResponse>> getByAirlineId(
-            @RequestHeader("X-Airline-Id") Long airlineId,
+            @RequestHeader("X-User-Id") Long userId,
             @RequestParam(required = false) Long departureAirportId,
             @RequestParam(required = false) Long arrivalAirportId,
             @RequestParam(required = false) Long flightId,
@@ -46,15 +46,15 @@ public class FlightInstanceController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) throws Exception {
         final Pageable pageable = Pageable.ofSize(size).withPage(page);
-        return ResponseEntity.ok(flightInstanceService.getByAirlineId(airlineId, departureAirportId, arrivalAirportId, flightId, onDate, pageable));
+        return ResponseEntity.ok(flightInstanceService.getByAirlineId(userId, departureAirportId, arrivalAirportId, flightId, onDate, pageable));
     }
 
     @PostMapping
     public ResponseEntity<FlightInstanceResponse> createFlightInstance(
-            @RequestHeader("X-Airline-Id") Long airlineId,
+            @RequestHeader("X-User-Id") Long userId,
             @Valid @RequestBody FlightInstanceRequest request) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(flightInstanceService.createFlightInstance(airlineId, request));
+                .body(flightInstanceService.createFlightInstance(userId, request));
     }
 
     @PutMapping("/{id}")

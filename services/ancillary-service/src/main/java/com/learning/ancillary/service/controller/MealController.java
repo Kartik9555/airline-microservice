@@ -34,22 +34,25 @@ public class MealController {
     }
 
     @GetMapping("/airline")
-    public ResponseEntity<List<MealResponse>> getMealByAirline(@RequestHeader("X-Airline-Id") Long airlineId) throws Exception {
-        return ResponseEntity.ok(mealService.getMealsByAirlineId(airlineId));
+    public ResponseEntity<List<MealResponse>> getMealByAirline(@RequestHeader("X-User-Id") Long userId) throws Exception {
+        return ResponseEntity.ok(mealService.getMealsByAirlineId(userId));
     }
 
     @PostMapping
     public ResponseEntity<MealResponse> createMeal(
-            @RequestHeader("X-Airline-Id") Long airlineId,
+            @RequestHeader("X-User-Id") Long userId,
             @Valid @RequestBody MealRequest request) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                mealService.createMeal(airlineId, request)
+                mealService.createMeal(userId, request)
         );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MealResponse> updateMeal(@PathVariable Long id, @Valid @RequestBody MealRequest request) throws Exception {
-        return ResponseEntity.ok(mealService.updateMeal(id, request));
+    public ResponseEntity<MealResponse> updateMeal(
+            @RequestHeader("X-User-Id") Long userId,
+            @PathVariable Long id,
+            @Valid @RequestBody MealRequest request) throws Exception {
+        return ResponseEntity.ok(mealService.updateMeal(userId, id, request));
     }
 
     @DeleteMapping("/{id}")
