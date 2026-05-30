@@ -51,7 +51,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (request.getProvider() == PaymentProvider.RAZORPAY) {
             // todo fetch user details using feign client
             final UserDTO user = userService.getUserById(request.getUserId());
-            final PaymentLinkResponse paymentLinkResponse = razorpayService.createPaymentLink(user, saved);;
+            final PaymentLinkResponse paymentLinkResponse = razorpayService.createPaymentLink(user, saved);
             response.setCheckoutUrl(paymentLinkResponse.getPaymentLinkUrl());
             response.setProviderPaymentId(paymentLinkResponse.getPaymentLinkId());
         }

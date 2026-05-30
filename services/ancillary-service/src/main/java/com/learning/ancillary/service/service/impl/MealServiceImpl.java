@@ -18,7 +18,7 @@ import java.util.List;
 public class MealServiceImpl implements MealService {
 
     private final MealRepository mealRepository;
-    private AirlineOutboundService airlineService;
+    private final AirlineOutboundService airlineService;
 
     @Override
     public MealResponse getMealById(Long id) throws Exception {
