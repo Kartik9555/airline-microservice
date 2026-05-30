@@ -1,0 +1,499 @@
+services:
+  user-db:
+    image: postgres:14.1-alpine
+    container_name: user-db
+    mem_reservation: 256m
+    mem_limit: 512m
+    cpus: 0.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=yt_airline_user_db
+    ports:
+      - '3302:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yt_airline_user_db -h localhost -p 5432"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - "./volumes/db/data/userdb:/var/lib/postgresql/data"
+  aireline-core-db:
+    image: postgres:14.1-alpine
+    container_name: aireline-core-db
+    mem_reservation: 256m
+    mem_limit: 512m
+    cpus: 0.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=yt_airline_core_db
+    ports:
+      - '3303:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yt_airline_core_db -h localhost -p 5432"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - "./volumes/db/data/airelinecoredb:/var/lib/postgresql/data"
+  flight-ops-db:
+    image: postgres:14.1-alpine
+    container_name: flight-ops-db
+    mem_reservation: 256m
+    mem_limit: 512m
+    cpus: 0.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=yt_airline_flight_db
+    ports:
+      - '3304:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yt_airline_flight_db -h localhost -p 5432"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - "./volumes/db/data/flightopsdb:/var/lib/postgresql/data"
+  location-db:
+    image: postgres:14.1-alpine
+    container_name: location-db
+    mem_reservation: 256m
+    mem_limit: 512m
+    cpus: 0.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=yt_airline_location_db
+    ports:
+      - '3305:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yt_airline_location_db -h localhost -p 5432"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - "./volumes/db/data/locationdb:/var/lib/postgresql/data"
+  seat-db:
+    image: postgres:14.1-alpine
+    container_name: seat-db
+    mem_reservation: 256m
+    mem_limit: 512m
+    cpus: 0.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=yt_airline_seat_db
+    ports:
+      - '3306:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yt_airline_seat_db -h localhost -p 5432"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - "./volumes/db/data/seatdb:/var/lib/postgresql/data"
+  pricing-db:
+    image: postgres:14.1-alpine
+    container_name: pricing-db
+    mem_reservation: 256m
+    mem_limit: 512m
+    cpus: 0.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=yt_airline_pricing_db
+    ports:
+      - '3307:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yt_airline_pricing_db -h localhost -p 5432"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - "./volumes/db/data/pricingdb:/var/lib/postgresql/data"
+  ancillary-db:
+    image: postgres:14.1-alpine
+    container_name: ancillary-db
+    mem_reservation: 256m
+    mem_limit: 512m
+    cpus: 0.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=yt_airline_ancillary_db
+    ports:
+      - '3308:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yt_airline_ancillary_db -h localhost -p 5432"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - "./volumes/db/data/ancillarydb:/var/lib/postgresql/data"
+  booking-db:
+    image: postgres:14.1-alpine
+    container_name: booking-db
+    mem_reservation: 256m
+    mem_limit: 512m
+    cpus: 0.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=yt_airline_booking_db
+    ports:
+      - '3309:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yt_airline_booking_db -h localhost -p 5432"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - "./volumes/db/data/bookingdb:/var/lib/postgresql/data"
+  payment-db:
+    image: postgres:14.1-alpine
+    container_name: payment-db
+    mem_reservation: 256m
+    mem_limit: 512m
+    cpus: 0.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=yt_airline_payment_db
+    ports:
+      - '3310:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yt_airline_payment_db -h localhost -p 5432"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - "./volumes/db/data/paymentdb:/var/lib/postgresql/data"
+
+  service-registry:
+    image: kartik9555/service-registry:latest
+    container_name: service-registry
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+#    depends_on:
+#      config-server:
+#        condition: service_healthy
+    environment:
+      - SPRING_APPLICATION_NAME=service-registry
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=prod
+      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - airline-microservices
+  user-service:
+    image: kartik9555/user-service:latest
+    container_name: user-service
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    depends_on:
+      service-registry:
+        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+      user-db:
+        condition: service_healthy
+    environment:
+      - SPRING_APPLICATION_NAME=user-service
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://user-db:5432/postgres?currentSchema=yt_airline_user_db&binaryTransfer=true&reWriteBatchedInserts=true
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
+  airline-core-service:
+    image: kartik9555/airline-core-service:latest
+    container_name: airline-core-service
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    depends_on:
+      service-registry:
+        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+      aireline-core-db:
+        condition: service_healthy
+#      redis:
+#        condition: service_healthy
+    environment:
+        - SPRING_APPLICATION_NAME=airline-core-service
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+        - SPRING_PROFILES_ACTIVE=prod
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://aireline-core-db:5432/postgres?currentSchema=yt_airline_core_db&binaryTransfer=true&reWriteBatchedInserts=true
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=admin
+        - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+#        - SPRING_REDIS_HOST=redis
+#        - SPRING_REDIS_PORT=6379
+        - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
+  flight-ops-service:
+    image: kartik9555/flight-ops-service:latest
+    container_name: flight-ops-service
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    depends_on:
+      service-registry:
+        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+      flight-ops-db:
+        condition: service_healthy
+#      redis:
+#        condition: service_healthy
+#      kafka:
+#        condition: service_started
+    environment:
+        - SPRING_APPLICATION_NAME=flight-ops-service
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+        - SPRING_PROFILES_ACTIVE=prod
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://flight-ops-db:5432/postgres?currentSchema=yt_airline_flight_db&binaryTransfer=true&reWriteBatchedInserts=true
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=admin
+        - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+#        - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
+#        - SPRING_REDIS_HOST=redis
+#        - SPRING_REDIS_PORT=6379
+        - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
+  location-service:
+    image: kartik9555/location-service:latest
+    container_name: location-service
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    depends_on:
+      service-registry:
+        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+      location-db:
+        condition: service_healthy
+#      redis:
+#        condition: service_healthy
+    environment:
+        - SPRING_APPLICATION_NAME=location-service
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+        - SPRING_PROFILES_ACTIVE=prod
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://location-db:5432/postgres?currentSchema=yt_airline_location_db&binaryTransfer=true&reWriteBatchedInserts
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=admin
+        - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+#        - SPRING_REDIS_HOST=redis
+#        - SPRING_REDIS_PORT=6379
+        - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
+  seat-service:
+    image: kartik9555/seat-service:latest
+    container_name: seat-service
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    depends_on:
+      service-registry:
+        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+      seat-db:
+        condition: service_healthy
+#      redis:
+#        condition: service_healthy
+#      kafka:
+#        condition: service_started
+    environment:
+        - SPRING_APPLICATION_NAME=seat-service
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+        - SPRING_PROFILES_ACTIVE=prod
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://seat-db:5432/postgres?currentSchema=yt_airline_seat_db&binaryTransfer=true&reWriteBatchedInserts
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=admin
+        - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+#        - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
+#        - SPRING_REDIS_HOST=redis
+#        - SPRING_REDIS_PORT=6379
+        - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
+  pricing-service:
+    image: kartik9555/pricing-service:latest
+    container_name: pricing-service
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    depends_on:
+      service-registry:
+        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+      pricing-db:
+        condition: service_healthy
+#      redis:
+#        condition: service_healthy
+    environment:
+        - SPRING_APPLICATION_NAME=pricing-service
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+        - SPRING_PROFILES_ACTIVE=prod
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://pricing-db:5432/postgres?currentSchema=yt_airline_pricing_db&binaryTransfer=true&reWriteBatchedInserts
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=admin
+        - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+#        - SPRING_REDIS_HOST=redis
+#        - SPRING_REDIS_PORT=6379
+        - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
+  ancillary-service:
+    image: kartik9555/ancillary-service:latest
+    container_name: ancillary-service
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    depends_on:
+      service-registry:
+        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+      ancillary-db:
+        condition: service_healthy
+    environment:
+      - SPRING_APPLICATION_NAME=ancillary-service
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ancillary-db:5432/postgres?currentSchema=yt_airline_ancillary_db&binaryTransfer=true&reWriteBatchedInserts
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
+  booking-service:
+    image: kartik9555/booking-service:latest
+    container_name: booking-service
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    depends_on:
+      service-registry:
+        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+      booking-db:
+        condition: service_healthy
+    environment:
+      - SPRING_APPLICATION_NAME=booking-service
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://booking-db:5432/postgres?currentSchema=yt_airline_booking_db&binaryTransfer=true&reWriteBatchedInserts
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
+  payment-service:
+    image: kartik9555/payment-service:latest
+    container_name: payment-service
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    depends_on:
+      service-registry:
+        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+      payment-db:
+        condition: service_healthy
+#      kafka:
+#        condition: service_started
+    environment:
+      - SPRING_APPLICATION_NAME=payment-service
+      #      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://payment-db:5432/postgres?currentSchema=yt_airline_payment_db&binaryTransfer=true&reWriteBatchedInserts
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+#        - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
+      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
+  api-gateway:
+    image: kartik9555/api-gateway:latest
+    container_name: api-gateway
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    ports:
+      - "5000:5000"
+    depends_on:
+      service-registry:
+        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+#      redis:
+#        condition: service_healthy
+    environment:
+      - SPRING_APPLICATION_NAME=api-gateway
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=prod
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+#        - SPRING_REDIS_HOST=redis
+#        - SPRING_REDIS_PORT=6379
+      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
+
+
+volumes:
+  db:
+    driver: local
+
+
