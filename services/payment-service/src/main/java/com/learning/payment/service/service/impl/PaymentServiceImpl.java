@@ -8,6 +8,7 @@ import com.learning.common.payload.request.PaymentInitiateRequest;
 import com.learning.common.payload.request.PaymentVerifyRequest;
 import com.learning.common.payload.response.PaymentInitiateResponse;
 import com.learning.common.payload.response.PaymentLinkResponse;
+import com.learning.payment.service.event.PaymentEventProducer;
 import com.learning.payment.service.mapper.PaymentMapper;
 import com.learning.payment.service.model.Payment;
 import com.learning.payment.service.repository.PaymentRepository;
@@ -35,6 +36,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final RazorpayService razorpayService;
     private final UserOutboundService userService;
+    private final PaymentEventProducer producer;
 
     @Override
     public PaymentInitiateResponse initiatePayment(PaymentInitiateRequest request) throws RazorpayException {
@@ -49,7 +51,6 @@ public class PaymentServiceImpl implements PaymentService {
         final Payment saved = paymentRepository.save(payment);
         final PaymentInitiateResponse response = PaymentMapper.toPayment(saved);
         if (request.getProvider() == PaymentProvider.RAZORPAY) {
-            // todo fetch user details using feign client
             final UserDTO user = userService.getUserById(request.getUserId());
             final PaymentLinkResponse paymentLinkResponse = razorpayService.createPaymentLink(user, saved);
             response.setCheckoutUrl(paymentLinkResponse.getPaymentLinkUrl());
@@ -75,12 +76,12 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setStatus(PaymentStatus.SUCCESS);
             payment.setPaidAt(Instant.now());
             paymentRepository.save(payment);
-            // todo publish event
+            producer.sendPaymentCompleted(payment);
         } else {
             payment.setStatus(PaymentStatus.FAILED);
             payment.setFailureReason("Payment Verification Failed");
             paymentRepository.save(payment);
-            // todo publish event
+            producer.sendPaymentFailed(payment);
         }
         return PaymentMapper.toPaymentDTO(payment);
     }
