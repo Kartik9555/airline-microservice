@@ -1,17 +1,27 @@
 package com.learning.api.gateway.config;
 
+import com.learning.common.enums.UserRole;
 import org.springframework.cloud.gateway.server.mvc.filter.LoadBalancerFilterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.function.RequestPredicates;
 import org.springframework.web.servlet.function.RouterFunction;
+import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
 @Configuration
 public class RouteConfig {
+
+    private final JwtUtil jwtUtil;
+
+    public RouteConfig(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
 
     @Bean
     public RouterFunction<ServerResponse> authRoutes() {
@@ -27,6 +37,8 @@ public class RouteConfig {
                 .route(RequestPredicates.POST("/api/v1/cities/**"), HandlerFunctions.http())
                 .route(RequestPredicates.POST("/api/v1/airports/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("location-service"))
+                .before(this::jwtAuthFilter)
+                .before(request -> requireRole(request, UserRole.ROLE_SYSTEM_ADMIN.toString()))
                 .build();
     }
 
@@ -36,6 +48,8 @@ public class RouteConfig {
         return GatewayRouterFunctions.route("admin-airline-core-routes")
                 .route(RequestPredicates.GET("/api/v1/airlines/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("airline-core-service"))
+                .before(this::jwtAuthFilter)
+                .before(request -> requireRole(request, UserRole.ROLE_SYSTEM_ADMIN.toString()))
                 .build();
     }
 
@@ -44,6 +58,7 @@ public class RouteConfig {
         return GatewayRouterFunctions.route("user-service-routes")
                 .route(RequestPredicates.path("/api/v1/users/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("user-service"))
+                .before(this::jwtAuthFilter)
                 .build();
     }
 
@@ -54,6 +69,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/airlines/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/aircrafts/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("airline-core-service"))
+                .before(this::jwtAuthFilter)
                 .build();
     }
 
@@ -66,6 +82,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/seat-instances/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/flight-instance-cabins/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("seat-service"))
+                .before(this::jwtAuthFilter)
                 .build();
     }
 
@@ -76,6 +93,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/flight-instances/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/flight-schedules/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("flight-ops-service"))
+                .before(this::jwtAuthFilter)
                 .build();
     }
 
@@ -86,6 +104,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/fare-rules/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/baggage-policies/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("pricing-service"))
+                .before(this::jwtAuthFilter)
                 .build();
     }
 
@@ -98,6 +117,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/flight-meals/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/flight-cabin-ancillaries/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("ancillary-service"))
+                .before(this::jwtAuthFilter)
                 .build();
     }
 
@@ -108,6 +128,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/cities/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/airports/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("location-service"))
+                .before(this::jwtAuthFilter)
                 .build();
     }
 
@@ -116,6 +137,7 @@ public class RouteConfig {
         return GatewayRouterFunctions.route("booking-service-routes")
                 .route(RequestPredicates.path("/api/v1/bookings/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("booking-service"))
+                .before(this::jwtAuthFilter)
                 .build();
     }
 
@@ -124,6 +146,43 @@ public class RouteConfig {
         return GatewayRouterFunctions.route("payment-service-routes")
                 .route(RequestPredicates.path("/api/v1/payments/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("payment-service"))
+                .before(this::jwtAuthFilter)
                 .build();
+    }
+
+    private ServerRequest jwtAuthFilter(ServerRequest request) {
+        final String authHeader = request.headers().firstHeader(JwtConstant.JWT_HEADER);
+
+        // check auth header exists
+        if(authHeader == null || !authHeader.startsWith(JwtConstant.TOKEN_PREFIX)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing or invalid authorization header");
+        }
+
+        // remove prefix from token
+        final String token = authHeader.substring(JwtConstant.TOKEN_PREFIX.length());
+
+        // validate token
+        if(!jwtUtil.isTokenValid(token)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or expired token");
+        }
+
+        // grab user info from token
+        String email = jwtUtil.extractEmail(token);
+        String authorities = jwtUtil.extractAuthorities(token);
+        Long userId = jwtUtil.extractUserId(token);
+
+        return ServerRequest.from(request)
+                .header("X-User-Id", String.valueOf(userId))
+                .header("X-User-Email", email)
+                .header("X-User-Roles", authorities)
+                .build();
+    }
+
+    private ServerRequest requireRole(ServerRequest request, String role) {
+        String rolesHeader = request.headers().firstHeader("X-User-Roles");
+        if (rolesHeader == null || !rolesHeader.contains(role)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied, required role: " + role);
+        }
+        return request;
     }
 }
