@@ -22,7 +22,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("/api/v1/cabin-class")
+@RequestMapping("/api/v1/cabin-classes")
 @RequiredArgsConstructor
 public class CabinClassController {
 

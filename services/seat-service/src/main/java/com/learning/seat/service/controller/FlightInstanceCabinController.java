@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("/api/flight-instance-cabins")
+@RequestMapping("/api/v1/flight-instance-cabins")
 @RequiredArgsConstructor
 public class FlightInstanceCabinController {
 

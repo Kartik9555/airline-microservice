@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "airline-core-service")
 public interface AircraftCoreServiceClient {
 
-    @GetMapping("/api/v1/aircraft/{id}")
+    @GetMapping("/api/v1/aircrafts/{id}")
     AircraftResponse getAircraftById(@PathVariable Long id);
 
     @GetMapping("/api/v1/airlines/{id}")
