@@ -5,6 +5,7 @@ import com.learning.common.payload.response.AircraftResponse;
 import com.learning.common.payload.response.AirlineResponse;
 import com.learning.common.payload.response.AirportResponse;
 import com.learning.common.payload.response.FlightInstanceResponse;
+import com.learning.flight.ops.service.event.FlightInstanceEventProducer;
 import com.learning.flight.ops.service.mapper.FlightInstanceMapper;
 import com.learning.flight.ops.service.model.Flight;
 import com.learning.flight.ops.service.model.FlightInstance;
@@ -31,6 +32,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     private final AirlineOutboundService airlineService;
     private final AircraftOutboundService aircraftService;
     private final AirportOutboundService airportService;
+    private final FlightInstanceEventProducer producer;
 
     @Override
     public FlightInstanceResponse getFlightInstanceById(Long id) throws Exception {
@@ -64,7 +66,8 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
         flightInstance.setTotalSeats(aircraft.getTotalSeats());
         flightInstance.setAvailableSeats(aircraft.getTotalSeats());
         final FlightInstance saved = flightInstanceRepository.save(flightInstance);
-        // TODO: create seat instances, publish kafka event
+        // create seat instances, publish kafka event
+        producer.sendFlightInstanceCreatedEvent(flightInstance);
         return getFlightInstanceResponse(saved);
     }
 
