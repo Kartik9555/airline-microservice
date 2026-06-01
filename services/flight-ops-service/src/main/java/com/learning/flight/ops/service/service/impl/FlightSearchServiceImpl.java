@@ -111,7 +111,7 @@ public class FlightSearchServiceImpl implements FlightSearchService {
     }
 
     private Pageable applySort(Pageable pageable, String sortBy, String sortOrder) {
-        final Sort.Direction sortDirection = "desc".equalsIgnoreCase(sortBy) ? Sort.Direction.DESC : Sort.Direction.ASC;
+        final Sort.Direction sortDirection = "desc".equalsIgnoreCase(sortOrder) ? Sort.Direction.DESC : Sort.Direction.ASC;
         final Sort sort = sortBy == null || sortBy.isBlank()
                 ? Sort.by(sortDirection, "departureDateTime")
                 : switch (sortBy.toLowerCase()) {
