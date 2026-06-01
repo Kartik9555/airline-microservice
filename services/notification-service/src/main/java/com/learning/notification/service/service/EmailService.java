@@ -39,7 +39,7 @@ public class EmailService {
         helper.setTo(event.getContactEmail());
         helper.setSubject(buildSubject(event));
         helper.setText(buildHtmlBody(event), true);
-
+        mailSender.send(mimeMessage);
     }
 
     private String buildHtmlBody(BookingConfirmedEvent event) {

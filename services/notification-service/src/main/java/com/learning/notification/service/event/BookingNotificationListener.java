@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class BookingNotificationListener {
     private final EmailService emailService;
 
     @KafkaListener(topics = "booking_confirmed", groupId = "notification-service-group")
+    @Transactional
     public void handleBookingConfirmedEvent(@Payload BookingConfirmedEvent event) throws MessagingException {
         emailService.sendBookingConfirmation(event);
     }

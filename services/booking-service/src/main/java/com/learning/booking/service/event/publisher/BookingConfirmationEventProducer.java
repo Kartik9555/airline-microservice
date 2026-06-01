@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookingConfirmationEventProducer {
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate<String, BookingConfirmedEvent> kafkaTemplate;
 
     public void sendBookingConfirmedEvent(Booking booking,
                                           PaymentCompletedEvent payment,
