@@ -81,6 +81,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    @Cacheable(cacheNames = "citiesByCode", key = "#countryCode")
     public Page<CityResponse> getCitiesByCountryCode(String countryCode, Pageable pageable) {
         return cityRepository.findByCountryCodeIgnoreCase(countryCode, pageable).map(CityMapper::toCity);
     }

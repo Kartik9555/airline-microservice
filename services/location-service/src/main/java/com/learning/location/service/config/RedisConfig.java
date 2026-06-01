@@ -44,7 +44,7 @@ public class RedisConfig implements CachingConfigurer {
                 "cities", defaults.entryTtl(Duration.ofHours(6)),
                 "citiesByCode", defaults.entryTtl(Duration.ofHours(6))
         );
-        return RedisCacheManager.builder()
+        return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(defaults.entryTtl(Duration.ofHours(6)))
                 .withInitialCacheConfigurations(cacheConfigs)
                 .build();
