@@ -1,5 +1,6 @@
 package com.learning.booking.service.event.listener;
 
+import com.learning.booking.service.event.publisher.BookingConfirmationEventProducer;
 import com.learning.booking.service.repository.BookingRepository;
 import com.learning.booking.service.service.outbound.FlightOutboundService;
 import com.learning.booking.service.service.outbound.PriceOutboundService;
@@ -22,6 +23,7 @@ public class PaymentEventListener {
     private final FlightOutboundService flightService;
     private final PriceOutboundService priceService;
     private final UserOutboundService userService;
+    private final BookingConfirmationEventProducer producer;
 
     @KafkaListener(topics = "payment_completed", groupId = "booking-service-group")
     public void handlePaymentCompletedEvent(PaymentCompletedEvent event) {
@@ -33,7 +35,7 @@ public class PaymentEventListener {
                     final FareResponse fare = priceService.getFareById(booking.getFareId());
                     final UserDTO user = userService.getUserById(booking.getUserId());
                     // publish event for seat service and notification service
-
+                    producer.sendBookingConfirmedEvent(booking, event, flightInstance, fare, user);
                 });
     }
 

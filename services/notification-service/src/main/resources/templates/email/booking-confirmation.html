@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Flight Booking Confirmation</title>
+</head>
+
+<body style="margin:0;padding:0;background:#f4f7fa;font-family:Arial,sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:20px;background:#f4f7fa;">
+    <tr>
+        <td align="center">
+
+            <!-- Main Container -->
+            <table width="700" cellpadding="0" cellspacing="0"
+                   style="background:#ffffff;border-radius:8px;overflow:hidden;">
+
+                <!-- HEADER -->
+                <tr>
+                    <td style="background:#003366;padding:25px;text-align:center;color:#fff;">
+
+                        <img th:if="${booking.airlineLogo != null}"
+                             th:src="${booking.airlineLogo}"
+                             style="max-height:60px;margin-bottom:10px;"/>
+
+                        <h1 style="margin:0;"
+                            th:text="${booking.airlineName + ' Booking Confirmation'}">
+                            Booking Confirmation
+                        </h1>
+                    </td>
+                </tr>
+
+                <!-- GREETING -->
+                <tr>
+                    <td style="padding:25px;">
+                        <h2 style="margin-top:0;">
+                            Hello <span th:text="${booking.userName}"></span>,
+                        </h2>
+
+                        <p>Your flight booking has been confirmed successfully.</p>
+
+                        <p>
+                            Booking Reference:
+                            <strong th:text="${booking.bookingReference}"></strong>
+                        </p>
+
+                        <p>
+                            Confirmed At:
+                            <strong th:text="${#temporals.format(booking.confirmedAt,'dd MMM yyyy HH:mm')}"></strong>
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- BOOKING DETAILS -->
+                <tr>
+                    <td style="padding:0 25px 25px 25px;">
+
+                        <h3 style="color:#003366;">Booking Details</h3>
+
+                        <table width="100%" cellpadding="8"
+                               style="border:1px solid #ddd;border-collapse:collapse;">
+
+                            <tr><td><b>Booking ID</b></td><td th:text="${booking.bookingId}"></td></tr>
+                            <tr><td><b>Cabin Class</b></td><td th:text="${booking.cabinClass}"></td></tr>
+                            <tr><td><b>Flexible Ticket</b></td><td th:text="${booking.flexibleTicket ? 'Yes' : 'No'}"></td></tr>
+                            <tr><td><b>Booking Date</b></td>
+                                <td th:text="${#temporals.format(booking.bookingDate,'dd MMM yyyy HH:mm')}"></td>
+                            </tr>
+
+                        </table>
+
+                    </td>
+                </tr>
+
+                <!-- FLIGHT DETAILS -->
+                <tr>
+                    <td style="padding:0 25px 25px 25px;">
+
+                        <h3 style="color:#003366;">Flight Information</h3>
+
+                        <table width="100%" cellpadding="10"
+                               style="border:1px solid #ddd;border-collapse:collapse;">
+
+                            <tr style="background:#f7f9fc;">
+                                <td colspan="2">
+                                    <b th:text="${booking.flightNumber}"></b>
+                                    |
+                                    <span th:text="${booking.airlineName}"></span>
+                                    |
+                                    <span th:text="${booking.aircraftModel}"></span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td width="50%">
+                                    <b th:text="${booking.departureAirportCode}"></b><br/>
+                                    <span th:text="${booking.departureAirportName}"></span><br/>
+                                    <span th:text="${booking.departureCity + ', ' + booking.departureCountry}"></span><br/>
+                                    <b th:text="${depDate}"></b>
+                                </td>
+
+                                <td width="50%">
+                                    <b th:text="${booking.arrivalAirportCode}"></b><br/>
+                                    <span th:text="${booking.arrivalAirportName}"></span><br/>
+                                    <span th:text="${booking.arrivalCity + ', ' + booking.arrivalCountry}"></span><br/>
+                                    <b th:text="${arrDate}"></b>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" align="center">
+                                    Duration:
+                                    <b th:text="${booking.flightDuration}"></b>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </td>
+                </tr>
+
+                <!-- PASSENGERS (CARD STYLE) -->
+                <tr>
+                    <td style="padding:0 25px 25px 25px;">
+
+                        <h3 style="color:#003366;">Passengers</h3>
+
+                        <div th:each="p : ${booking.passengers}"
+                             style="border:1px solid #ddd;
+                                    border-radius:6px;
+                                    padding:15px;
+                                    margin-bottom:15px;">
+
+                            <h4 style="margin:0 0 10px 0;">
+                                <span th:text="${p.firstName}"></span>
+                                <span th:text="${p.lastName}"></span>
+                            </h4>
+
+                            <table width="100%" cellpadding="5">
+
+                                <tr>
+                                    <td><b>Passenger Type</b></td>
+                                    <td th:text="${p.adult}"></td>
+                                </tr>
+
+                                <tr>
+                                    <td><b>Gender</b></td>
+                                    <td th:text="${p.gender}"></td>
+                                </tr>
+
+                                <tr>
+                                    <td><b>Nationality</b></td>
+                                    <td th:text="${p.nationality}"></td>
+                                </tr>
+
+                                <tr>
+                                    <td><b>Passport Number</b></td>
+                                    <td th:text="${p.passportNumber}"></td>
+                                </tr>
+
+                                <tr>
+                                    <td><b>Seat Number</b></td>
+                                    <td th:text="${p.seatNumber}"></td>
+                                </tr>
+
+                                <tr>
+                                    <td><b>Ticket Number</b></td>
+                                    <td th:text="${p.ticketNumber}"></td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    </td>
+                </tr>
+
+                <!-- PAYMENT -->
+                <tr>
+                    <td style="padding:0 25px 25px 25px;">
+
+                        <h3 style="color:#003366;">Payment Summary</h3>
+
+                        <table width="100%" cellpadding="8"
+                               style="border:1px solid #ddd;border-collapse:collapse;">
+
+                            <tr th:if="${booking.baseFare != null}">
+                                <td>Base Fare</td>
+                                <td th:text="${booking.currency} + ' ' + ${booking.baseFare}"></td>
+                            </tr>
+                            <tr th:if="${booking.taxesAndFees != null && booking.taxesAndFees > 0}">
+                                <td>Taxes & Fees</td><td th:text="${booking.currency} + ' ' + ${taxes}"></td>
+                            </tr>
+                            <tr th:if="${booking.seatFees != null && booking.seatFees > 0}">
+                                <td>Seat Fees</td><td th:text="${booking.currency} + ' ' + ${seatFees}"></td>
+                            </tr>
+                            <tr th:if="${booking.ancillaryFees != null && booking.ancillaryFees > 0}">
+                                <td>Ancillary Fees</td><td th:text="${booking.currency} + ' ' + ${ancillaryFees}"></td>
+                            </tr>
+                            <tr th:if="${booking.currency} + ' ' + ${booking.mealFees}">
+                                <td>Meal Fees</td><td th:text="${booking.currency} + ' ' + ${mealFees}"></td>
+                            </tr>
+
+                            <tr th:if="${booking.totalAmount != null}" style="font-weight:bold;background:#f7f9fc;">
+                                <td>Total</td>
+                                <td th:text="${booking.currency} + ' ' + ${totalAmount}"></td>
+                            </tr>
+
+                        </table>
+
+                    </td>
+                </tr>
+
+                <!-- CONTACT -->
+                <tr>
+                    <td style="padding:0 25px 25px 25px;">
+
+                        <h3 style="color:#003366;">Contact</h3>
+
+                        <p>Email: <span th:text="${booking.contactEmail}"></span></p>
+                        <p>Phone: <span th:text="${booking.contactPhone}"></span></p>
+
+                    </td>
+                </tr>
+
+                <!-- FOOTER -->
+                <tr>
+                    <td style="background:#003366;color:#fff;text-align:center;padding:20px;">
+                        <p style="margin:0;">
+                            Thank you for choosing <span th:text="${booking.airlineName}"></span>
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
