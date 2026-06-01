@@ -1,27 +1,5 @@
-server:
-  port: 5003
 spring:
   application:
     name: pricing-service
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=yt_airline_pricing_db&binaryTransfer=true&reWriteBatchedInserts=true
-    username: postgres
-    password: admin
-    driver-class-name: org.postgresql.Driver
-  sql:
-    init:
-      mode: ALWAYS
-      schema-locations: classpath:init-schema.sql
-      platform: postgres
-  jpa:
-    open-in-view: false
-    show-sql: false
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
-
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    register-with-eureka: true
+  config:
+    import: optional:configserver:http://localhost:8888
