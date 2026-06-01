@@ -15,4 +15,5 @@ public interface FareService {
     List<FareResponse> getFares();
     Map<Long, FareResponse> getLowestFarePerFlight(List<Long> flightIds, Long cabinClassId) throws Exception;
     Map<Long, FareResponse> getFareByIds(List<Long> fareIds) throws Exception;
+    FareResponse getLowestFareByFlightIdAndCabinClassId(Long flightId, Long cabinClassId) throws Exception;
 }

@@ -40,6 +40,11 @@ public class FareController {
         return ResponseEntity.ok(fareService.getFareByFlightIdAndCabinClassId(flightId, cabinClassId));
     }
 
+    @GetMapping("/lowest/flight/{flightId}/cabin-class/{cabinClassId}")
+    public ResponseEntity<FareResponse> getLowestFareForFlightAndCabinClass(@PathVariable Long flightId, @PathVariable Long cabinClassId) throws Exception {
+        return ResponseEntity.ok(fareService.getLowestFareByFlightIdAndCabinClassId(flightId, cabinClassId));
+    }
+
     @PostMapping("/batch-by-ids")
     public ResponseEntity<Map<Long, FareResponse>> getFareByIds(@RequestBody List<Long> fareIds) throws Exception {
         return ResponseEntity.ok(fareService.getFareByIds(fareIds));

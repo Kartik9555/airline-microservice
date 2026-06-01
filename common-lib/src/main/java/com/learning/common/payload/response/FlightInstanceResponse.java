@@ -39,4 +39,5 @@ public class FlightInstanceResponse {
     private Integer maxAdvanceBookingDays;
     private Boolean isActive;
     private FlightStatus status;
+    private FareResponse fare;
 }

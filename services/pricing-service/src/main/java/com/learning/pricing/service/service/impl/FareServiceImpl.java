@@ -92,4 +92,13 @@ public class FareServiceImpl implements FareService {
         return fares.stream()
                 .collect(Collectors.toMap(Fare::getId, FareMapper::toFare));
     }
+
+    @Override
+    public FareResponse getLowestFareByFlightIdAndCabinClassId(Long flightId, Long cabinClassId) throws Exception {
+        List<Fare> fares = fareRepository.findByFlightIdAndCabinClassId(flightId, cabinClassId);
+        Fare lowestFare = fares.stream()
+                .min(Comparator.comparingDouble(Fare::getTotalPrice))
+                .orElse(null);
+        return FareMapper.toFare(lowestFare);
+    }
 }

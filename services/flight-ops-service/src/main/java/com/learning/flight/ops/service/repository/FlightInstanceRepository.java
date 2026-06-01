@@ -4,11 +4,12 @@ import com.learning.flight.ops.service.model.FlightInstance;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 
-public interface FlightInstanceRepository extends JpaRepository<FlightInstance, Long> {
+public interface FlightInstanceRepository extends JpaRepository<FlightInstance, Long>, JpaSpecificationExecutor<FlightInstance> {
 
     @Query("""
     SELECT fi FROM FlightInstance fi
