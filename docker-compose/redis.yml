@@ -1,0 +1,12 @@
+services:
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis-dev
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 200mb --maxmemory-policy allkeys-lru --save ""
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
