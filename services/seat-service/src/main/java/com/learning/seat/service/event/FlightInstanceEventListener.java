@@ -20,7 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FlightInstanceEventConsumer {
+public class FlightInstanceEventListener {
 
     private final CabinClassRepository cabinClassRepository;
     private final SeatRepository seatRepository;

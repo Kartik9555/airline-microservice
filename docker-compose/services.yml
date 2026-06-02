@@ -298,8 +298,8 @@ services:
         condition: service_healthy
       aireline-core-db:
         condition: service_healthy
-#      redis:
-#        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
         - SPRING_APPLICATION_NAME=airline-core-service
         - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
@@ -309,8 +309,8 @@ services:
         - SPRING_DATASOURCE_PASSWORD=admin
         - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
         - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
-#        - SPRING_REDIS_HOST=redis
-#        - SPRING_REDIS_PORT=6379
+        - SPRING_REDIS_HOST=redis
+        - SPRING_REDIS_PORT=6379
         - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
     networks:
       - airline-microservices
