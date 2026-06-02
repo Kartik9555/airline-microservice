@@ -1,0 +1,140 @@
+name: Build
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+
+# ------------------------------------------------------------
+# 1. DETECT CHANGES
+# ------------------------------------------------------------
+  changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      services: ${{ steps.matrix.outputs.services }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            common:
+              - 'common/**'
+
+            api-gateway:
+              - 'cloud/api-gateway/**'
+
+            config-server:
+              - 'cloud/config-server/**'
+
+            service-registry:
+              - 'cloud/service-registry/**'
+
+            airline-core-service:
+              - 'services/airline-core-service/**'
+
+            ancillary-service:
+              - 'services/ancillary-service/**'
+
+            booking-service:
+              - 'services/booking-service/**'
+
+            flight-ops-service:
+              - 'services/flight-ops-service/**'
+
+            location-service:
+              - 'services/location-service/**'
+
+            notification-service:
+              - 'services/notification-service/**'
+
+            payment-service:
+              - 'services/payment-service/**'
+
+            pricing-service:
+              - 'services/pricing-service/**'
+
+            seat-service:
+              - 'services/seat-service/**'
+            
+            user-service:
+              - 'services/user-service/**'
+
+      - name: Resolve impacted modules (dependency-aware)
+        id: matrix
+        run: |
+          SERVICES=""
+
+          if [ "${{ steps.filter.outputs.common }}" = "true" ]; then
+            SERVICES="api-gateway config-server service-registry airline-core-service ancillary-service booking-service flight-ops-service location-service notification-service payment-service pricing-service seat-service user-service"
+          else
+            for s in api-gateway config-server service-registry airline-core-service ancillary-service booking-service flight-ops-service location-service notification-service payment-service pricing-service seat-service user-service; do
+              if [ "${{ steps.filter.outputs[s] }}" = "true" ]; then
+                SERVICES="$SERVICES $s"
+              fi
+            done
+          fi
+
+          echo "services=$(echo $SERVICES | xargs)" >> $GITHUB_OUTPUT
+
+
+# ------------------------------------------------------------
+# 2. MAVEN BUILD (INCREMENTAL + COMMON AWARE)
+# ------------------------------------------------------------
+  build:
+    needs: changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: '25'
+          cache: maven
+
+      - name: Run incremental Maven build
+        run: |
+          SERVICES="${{ needs.changes.outputs.services }}"
+
+          for m in $SERVICES; do
+            echo "Building $m with dependency awareness"
+            mvn -pl $m -am clean test
+          done
+
+
+# ------------------------------------------------------------
+# 3. BUILD CONTAINER IMAGES (JIB, PARALLEL)
+# ------------------------------------------------------------
+  docker:
+    needs: [changes, build]
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJson(format('["%s"]', needs.changes.outputs.services)) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: '25'
+          cache: maven
+
+      - name: Compute Git SHA
+        id: meta
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Build Jib image
+        run: |
+          mvn -B -pl ${{ matrix.module }} \
+            -Dimage.tag=${{ steps.meta.outputs.sha }} \
+            jib:dockerBuild
