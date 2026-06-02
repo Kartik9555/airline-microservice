@@ -8,6 +8,7 @@ import com.learning.booking.service.service.TicketService;
 import com.learning.common.enums.TicketStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Ticket> generateTicketsForBooking(Booking booking) {
         List<Ticket> tickets = new ArrayList<>();
         for(Passenger passenger : booking.getPassengers()) {

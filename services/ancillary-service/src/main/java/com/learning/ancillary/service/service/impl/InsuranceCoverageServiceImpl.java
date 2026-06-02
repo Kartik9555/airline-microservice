@@ -10,6 +10,7 @@ import com.learning.common.payload.request.InsuranceCoverageRequest;
 import com.learning.common.payload.response.InsuranceCoverageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class InsuranceCoverageServiceImpl implements InsuranceCoverageService {
     private final AncillaryRepository ancillaryRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public InsuranceCoverageResponse getInsuranceCoverageById(Long id) throws Exception {
         final InsuranceCoverage insuranceCoverage = insuranceCoverageRepository.findById(id)
                 .orElseThrow(() -> new Exception("Insurance coverage not found with id " + id));
@@ -27,6 +29,7 @@ public class InsuranceCoverageServiceImpl implements InsuranceCoverageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<InsuranceCoverageResponse> getInsuranceCoveragesByAncillaryId(Long ancillaryId) throws Exception {
         return insuranceCoverageRepository.findByAncillaryId(ancillaryId)
                 .stream()
@@ -35,6 +38,7 @@ public class InsuranceCoverageServiceImpl implements InsuranceCoverageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<InsuranceCoverageResponse> getActiveInsuranceCoveragesByAncillaryId(Long ancillaryId) throws Exception {
         return insuranceCoverageRepository.findByAncillaryIdAndActiveTrue(ancillaryId)
                 .stream()
@@ -43,6 +47,7 @@ public class InsuranceCoverageServiceImpl implements InsuranceCoverageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<InsuranceCoverageResponse> getAllCoverages() throws Exception {
         return insuranceCoverageRepository.findAll()
                 .stream()
@@ -51,6 +56,7 @@ public class InsuranceCoverageServiceImpl implements InsuranceCoverageService {
     }
 
     @Override
+    @Transactional
     public InsuranceCoverageResponse createInsuranceCoverage(InsuranceCoverageRequest request) throws Exception {
         final Ancillary ancillary = ancillaryRepository.findById(request.getAncillaryId()).
                 orElseThrow(() -> new Exception("Ancillary not found with id " + request.getAncillaryId()));
@@ -59,6 +65,7 @@ public class InsuranceCoverageServiceImpl implements InsuranceCoverageService {
     }
 
     @Override
+    @Transactional
     public InsuranceCoverageResponse updateInsuranceCoverage(Long id, InsuranceCoverageRequest request) throws Exception {
         final InsuranceCoverage insuranceCoverage = insuranceCoverageRepository.findById(id)
                 .orElseThrow(() -> new Exception("Insurance coverage not found with id " + id));
@@ -73,6 +80,7 @@ public class InsuranceCoverageServiceImpl implements InsuranceCoverageService {
     }
 
     @Override
+    @Transactional
     public void deleteInsuranceCoverageById(Long id) throws Exception {
         final InsuranceCoverage insuranceCoverage = insuranceCoverageRepository.findById(id)
                 .orElseThrow(() -> new Exception("Insurance coverage not found with id " + id));

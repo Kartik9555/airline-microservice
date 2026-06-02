@@ -11,6 +11,7 @@ import com.learning.seat.service.repository.SeatRepository;
 import com.learning.seat.service.service.SeatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class SeatServiceImpl implements SeatService {
     private final SeatMapRepository seatMapRepository;
 
     @Override
+    @Transactional
     public void generateSeat(Long seatMapId) throws Exception {
         if(seatRepository.existsBySeatMapId(seatMapId)) {
             throw new Exception("Seats with Seat Map id: " + seatMapId + "already exists");
@@ -76,6 +78,7 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SeatResponse> getAll() {
         return seatRepository.findAll()
                 .stream()
@@ -84,6 +87,7 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
+    @Transactional
     public SeatResponse updateSeats(Long seatId, SeatRequest request) throws Exception {
         final Seat seat = seatRepository.findById(seatId)
                 .orElseThrow(() -> new Exception("Seat with id " + seatId + "not found"));

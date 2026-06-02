@@ -13,6 +13,7 @@ import com.learning.seat.service.service.SeatService;
 import com.learning.seat.service.service.outbound.AirlineOutboundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class SeatMapServiceImpl implements SeatMapService {
     private final AirlineOutboundService airlineService;
 
     @Override
+    @Transactional(readOnly = true)
     public SeatMapResponse getSeatMapById(Long id) throws Exception {
         final SeatMap seatMap = seatMapRepository.findById(id)
                 .orElseThrow( () -> new Exception("Seat Map with id " + id + " not found."));
@@ -31,6 +33,7 @@ public class SeatMapServiceImpl implements SeatMapService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public SeatMapResponse getSeatMapByCabinClass(Long cabinClassId) throws Exception {
         final SeatMap seatMap = seatMapRepository.findByCabinClassId(cabinClassId)
                 .orElseThrow( () -> new Exception("Seat Map with Cabin Class id " + cabinClassId + " not found."));
@@ -38,6 +41,7 @@ public class SeatMapServiceImpl implements SeatMapService {
     }
 
     @Override
+    @Transactional
     public SeatMapResponse createSeatMap(Long userId, SeatMapRequest request) throws Exception {
         final CabinClass cabinClass = cabinClassRepository.findById(request.getCabinClassId())
                 .orElseThrow( () -> new Exception("Cabin Clas with id " + request.getCabinClassId() + " not found"));
@@ -56,6 +60,7 @@ public class SeatMapServiceImpl implements SeatMapService {
     }
 
     @Override
+    @Transactional
     public SeatMapResponse updateSeatMap(Long id, SeatMapRequest request) throws Exception {
         final SeatMap seatMap = seatMapRepository.findById(id)
                 .orElseThrow( () -> new Exception("Seat Map with id " + id + " not found."));
@@ -64,6 +69,7 @@ public class SeatMapServiceImpl implements SeatMapService {
     }
 
     @Override
+    @Transactional
     public void deleteSeatMap(Long id) throws Exception {
         final SeatMap seatMap = seatMapRepository.findById(id)
                 .orElseThrow( () -> new Exception("Seat Map with id " + id + " not found."));

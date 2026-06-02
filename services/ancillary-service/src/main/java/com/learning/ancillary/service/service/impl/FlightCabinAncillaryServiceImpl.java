@@ -13,6 +13,7 @@ import com.learning.common.payload.request.FlightCabinAncillaryRequest;
 import com.learning.common.payload.response.FlightCabinAncillaryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class FlightCabinAncillaryServiceImpl implements FlightCabinAncillaryServ
     private final InsuranceCoverageRepository insuranceCoverageRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public FlightCabinAncillaryResponse getFlightCabinAncillaryById(Long id) throws Exception {
         final FlightCabinAncillary flightCabinAncillary = flightCabinAncillaryRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight Cabin Ancillary not found"));
@@ -32,6 +34,7 @@ public class FlightCabinAncillaryServiceImpl implements FlightCabinAncillaryServ
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FlightCabinAncillaryResponse> getByFlightAndCabinClass(Long flight, Long CabinClassId) {
         return flightCabinAncillaryRepository.findByFlightIdAndCabinClassId(flight, CabinClassId)
                 .stream()
@@ -41,6 +44,7 @@ public class FlightCabinAncillaryServiceImpl implements FlightCabinAncillaryServ
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FlightCabinAncillaryResponse> getAllByIds(List<Long> ids) {
         return flightCabinAncillaryRepository.findAllById(ids)
                 .stream()
@@ -49,6 +53,7 @@ public class FlightCabinAncillaryServiceImpl implements FlightCabinAncillaryServ
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FlightCabinAncillaryResponse> getAllByFlightIdAndCabinClassIdAndAncillaryType(Long flightId, Long cabinClassId, AncillaryType ancillaryType) {
         return flightCabinAncillaryRepository.findAllByFlightIdAndCabinClassIdAndAncillaryType(flightId, cabinClassId, ancillaryType)
                 .stream()
@@ -57,6 +62,7 @@ public class FlightCabinAncillaryServiceImpl implements FlightCabinAncillaryServ
     }
 
     @Override
+    @Transactional(readOnly = true)
     public FlightCabinAncillaryResponse getByFlightIdAndCabinClassIdAndAncillaryType(Long flightId, Long cabinClassId, AncillaryType ancillaryType) throws Exception {
         final FlightCabinAncillary flightCabinAncillary = flightCabinAncillaryRepository.findByFlightIdAndCabinClassIdAndAncillaryType(flightId, cabinClassId, ancillaryType)
                 .orElseThrow(() -> new Exception("Flight Cabin Ancillary not found"));
@@ -64,6 +70,7 @@ public class FlightCabinAncillaryServiceImpl implements FlightCabinAncillaryServ
     }
 
     @Override
+    @Transactional
     public FlightCabinAncillaryResponse createFlightCabinAncillary(FlightCabinAncillaryRequest request) throws Exception {
         final Ancillary ancillary = ancillaryRepository.findById(request.getAncillaryId())
                 .orElseThrow(() -> new Exception("Ancillary not found"));
@@ -72,6 +79,7 @@ public class FlightCabinAncillaryServiceImpl implements FlightCabinAncillaryServ
     }
 
     @Override
+    @Transactional
     public FlightCabinAncillaryResponse updateFlightCabinAncillary(Long id, FlightCabinAncillaryRequest request) throws Exception {
         final FlightCabinAncillary flightCabinAncillary = flightCabinAncillaryRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight Cabin Ancillary not found"));
@@ -81,6 +89,7 @@ public class FlightCabinAncillaryServiceImpl implements FlightCabinAncillaryServ
     }
 
     @Override
+    @Transactional
     public void deleteFlightCabinAncillary(Long id) throws Exception {
         final FlightCabinAncillary flightCabinAncillary = flightCabinAncillaryRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight Cabin Ancillary not found"));
@@ -88,6 +97,7 @@ public class FlightCabinAncillaryServiceImpl implements FlightCabinAncillaryServ
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Double calculateAncillaryPrice(List<Long> ids) {
         final List<FlightCabinAncillary> flightCabinAncillaries = flightCabinAncillaryRepository.findAllById(ids);
         Double price = 0.0;

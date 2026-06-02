@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface AirportService {
     AirportResponse createAirport(AirportRequest airportRequest) throws Exception;
+    List<AirportResponse> createBulkAirports(List<AirportRequest> requests) throws Exception;
     AirportResponse getAirportById(Long id) throws Exception;
     List<AirportResponse> getAllAirports();
     List<AirportResponse> getAirportsByCityId(Long cityId);

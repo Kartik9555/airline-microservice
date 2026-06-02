@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/cities")
 @RequiredArgsConstructor
@@ -78,6 +80,14 @@ public class CityController {
     public ResponseEntity<CityResponse> createCity(@Valid @RequestBody CityRequest request) throws Exception {
         final CityResponse cityResponse = cityService.createCity(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(cityResponse);
+    }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<List<CityResponse>> createBulkCities(
+            @Valid @RequestBody List<CityRequest> requests)
+            throws Exception {
+        List<CityResponse> responses = cityService.createBulkCities(requests);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responses);
     }
 
     @PutMapping("/{id}")

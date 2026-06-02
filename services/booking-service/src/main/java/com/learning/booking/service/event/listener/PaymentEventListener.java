@@ -14,6 +14,7 @@ import com.learning.common.payload.response.FlightInstanceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,7 @@ public class PaymentEventListener {
     private final UserOutboundService userService;
     private final BookingConfirmationEventProducer producer;
 
+    @Transactional
     @KafkaListener(topics = "payment_completed", groupId = "booking-service-group")
     public void handlePaymentCompletedEvent(PaymentCompletedEvent event) {
         bookingRepository.findById(event.getBookingId())
@@ -39,6 +41,7 @@ public class PaymentEventListener {
                 });
     }
 
+    @Transactional
     @KafkaListener(topics = "payment_failed", groupId = "booking-service-group")
     public void handlePaymentFailedEvent(PaymentFailedEvent event) {
         bookingRepository.findById(event.getBookingId())

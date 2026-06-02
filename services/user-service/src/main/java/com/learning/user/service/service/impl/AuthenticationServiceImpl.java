@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
@@ -26,6 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final CustomUserDetailsService userDetailsService;
 
     @Override
+    @Transactional
     public AuthResponse signup(UserDTO user) throws Exception {
         if (userRepository.findUserByEmail(user.getEmail()).isPresent()) {
             throw new Exception("User with email " + user.getEmail() + " already exists");
@@ -51,6 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    @Transactional
     public AuthResponse login(String username, String password) throws Exception {
         Authentication authentication = authenticate(username, password);
         final User user = userRepository.findUserByEmail(username).orElseThrow(() -> new Exception("Invalid username or password"));

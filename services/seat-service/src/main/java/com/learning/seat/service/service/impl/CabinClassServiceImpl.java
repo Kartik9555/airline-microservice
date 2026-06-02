@@ -9,6 +9,7 @@ import com.learning.seat.service.repository.CabinClassRepository;
 import com.learning.seat.service.service.CabinClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class CabinClassServiceImpl implements CabinClassService {
     private final CabinClassRepository cabinClassRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public CabinClassResponse getCabinClassById(Long id) throws Exception {
         final CabinClass cabinClass = cabinClassRepository.findById(id)
                 .orElseThrow(() -> new Exception("Cabin Class not found for id " + id));
@@ -26,6 +28,7 @@ public class CabinClassServiceImpl implements CabinClassService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CabinClassResponse> getCabinClassByAircraftId(Long aircraftId) throws Exception {
         return cabinClassRepository.getByAircraftId(aircraftId)
                 .stream()
@@ -34,6 +37,7 @@ public class CabinClassServiceImpl implements CabinClassService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CabinClassResponse getByAircraftIdAndCabinClass(Long aircraftId, CabinClassType name) throws Exception {
         final CabinClass cabinClass = cabinClassRepository.findByAircraftIdAndName(aircraftId, name)
                 .orElseThrow(() -> new Exception("Cabin Class not found for Aircraft id " + aircraftId));
@@ -41,6 +45,7 @@ public class CabinClassServiceImpl implements CabinClassService {
     }
 
     @Override
+    @Transactional
     public CabinClassResponse createCabinClass(CabinClassRequest request) throws Exception {
         if(cabinClassRepository.existsByAircraftIdAndCode(request.getAircraftId(), request.getCode())) {
             throw new Exception("Cabin Class already exists");
@@ -50,6 +55,7 @@ public class CabinClassServiceImpl implements CabinClassService {
     }
 
     @Override
+    @Transactional
     public CabinClassResponse updateCabinClass(Long id, CabinClassRequest request) throws Exception {
         final CabinClass cabinClass = cabinClassRepository.findById(id)
                 .orElseThrow(() -> new Exception("Cabin Class not found for id " + id));
@@ -61,6 +67,7 @@ public class CabinClassServiceImpl implements CabinClassService {
     }
 
     @Override
+    @Transactional
     public void deleteCabinClassById(Long id) throws Exception {
         final CabinClass cabinClass = cabinClassRepository.findById(id)
                 .orElseThrow(() -> new Exception("Cabin Class not found for id " + id));

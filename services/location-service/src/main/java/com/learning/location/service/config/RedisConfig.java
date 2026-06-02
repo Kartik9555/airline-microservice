@@ -1,6 +1,10 @@
 package com.learning.location.service.config;
 
+import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
+import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.CachingConfigurer;
+import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -17,6 +21,7 @@ import tools.jackson.databind.jsontype.PolymorphicTypeValidator;
 import java.time.Duration;
 import java.util.Map;
 
+@Slf4j
 @Configuration
 public class RedisConfig implements CachingConfigurer {
 
@@ -39,6 +44,7 @@ public class RedisConfig implements CachingConfigurer {
 
         final Map<String, RedisCacheConfiguration> cacheConfigs = Map.of(
                 "airports", defaults.entryTtl(Duration.ofHours(6)),
+                "airportsByIata", defaults.entryTtl(Duration.ofHours(6)),
                 "airportsByCity", defaults.entryTtl(Duration.ofHours(6)),
                 "allAirports", defaults.entryTtl(Duration.ofHours(6)),
                 "cities", defaults.entryTtl(Duration.ofHours(6)),
@@ -48,5 +54,27 @@ public class RedisConfig implements CachingConfigurer {
                 .cacheDefaults(defaults.entryTtl(Duration.ofHours(6)))
                 .withInitialCacheConfigurations(cacheConfigs)
                 .build();
+    }
+
+    @Override
+    public CacheErrorHandler errorHandler() {
+        return new CacheErrorHandler() {
+            @Override
+            public void handleCacheGetError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key) {
+                log.warn("Cache GET failed [{}] key={}: {}", cache.getName(), key, e.getMessage());
+            }
+            @Override
+            public void handleCachePutError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key, @NonNull Object value) {
+                log.warn("Cache PUT failed [{}] key={}: {}", cache.getName(), key, e.getMessage());
+            }
+            @Override
+            public void handleCacheEvictError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key) {
+                log.warn("Cache EVICT failed [{}] key={}: {}", cache.getName(), key, e.getMessage());
+            }
+            @Override
+            public void handleCacheClearError(@NonNull RuntimeException e, @NonNull Cache cache) {
+                log.warn("Cache CLEAR failed [{}]: {}", cache.getName(), e.getMessage());
+            }
+        };
     }
 }

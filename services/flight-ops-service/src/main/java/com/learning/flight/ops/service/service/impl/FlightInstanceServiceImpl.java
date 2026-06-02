@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,6 +36,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     private final FlightInstanceEventProducer producer;
 
     @Override
+    @Transactional(readOnly = true)
     public FlightInstanceResponse getFlightInstanceById(Long id) throws Exception {
         final FlightInstance flightInstance = flightInstanceRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight instance not found with id: " + id));
@@ -42,6 +44,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<FlightInstanceResponse> getByAirlineId(Long userId,
                                                        Long departureAirportId,
                                                        Long arrivalAirportId,
@@ -56,6 +59,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     }
 
     @Override
+    @Transactional
     public FlightInstanceResponse createFlightInstance(Long userId, FlightInstanceRequest request) throws Exception {
         final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         final Flight flight = flightRepository.findById(request.getFlightId())
@@ -72,6 +76,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     }
 
     @Override
+    @Transactional
     public FlightInstanceResponse updateFlightInstance(Long id, FlightInstanceRequest request) throws Exception {
         final FlightInstance flightInstance = flightInstanceRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight instance not found with id: " + id));
@@ -82,6 +87,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     }
 
     @Override
+    @Transactional
     public void deleteFlightInstance(Long id) throws Exception {
         final FlightInstance flightInstance = flightInstanceRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight instance not found with id: " + id));

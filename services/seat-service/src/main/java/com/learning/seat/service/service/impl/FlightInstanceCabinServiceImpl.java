@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class FlightInstanceCabinServiceImpl implements FlightInstanceCabinServic
     private final SeatInstanceRepository seatInstanceRepository;
 
     @Override
+    @Transactional
     public FlightInstanceCabinResponse createFlightInstanceCabin(FlightInstanceCabinRequest request) throws Exception {
         final CabinClass cabinClass = cabinClassRepository.findById(request.getCabinClassId())
                 .orElseThrow(() -> new Exception("Cabin class not found"));
@@ -69,6 +71,7 @@ public class FlightInstanceCabinServiceImpl implements FlightInstanceCabinServic
     }
 
     @Override
+    @Transactional(readOnly = true)
     public FlightInstanceCabinResponse getFlightInstanceCabinById(Long id) throws Exception {
         final FlightInstanceCabin flightInstanceCabin = flightInstanceCabinRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight Instance Cabin not found with id: " + id));
@@ -76,12 +79,14 @@ public class FlightInstanceCabinServiceImpl implements FlightInstanceCabinServic
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<FlightInstanceCabinResponse> getByFlightInstanceId(Long flightInstanceId, Pageable pageable) throws Exception {
         return flightInstanceCabinRepository.findByFlightInstanceId(flightInstanceId, pageable)
                 .map(FlightInstanceCabinMapper::toFlightInstanceCabin);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public FlightInstanceCabinResponse getByFlightInstanceIdAndCabinClassId(Long flightInstanceId, Long cabinClassId) throws Exception {
         final FlightInstanceCabin flightInstanceCabin = flightInstanceCabinRepository.findByFlightInstanceIdAndCabinClassId(flightInstanceId, cabinClassId)
                 .orElseThrow(() -> new Exception("Flight instance Cabin not found"));
@@ -89,6 +94,7 @@ public class FlightInstanceCabinServiceImpl implements FlightInstanceCabinServic
     }
 
     @Override
+    @Transactional
     public FlightInstanceCabinResponse updateFlightInstanceCabin(Long id, FlightInstanceCabinRequest request) throws Exception {
         final FlightInstanceCabin flightInstanceCabin = flightInstanceCabinRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight Instance Cabin not found with id: " + id));
@@ -103,6 +109,7 @@ public class FlightInstanceCabinServiceImpl implements FlightInstanceCabinServic
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void deleteFlightInstanceCabin(Long id) throws Exception {
         final FlightInstanceCabin flightInstanceCabin = flightInstanceCabinRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight Instance Cabin not found with id: " + id));

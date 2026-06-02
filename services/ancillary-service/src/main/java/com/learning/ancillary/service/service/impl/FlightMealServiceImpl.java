@@ -10,6 +10,7 @@ import com.learning.common.payload.request.FlightMealRequest;
 import com.learning.common.payload.response.FlightMealResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class FlightMealServiceImpl implements FlightMealService {
     private final MealRepository mealRepository;
 
     @Override
+    @Transactional
     public FlightMealResponse createFlightMeal(FlightMealRequest request) throws Exception {
         final Meal meal = mealRepository.findById(request.getMealId())
                 .orElseThrow(() -> new Exception("Meal not found"));
@@ -34,6 +36,7 @@ public class FlightMealServiceImpl implements FlightMealService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public FlightMealResponse getFlightMealById(Long id) throws Exception {
         final FlightMeal flightMeal = flightMealRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight meal not found"));
@@ -41,6 +44,7 @@ public class FlightMealServiceImpl implements FlightMealService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FlightMealResponse> getFlightId(Long flightId) throws Exception {
         return flightMealRepository.findByFlightId(flightId)
                 .stream()
@@ -49,6 +53,7 @@ public class FlightMealServiceImpl implements FlightMealService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FlightMealResponse> getAllByIds(List<Long> ids) throws Exception {
         return flightMealRepository.findAllById(ids)
                 .stream()
@@ -57,6 +62,7 @@ public class FlightMealServiceImpl implements FlightMealService {
     }
 
     @Override
+    @Transactional
     public FlightMealResponse updateFlightMeal(Long id, FlightMealRequest request) throws Exception {
         final FlightMeal flightMeal = flightMealRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight meal not found"));
@@ -71,6 +77,7 @@ public class FlightMealServiceImpl implements FlightMealService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void deleteFlightMeal(Long id) throws Exception {
         final FlightMeal flightMeal = flightMealRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight meal not found"));
@@ -78,6 +85,7 @@ public class FlightMealServiceImpl implements FlightMealService {
     }
 
     @Override
+    @Transactional
     public FlightMealResponse updateFlightMealAvailability(Long id, Boolean availability) throws Exception {
         final FlightMeal flightMeal = flightMealRepository.findById(id)
                 .orElseThrow(() -> new Exception("Flight meal not found"));
@@ -86,6 +94,7 @@ public class FlightMealServiceImpl implements FlightMealService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Double calculateMealPrice(List<Long> ids) throws Exception {
         List<FlightMeal> meals = flightMealRepository.findAllById(ids);
         Double mealPrice = 0.0;

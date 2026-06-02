@@ -49,6 +49,13 @@ public class AirportController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PostMapping("/bulk")
+    public ResponseEntity<List<AirportResponse>> createBulkAirports(
+            @Valid @RequestBody List<AirportRequest> requests)
+            throws Exception {
+        return ResponseEntity.status(HttpStatus.CREATED).body(airportService.createBulkAirports(requests));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<AirportResponse> updateAirport(@PathVariable Long id, @Valid @RequestBody AirportRequest request) throws Exception {
         final AirportResponse response = airportService.updateAirport(id, request);

@@ -10,6 +10,7 @@ import com.learning.pricing.service.repository.FareRuleRepository;
 import com.learning.pricing.service.service.FareRuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class FareRuleServiceImpl implements FareRuleService {
     private final FareRepository fareRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public FareRuleResponse getFareRuleById(Long fareRuleId) throws Exception {
         final FareRule fareRule = fareRulesRepository.findById(fareRuleId)
                 .orElseThrow(() -> new Exception("Fare rules not found with id: " + fareRuleId));
@@ -28,6 +30,7 @@ public class FareRuleServiceImpl implements FareRuleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public FareRuleResponse getFareRuleByFareId(Long fareId) throws Exception {
         final FareRule fareRule = fareRulesRepository.findByFareId(fareId)
                 .orElseThrow(() -> new Exception("Fare rules not found with id: " + fareId));
@@ -35,6 +38,7 @@ public class FareRuleServiceImpl implements FareRuleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FareRuleResponse> getFareRulesByAirlineId(Long airlineId) throws Exception {
         return fareRulesRepository.findByAirlineId(airlineId)
                 .stream()
@@ -43,6 +47,7 @@ public class FareRuleServiceImpl implements FareRuleService {
     }
 
     @Override
+    @Transactional
     public FareRuleResponse createFareRule(FareRuleRequest request) throws Exception {
         final Fare fare = fareRepository.findById(request.getFareId())
                 .orElseThrow(() -> new Exception("Fare not found with id: " + request.getFareId()));
@@ -56,6 +61,7 @@ public class FareRuleServiceImpl implements FareRuleService {
     }
 
     @Override
+    @Transactional
     public FareRuleResponse updateFareRule(Long fareRuleId, FareRuleRequest request) throws Exception {
         final FareRule fareRule = fareRulesRepository.findById(fareRuleId)
                 .orElseThrow(() -> new Exception("Fare rules not found with id: " + fareRuleId));
@@ -64,6 +70,7 @@ public class FareRuleServiceImpl implements FareRuleService {
     }
 
     @Override
+    @Transactional
     public void deleteFareRule(Long fareRuleId) throws Exception {
         final FareRule fareRule = fareRulesRepository.findById(fareRuleId)
                 .orElseThrow(() -> new Exception("Fare rules not found with id: " + fareRuleId));

@@ -10,6 +10,7 @@ import com.learning.common.payload.response.AirlineResponse;
 import com.learning.common.payload.response.MealResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class MealServiceImpl implements MealService {
     private final AirlineOutboundService airlineService;
 
     @Override
+    @Transactional(readOnly = true)
     public MealResponse getMealById(Long id) throws Exception {
         final Meal meal = mealRepository.findById(id).
                 orElseThrow(() -> new Exception("Cannot find meal with id " + id));
@@ -28,6 +30,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
+    @Transactional
     public MealResponse createMeal(Long userId, MealRequest request) throws Exception {
         final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         if(mealRepository.existsByCodeAndAirlineId(request.getCode(), airline.getId())) {
@@ -38,6 +41,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
+    @Transactional
     public MealResponse updateMeal(Long userId, Long id, MealRequest request) throws Exception {
         final Meal meal = mealRepository.findById(id).
                 orElseThrow(() -> new Exception("Cannot find meal with id " + id));
@@ -51,6 +55,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MealResponse> getMealsByAirlineId(Long userId) throws Exception {
         final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         return mealRepository.findMealByAirlineId(airline.getId()).stream()
@@ -59,6 +64,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
+    @Transactional
     public void deleteMealById(Long id) throws Exception {
         final Meal meal = mealRepository.findById(id).
                 orElseThrow(() -> new Exception("Cannot find meal with id " + id));
@@ -66,6 +72,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
+    @Transactional
     public void updateAvailability(Long id, Boolean availability) throws Exception {
         final Meal meal = mealRepository.findById(id).
                 orElseThrow(() -> new Exception("Cannot find meal with id " + id));

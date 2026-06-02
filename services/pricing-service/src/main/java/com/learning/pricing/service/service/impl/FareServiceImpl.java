@@ -8,6 +8,7 @@ import com.learning.pricing.service.repository.FareRepository;
 import com.learning.pricing.service.service.FareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,6 +23,7 @@ public class FareServiceImpl implements FareService {
     private final FareRepository fareRepository;
 
     @Override
+    @Transactional
     public FareResponse createFare(FareRequest request) throws Exception {
         if(fareRepository.existsByFlightIdAndCabinClassIdAndName(request.getFlightId(), request.getCabinClassId(), request.getName())) {
             throw new Exception("Fare with the same name already exists for this flight and cabin class");
@@ -31,6 +33,7 @@ public class FareServiceImpl implements FareService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public FareResponse getFareById(Long fareId) throws Exception {
         final Fare fare = fareRepository.findById(fareId)
                 .orElseThrow(() -> new Exception("Fare with id " + fareId + " does not exist"));
@@ -38,6 +41,7 @@ public class FareServiceImpl implements FareService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FareResponse> getFareByFlightIdAndCabinClassId(Long flightId, Long cabinClassId) throws Exception {
         return fareRepository.findByFlightIdAndCabinClassId(flightId, cabinClassId)
                 .stream()
@@ -46,6 +50,7 @@ public class FareServiceImpl implements FareService {
     }
 
     @Override
+    @Transactional
     public FareResponse updateFare(Long id, FareRequest request) throws Exception {
         final Fare fare = fareRepository.findById(id)
                 .orElseThrow(() -> new Exception("Fare with id " + id + " does not exist"));
@@ -59,6 +64,7 @@ public class FareServiceImpl implements FareService {
     }
 
     @Override
+    @Transactional
     public void deleteFareById(Long fareId) throws Exception {
         final Fare fare = fareRepository.findById(fareId)
                 .orElseThrow(() -> new Exception("Fare with id " + fareId + " does not exist"));
@@ -66,6 +72,7 @@ public class FareServiceImpl implements FareService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FareResponse> getFares() {
         return fareRepository.findAll()
                 .stream()
@@ -74,6 +81,7 @@ public class FareServiceImpl implements FareService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Map<Long, FareResponse> getLowestFarePerFlight(List<Long> flightIds, Long cabinClassId) throws Exception {
         if(flightIds == null || flightIds.isEmpty()) return Collections.emptyMap();
         return fareRepository.findByFlightIdInAndCabinClassId(flightIds, cabinClassId)
@@ -86,6 +94,7 @@ public class FareServiceImpl implements FareService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Map<Long, FareResponse> getFareByIds(List<Long> fareIds) throws Exception {
         if(fareIds == null || fareIds.isEmpty()) return Collections.emptyMap();
         final List<Fare> fares = fareRepository.findAllById(fareIds);
@@ -94,6 +103,7 @@ public class FareServiceImpl implements FareService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public FareResponse getLowestFareByFlightIdAndCabinClassId(Long flightId, Long cabinClassId) throws Exception {
         List<Fare> fares = fareRepository.findByFlightIdAndCabinClassId(flightId, cabinClassId);
         Fare lowestFare = fares.stream()

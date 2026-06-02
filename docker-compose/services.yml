@@ -209,6 +209,17 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAKFA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_HEAT_OPTS: "-Xms256m -Xmx1g"
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis-dev
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 200mb --maxmemory-policy allkeys-lru --save ""
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   config-server:
     image: kartik9555/config-server:latest
@@ -348,8 +359,8 @@ services:
         condition: service_healthy
       location-db:
         condition: service_healthy
-#      redis:
-#        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
         - SPRING_APPLICATION_NAME=location-service
         - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
@@ -359,8 +370,8 @@ services:
         - SPRING_DATASOURCE_PASSWORD=admin
         - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
         - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
-#        - SPRING_REDIS_HOST=redis
-#        - SPRING_REDIS_PORT=6379
+        - SPRING_REDIS_HOST=redis
+        - SPRING_REDIS_PORT=6379
         - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
     networks:
       - airline-microservices
@@ -531,7 +542,25 @@ services:
       - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
     networks:
       - airline-microservices
-
+  notification-service:
+    image: kartik9555/notification-service:latest
+    container_name: notification-service
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 0.5
+    depends_on:
+      service-registry:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    environment:
+      - SPRING_APPLICATION_NAME=notification-service
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=prod
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+    networks:
+      - airline-microservices
 
 volumes:
   db:

@@ -32,6 +32,7 @@ import com.learning.common.payload.response.SeatInstanceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -53,6 +54,7 @@ public class BookingServiceImpl implements BookingService {
     private final AirlineOutboundService airlineService;
 
     @Override
+    @Transactional(readOnly = true)
     public BookingResponse getBookingById(Long id) throws Exception {
         return bookingRepository.findById(id)
                 .map(this::getBookingResponse)
@@ -60,6 +62,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<BookingResponse> getBookingsByAirline(Long userId, String searchQuery, BookingStatus status, Long flightInstanceId, String sortDirection) {
         final Sort sort = "desc".equalsIgnoreCase(sortDirection) ?
                 Sort.by("bookingDate").descending()
@@ -73,6 +76,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public PaymentInitiateResponse createBooking(Long userId, BookingRequest request) throws Exception {
         String bookingReference = generateBookingReference();
         Set<Passenger> passengers = new HashSet<>();
@@ -109,11 +113,13 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public BookingResponse updateBooking(Long id, BookingRequest request) throws Exception {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<BookingResponse> getBookingsByUser(Long userId) throws Exception {
         return bookingRepository.findAllByUserId(userId)
                 .stream()
@@ -122,6 +128,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public BookingResponse cancelBooking(Long id) throws Exception {
         final Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new Exception("Booking not found with id: " + id));
@@ -130,6 +137,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public void deleteBooking(Long id) throws Exception {
         final Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new Exception("Booking not found with id: " + id));

@@ -12,6 +12,7 @@ import com.learning.common.payload.response.AirlineResponse;
 import com.learning.common.payload.response.AncillaryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class AncillaryServiceImpl implements AncillaryService {
     private final AirlineOutboundService airlineService;
 
     @Override
+    @Transactional(readOnly = true)
     public AncillaryResponse getById(Long id) throws Exception {
         final Ancillary ancillary = ancillaryRepository.findById(id)
                 .orElseThrow(() -> new Exception("Ancillary not found"));
@@ -32,6 +34,7 @@ public class AncillaryServiceImpl implements AncillaryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AncillaryResponse> getByAirlineId(Long userId) throws Exception {
         final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         return ancillaryRepository.findByAirlineId(airline.getId())
@@ -44,6 +47,7 @@ public class AncillaryServiceImpl implements AncillaryService {
     }
 
     @Override
+    @Transactional
     public AncillaryResponse createAncillary(Long userId, AncillaryRequest request) {
         final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         final Ancillary ancillary = AncillaryMapper.toAncillary(request, airline);
@@ -52,6 +56,7 @@ public class AncillaryServiceImpl implements AncillaryService {
     }
 
     @Override
+    @Transactional
     public AncillaryResponse updateAncillary(Long id, AncillaryRequest request) throws Exception {
         final Ancillary ancillary = ancillaryRepository.findById(id)
                 .orElseThrow(() -> new Exception("Ancillary not found"));
@@ -63,6 +68,7 @@ public class AncillaryServiceImpl implements AncillaryService {
     }
 
     @Override
+    @Transactional
     public void deleteAncillary(Long id) throws Exception {
         final Ancillary ancillary = ancillaryRepository.findById(id)
                 .orElseThrow(() -> new Exception("Ancillary not found"));

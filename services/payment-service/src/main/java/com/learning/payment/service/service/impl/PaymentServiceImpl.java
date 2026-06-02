@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -39,6 +40,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentEventProducer producer;
 
     @Override
+    @Transactional
     public PaymentInitiateResponse initiatePayment(PaymentInitiateRequest request) throws RazorpayException {
         paymentRepository.findByBookingId(request.getBookingId())
                 .ifPresent(payment -> {
@@ -60,6 +62,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public PaymentDTO verifyPayment(PaymentVerifyRequest request) throws Exception {
         final JSONObject paymentDetails = razorpayService.fetchPaymentDetails(request.getRazorpayPaymentId());
         final String status = paymentDetails.optString("status");
@@ -87,12 +90,14 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<PaymentDTO> getAllPayments(Pageable pageable) {
         return paymentRepository.findAll(pageable)
                 .map(PaymentMapper::toPaymentDTO);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Map<Long, PaymentDTO> getPaymentByBookingIds(List<Long> bookingIds) {
         return paymentRepository.findAllByBookingIdIn(bookingIds)
                 .stream()
@@ -101,6 +106,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PaymentDTO getPaymentById(Long paymentId) throws Exception {
         final Payment payment = paymentRepository.findById(paymentId)
                 .orElseThrow(() -> new Exception("Payment not found with id: " + paymentId));

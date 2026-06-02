@@ -10,6 +10,7 @@ import com.learning.pricing.service.repository.FareRepository;
 import com.learning.pricing.service.service.BaggagePolicyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class BaggagePolicyServiceImpl implements BaggagePolicyService {
     private final FareRepository fareRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public BaggagePolicyResponse getBaggagePolicyById(Long id) throws Exception {
         final BaggagePolicy baggagePolicy = baggagePolicyRepository.findById(id)
                 .orElseThrow(() -> new Exception("Baggage Policy not found with id: " + id));
@@ -28,6 +30,7 @@ public class BaggagePolicyServiceImpl implements BaggagePolicyService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaggagePolicyResponse getBaggagePolicyByFareId(Long fareId) throws Exception {
         final BaggagePolicy baggagePolicy = baggagePolicyRepository.findByFareId(fareId)
                 .orElseThrow(() -> new Exception("Baggage Policy not found with fare id: " + fareId));
@@ -35,6 +38,7 @@ public class BaggagePolicyServiceImpl implements BaggagePolicyService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<BaggagePolicyResponse> getBaggagePoliciesByAirlineId(Long airlineId) throws Exception {
         return baggagePolicyRepository.findByAirlineId(airlineId)
                 .stream()
@@ -43,6 +47,7 @@ public class BaggagePolicyServiceImpl implements BaggagePolicyService {
     }
 
     @Override
+    @Transactional
     public BaggagePolicyResponse createBaggagePolicy(BaggagePolicyRequest request) throws Exception {
         final Fare fare = fareRepository.findById(request.getFareId())
                 .orElseThrow(() -> new Exception("Fare id not found"));
@@ -56,6 +61,7 @@ public class BaggagePolicyServiceImpl implements BaggagePolicyService {
     }
 
     @Override
+    @Transactional
     public BaggagePolicyResponse updateBaggagePolicy(Long id, BaggagePolicyRequest request) throws Exception {
         final BaggagePolicy baggagePolicy = baggagePolicyRepository.findById(id)
                 .orElseThrow(() -> new Exception("Baggage Policy not found with id: " + id));
@@ -64,6 +70,7 @@ public class BaggagePolicyServiceImpl implements BaggagePolicyService {
     }
 
     @Override
+    @Transactional
     public void deleteBaggagePolicy(Long id) throws Exception {
         final BaggagePolicy baggagePolicy = baggagePolicyRepository.findById(id)
                 .orElseThrow(() -> new Exception("Baggage Policy not found with id: " + id));

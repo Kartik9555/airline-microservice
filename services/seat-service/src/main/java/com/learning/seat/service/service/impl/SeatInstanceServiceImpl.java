@@ -8,6 +8,7 @@ import com.learning.seat.service.repository.SeatInstanceRepository;
 import com.learning.seat.service.service.SeatInstanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class SeatInstanceServiceImpl implements SeatInstanceService {
     private final SeatInstanceRepository seatInstanceRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Double calculateSeatPrice(List<Long> seatInstanceIds) {
         final List<SeatInstance> seatInstances = seatInstanceRepository.findAllById(seatInstanceIds);
         double price = 0.0;
@@ -29,6 +31,7 @@ public class SeatInstanceServiceImpl implements SeatInstanceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SeatInstanceResponse> getAllSeatInstancesByIds(List<Long> seatInstanceIds) {
         return seatInstanceRepository.findAllById(seatInstanceIds)
                 .stream()
@@ -37,6 +40,7 @@ public class SeatInstanceServiceImpl implements SeatInstanceService {
     }
 
     @Override
+    @Transactional
     public SeatInstanceResponse updateSeatInstanceStatus(Long id, SeatAvailabilityStatus status) {
         final SeatInstance seatInstance = seatInstanceRepository.findById(id).orElse(null);
         if (seatInstance != null) {
