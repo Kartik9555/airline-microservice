@@ -1,22 +1,24 @@
-name: Build
+name: Incremental CI
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
 
 jobs:
 
-# ------------------------------------------------------------
-# 1. DETECT CHANGES
-# ------------------------------------------------------------
   changes:
     runs-on: ubuntu-latest
 
     outputs:
-      services: ${{ steps.matrix.outputs.services }}
+      modules: ${{ steps.modules.outputs.modules }}
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: dorny/paths-filter@v3
         id: filter
@@ -64,61 +66,64 @@ jobs:
             user-service:
               - 'services/user-service/**'
 
-      - name: Resolve impacted modules (dependency-aware)
-        id: matrix
+      - name: Build module matrix
+        id: modules
+        shell: bash
         run: |
-          SERVICES=""
-
-          if [ "${{ steps.filter.outputs.common }}" = "true" ]; then
-            SERVICES="api-gateway config-server service-registry airline-core-service ancillary-service booking-service flight-ops-service location-service notification-service payment-service pricing-service seat-service user-service"
+          if [[ "${{ steps.filter.outputs.common }}" == "true" ]]; then
+            MODULES='[
+              "api-gateway",
+              "config-server",
+              "service-registry",
+              "airline-core-service",
+              "ancillary-service",
+              "booking-service",
+              "flight-ops-service",
+              "location-service",
+              "notification-service",
+              "payment-service",
+              "pricing-service",
+              "seat-service",
+              "user-service"
+            ]'
           else
-            for s in api-gateway config-server service-registry airline-core-service ancillary-service booking-service flight-ops-service location-service notification-service payment-service pricing-service seat-service user-service; do
-              if [ "${{ steps.filter.outputs[s] }}" = "true" ]; then
-                SERVICES="$SERVICES $s"
-              fi
-            done
+            modules=()
+
+            [[ "${{ steps.filter.outputs.api-gateway }}" == "true" ]] && modules+=('"api-gateway"')
+            [[ "${{ steps.filter.outputs.config-server }}" == "true" ]] && modules+=('"config-server"')
+            [[ "${{ steps.filter.outputs.service-registry }}" == "true" ]] && modules+=('"service-registry"')
+            [[ "${{ steps.filter.outputs.airline-core-service }}" == "true" ]] && modules+=('"airline-core-service"')
+            [[ "${{ steps.filter.outputs.ancillary-service }}" == "true" ]] && modules+=('"ancillary-service"')
+            [[ "${{ steps.filter.outputs.booking-service }}" == "true" ]] && modules+=('"booking-service"')
+            [[ "${{ steps.filter.outputs.flight-ops-service }}" == "true" ]] && modules+=('"flight-ops-service"')
+            [[ "${{ steps.filter.outputs.location-service }}" == "true" ]] && modules+=('"location-service"')
+            [[ "${{ steps.filter.outputs.notification-service }}" == "true" ]] && modules+=('"notification-service"')
+            [[ "${{ steps.filter.outputs.payment-service }}" == "true" ]] && modules+=('"payment-service"')
+            [[ "${{ steps.filter.outputs.pricing-service }}" == "true" ]] && modules+=('"pricing-service"')
+            [[ "${{ steps.filter.outputs.seat-service }}" == "true" ]] && modules+=('"seat-service"')
+            [[ "${{ steps.filter.outputs.user-service }}" == "true" ]] && modules+=('"user-service"')
+
+            if [ ${#modules[@]} -eq 0 ]; then
+              MODULES='[]'
+            else
+              MODULES="[$(IFS=,; echo "${modules[*]}")]"
+            fi
           fi
 
-          echo "services=$(echo $SERVICES | xargs)" >> $GITHUB_OUTPUT
+          echo "modules=$MODULES" >> "$GITHUB_OUTPUT"
+          echo "$MODULES"
 
-
-# ------------------------------------------------------------
-# 2. MAVEN BUILD (INCREMENTAL + COMMON AWARE)
-# ------------------------------------------------------------
   build:
     needs: changes
-    runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+    if: needs.changes.outputs.modules != '[]'
 
-      - uses: actions/setup-java@v4
-        with:
-          distribution: corretto
-          java-version: '25'
-          cache: maven
-
-      - name: Run incremental Maven build
-        run: |
-          SERVICES="${{ needs.changes.outputs.services }}"
-
-          for m in $SERVICES; do
-            echo "Building $m with dependency awareness"
-            mvn -pl $m -am clean test
-          done
-
-
-# ------------------------------------------------------------
-# 3. BUILD CONTAINER IMAGES (JIB, PARALLEL)
-# ------------------------------------------------------------
-  docker:
-    needs: [changes, build]
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        module: ${{ fromJson(format('["%s"]', needs.changes.outputs.services)) }}
+        module: ${{ fromJson(needs.changes.outputs.modules) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -129,12 +134,61 @@ jobs:
           java-version: '25'
           cache: maven
 
-      - name: Compute Git SHA
-        id: meta
-        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Build Jib image
+      - name: Build and test
         run: |
-          mvn -B -pl ${{ matrix.module }} \
-            -Dimage.tag=${{ steps.meta.outputs.sha }} \
+          mvn \
+            -B \
+            -pl ${{ matrix.module }} \
+            -am \
+            verify
+
+  docker:
+    needs:
+      - changes
+      - build
+
+    if: needs.changes.outputs.modules != '[]'
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJson(needs.changes.outputs.modules) }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: '25'
+          cache: maven
+
+      - name: Cache Jib
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/google-cloud-tools-java
+            ~/.config/jib
+          key: ${{ runner.os }}-jib-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-jib-
+
+      - name: Compute image tag
+        id: tag
+        run: |
+          echo "sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Build image with Jib
+        run: |
+          mvn \
+            -B \
+            -pl ${{ matrix.module }} \
+            -am \
+            -Dimage.tag=${{ steps.tag.outputs.sha }} \
             jib:dockerBuild
