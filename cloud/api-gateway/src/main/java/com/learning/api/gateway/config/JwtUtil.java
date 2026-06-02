@@ -6,6 +6,9 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
 
 @Component
 public class JwtUtil {
@@ -42,5 +45,11 @@ public class JwtUtil {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /** Returns how long until the token expires (maybe negative if already expired). */
+    public Duration getRemainingValidity(String token) {
+        Date expiration = extractAllClaims(token).getExpiration();
+        return Duration.between(Instant.now(), expiration.toInstant());
     }
 }

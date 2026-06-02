@@ -1,6 +1,9 @@
 package com.learning.api.gateway.config;
 
+import com.learning.api.gateway.service.TokenBlacklistService;
 import com.learning.common.enums.UserRole;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.gateway.server.mvc.filter.CircuitBreakerFilterFunctions;
 import org.springframework.cloud.gateway.server.mvc.filter.LoadBalancerFilterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
@@ -14,20 +17,21 @@ import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
+import java.net.URI;
+
 @Configuration
+@RequiredArgsConstructor
 public class RouteConfig {
 
     private final JwtUtil jwtUtil;
-
-    public RouteConfig(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
+    private final TokenBlacklistService blacklistService;
 
     @Bean
     public RouterFunction<ServerResponse> authRoutes() {
         return GatewayRouterFunctions.route("auth-routes")
                 .route(RequestPredicates.path("/auth/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("user-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("user-service-cb", URI.create("forward:/fallback")))
                 .build();
     }
 
@@ -37,6 +41,7 @@ public class RouteConfig {
                 .route(RequestPredicates.POST("/api/v1/cities/**"), HandlerFunctions.http())
                 .route(RequestPredicates.POST("/api/v1/airports/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("location-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("location-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .before(request -> requireRole(request, UserRole.ROLE_SYSTEM_ADMIN.toString()))
                 .build();
@@ -48,6 +53,7 @@ public class RouteConfig {
         return GatewayRouterFunctions.route("admin-airline-core-routes")
                 .route(RequestPredicates.GET("/api/v1/airlines/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("airline-core-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("airline-core-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .before(request -> requireRole(request, UserRole.ROLE_SYSTEM_ADMIN.toString()))
                 .build();
@@ -58,6 +64,7 @@ public class RouteConfig {
         return GatewayRouterFunctions.route("user-service-routes")
                 .route(RequestPredicates.path("/api/v1/users/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("user-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("user-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .build();
     }
@@ -69,6 +76,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/airlines/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/aircrafts/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("airline-core-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("airline-core-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .build();
     }
@@ -82,6 +90,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/seat-instances/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/flight-instance-cabins/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("seat-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("seat-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .build();
     }
@@ -93,6 +102,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/flight-instances/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/flight-schedules/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("flight-ops-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("flight-ops-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .build();
     }
@@ -104,6 +114,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/fare-rules/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/baggage-policies/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("pricing-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("pricing-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .build();
     }
@@ -117,6 +128,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/flight-meals/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/flight-cabin-ancillaries/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("ancillary-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("ancillary-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .build();
     }
@@ -128,6 +140,7 @@ public class RouteConfig {
                 .route(RequestPredicates.path("/api/v1/cities/**"), HandlerFunctions.http())
                 .route(RequestPredicates.path("/api/v1/airports/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("location-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("location-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .build();
     }
@@ -137,6 +150,7 @@ public class RouteConfig {
         return GatewayRouterFunctions.route("booking-service-routes")
                 .route(RequestPredicates.path("/api/v1/bookings/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("booking-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("booking-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .build();
     }
@@ -146,6 +160,7 @@ public class RouteConfig {
         return GatewayRouterFunctions.route("payment-service-routes")
                 .route(RequestPredicates.path("/api/v1/payments/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("payment-service"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("payment-service-cb", URI.create("forward:/fallback")))
                 .before(this::jwtAuthFilter)
                 .build();
     }
@@ -164,6 +179,11 @@ public class RouteConfig {
         // validate token
         if(!jwtUtil.isTokenValid(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or expired token");
+        }
+
+        if (blacklistService.isBlacklisted(token)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "Token has been revoked. Please log in again.");
         }
 
         // grab user info from token
