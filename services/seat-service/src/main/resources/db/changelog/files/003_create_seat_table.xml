@@ -1,0 +1,58 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="003" author="kartik9555">
+        <createSequence sequenceName="seat_id_seq"/>
+        <createTable tableName="seat">
+            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="seat_id_seq">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="seat_number" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="seat_row" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="column_letter" type="char(1)"/>
+            <column name="seat_type" type="text"/>
+            <column name="base_price" type="numeric(12,2)"/>
+            <column name="premium_surcharge" type="numeric(12,2)"/>
+            <column name="is_available" type="boolean" defaultValueBoolean="true"/>
+            <column name="is_blocked" type="boolean" defaultValueBoolean="false"/>
+            <column name="is_emergency_exit" type="boolean" defaultValueBoolean="false"/>
+            <column name="is_active" type="boolean" defaultValueBoolean="true"/>
+            <column name="has_extra_leg_room" type="boolean" defaultValueBoolean="false"/>
+            <column name="has_bassinet" type="boolean" defaultValueBoolean="false"/>
+            <column name="has_extra_width" type="boolean" defaultValueBoolean="false"/>
+            <column name="has_power_outlet" type="boolean" defaultValueBoolean="false"/>
+            <column name="has_tv_screen" type="boolean" defaultValueBoolean="false"/>
+            <column name="is_near_galley" type="boolean" defaultValueBoolean="false"/>
+            <column name="is_near_lavatory" type="boolean" defaultValueBoolean="false"/>
+            <column name="is_wheel_chair_accessible" type="boolean" defaultValueBoolean="false"/>
+            <column name="is_premium_seat" type="boolean" defaultValueBoolean="false"/>
+            <column name="seat_pitch" type="integer"/>
+            <column name="seat_width" type="integer"/>
+            <column name="recline_angle" type="integer"/>
+            <column name="seat_map_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_seat_seat_map" referencedTableName="seat_map" referencedColumnNames="id"/>
+            </column>
+            <column name="cabin_class_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_seat_cabin_class" referencedTableName="cabin_class" referencedColumnNames="id"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

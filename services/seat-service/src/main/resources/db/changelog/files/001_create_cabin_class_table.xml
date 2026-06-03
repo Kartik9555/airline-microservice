@@ -1,0 +1,39 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="001" author="kartik9555">
+        <createSequence sequenceName="cabin_class_id_seq"/>
+        <createTable tableName="cabin_class">
+            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="cabin_class_id_seq">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="aircraft_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="display_order" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_bookable" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="typical_seat_pitch" type="integer"/>
+            <column name="typical_seat_width" type="integer"/>
+            <column name="seat_type" type="text"/>
+            <column name="created_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

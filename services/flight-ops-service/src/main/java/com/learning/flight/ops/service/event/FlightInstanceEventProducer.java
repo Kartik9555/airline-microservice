@@ -17,6 +17,7 @@ public class FlightInstanceEventProducer {
                 .flightInstanceId(flightInstance.getId())
                 .flightId(flightInstance.getFlight().getId())
                 .aircraftId(flightInstance.getFlight().getAircraftId())
+                .flightScheduleId(flightInstance.getScheduleId())
                 .build();
         kafkaTemplate.send("flight_instance_created", event);
     }

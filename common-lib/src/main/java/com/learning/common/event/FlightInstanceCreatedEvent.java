@@ -13,4 +13,5 @@ public class FlightInstanceCreatedEvent {
     private Long flightInstanceId;
     private Long flightId;
     private Long aircraftId;
+    private Long flightScheduleId;
 }

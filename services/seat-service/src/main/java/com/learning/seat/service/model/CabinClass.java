@@ -20,9 +20,11 @@ import java.time.Instant;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "cabin_class")
 public class CabinClass {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cabin_class_seq")
+    @SequenceGenerator(name = "cabin_class_seq", sequenceName = "cabin_class_id_seq", allocationSize = 1)
     private Long id;
 
     @Enumerated(EnumType.STRING)

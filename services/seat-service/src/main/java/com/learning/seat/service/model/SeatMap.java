@@ -6,8 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,9 +25,11 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "seat_map")
 public class SeatMap {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seat_map_seq")
+    @SequenceGenerator(name = "seat_map_seq", sequenceName = "seat_map_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)
@@ -42,6 +47,7 @@ public class SeatMap {
     private Long airlineId;
 
     @OneToOne
+    @JoinColumn(name = "cabin_class_id", nullable = false)
     private CabinClass cabinClass;
 
     @OneToMany(mappedBy = "seatMap", cascade = CascadeType.ALL, orphanRemoval = true)

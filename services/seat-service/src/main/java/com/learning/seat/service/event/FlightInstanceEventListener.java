@@ -48,6 +48,7 @@ public class FlightInstanceEventListener {
                     .map(seat -> SeatInstance.builder()
                             .flightId(event.getFlightId())
                             .flightInstanceId(event.getFlightInstanceId())
+                            .flightScheduleId(event.getFlightScheduleId())
                             .seat(seat)
                             .flightInstanceCabin(saved)
                             .status(SeatAvailabilityStatus.AVAILABLE)

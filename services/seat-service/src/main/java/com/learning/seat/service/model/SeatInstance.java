@@ -9,7 +9,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,21 +32,25 @@ import java.time.Instant;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "seat_instance")
 public class SeatInstance {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seat_instance_seq")
+    @SequenceGenerator(name = "seat_instance_seq", sequenceName = "seat_instance_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)
     private Long flightId;
 
     @ManyToOne
+    @JoinColumn(name = "flight_instance_cabin_id", nullable = false)
     private FlightInstanceCabin flightInstanceCabin;
 
     private Long flightInstanceId;
 
     @ManyToOne
+    @JoinColumn(name = "seat_id", nullable = false)
     private Seat seat;
 
     @Builder.Default
