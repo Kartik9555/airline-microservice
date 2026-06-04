@@ -1,29 +1,69 @@
-name: Incremental CI
+name: Build
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types:
+      - opened
+      - synchronize
+      - reopened
+
   push:
     branches:
       - main
 
+  workflow_dispatch:
+    inputs:
+      force_all:
+        description: Build all services
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ALL_SERVICES: >-
+    api-gateway,
+    config-server,
+    service-registry,
+    airline-core-service,
+    ancillary-service,
+    booking-service,
+    flight-ops-service,
+    location-service,
+    notification-service,
+    payment-service,
+    pricing-service,
+    seat-service,
+    user-service
+
 jobs:
 
-  changes:
+  detect-changes:
+
     runs-on: ubuntu-latest
 
     outputs:
-      modules: ${{ steps.modules.outputs.modules }}
+      modules: ${{ steps.resolve.outputs.modules }}
 
     steps:
-      - uses: actions/checkout@v4
+
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: dorny/paths-filter@v3
+      - name: Detect file changes
+        uses: dorny/paths-filter@v3
         id: filter
         with:
           filters: |
+
             common:
               - 'common/**'
 
@@ -44,50 +84,44 @@ jobs:
 
             booking-service:
               - 'services/booking-service/**'
-
+ 
             flight-ops-service:
               - 'services/flight-ops-service/**'
 
             location-service:
               - 'services/location-service/**'
-
+            
             notification-service:
               - 'services/notification-service/**'
-
+            
             payment-service:
               - 'services/payment-service/**'
-
+            
             pricing-service:
               - 'services/pricing-service/**'
 
             seat-service:
               - 'services/seat-service/**'
-            
+
             user-service:
               - 'services/user-service/**'
 
-      - name: Build module matrix
-        id: modules
+      - name: Resolve impacted services
+        id: resolve
         shell: bash
         run: |
-          if [[ "${{ steps.filter.outputs.common }}" == "true" ]]; then
-            MODULES='[
-              "api-gateway",
-              "config-server",
-              "service-registry",
-              "airline-core-service",
-              "ancillary-service",
-              "booking-service",
-              "flight-ops-service",
-              "location-service",
-              "notification-service",
-              "payment-service",
-              "pricing-service",
-              "seat-service",
-              "user-service"
-            ]'
+
+          FORCE_ALL="${{ github.event.inputs.force_all || 'false' }}"
+
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            MODULES=$(echo "${ALL_SERVICES}" | tr -d ' ')
+          elif [[ "$FORCE_ALL" == "true" ]]; then
+            MODULES=$(echo "${ALL_SERVICES}" | tr -d ' ')
+          elif [[ "${{ steps.filter.outputs.common }}" == "true" ]]; then
+            MODULES=$(echo "${ALL_SERVICES}" | tr -d ' ')
           else
-            modules=()
+
+            LIST=()
 
             [[ "${{ steps.filter.outputs.api-gateway }}" == "true" ]] && modules+=('"api-gateway"')
             [[ "${{ steps.filter.outputs.config-server }}" == "true" ]] && modules+=('"config-server"')
@@ -103,67 +137,29 @@ jobs:
             [[ "${{ steps.filter.outputs.seat-service }}" == "true" ]] && modules+=('"seat-service"')
             [[ "${{ steps.filter.outputs.user-service }}" == "true" ]] && modules+=('"user-service"')
 
-            if [ ${#modules[@]} -eq 0 ]; then
-              MODULES='[]'
-            else
-              MODULES="[$(IFS=,; echo "${modules[*]}")]"
-            fi
+            MODULES=$(IFS=, ; echo "${LIST[*]}")
           fi
 
           echo "modules=$MODULES" >> "$GITHUB_OUTPUT"
+
+          echo "Impacted modules:"
           echo "$MODULES"
 
   build:
-    needs: changes
 
-    if: needs.changes.outputs.modules != '[]'
+    needs: detect-changes
 
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        module: ${{ fromJson(needs.changes.outputs.modules) }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: corretto
-          java-version: '25'
-          cache: maven
-
-      - name: Build and test
-        run: |
-          mvn \
-            -B \
-            -pl ${{ matrix.module }} \
-            -am \
-            verify
-
-  docker:
-    needs:
-      - changes
-      - build
-
-    if: needs.changes.outputs.modules != '[]'
+    if: needs.detect-changes.outputs.modules != ''
 
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        module: ${{ fromJson(needs.changes.outputs.modules) }}
-
-    permissions:
-      contents: read
-      packages: write
-
     steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
           distribution: corretto
           java-version: '25'
@@ -174,21 +170,22 @@ jobs:
         with:
           path: |
             ~/.cache/google-cloud-tools-java
-            ~/.config/jib
-          key: ${{ runner.os }}-jib-${{ hashFiles('**/pom.xml') }}
+            ~/.cache/jib
+          key: jib-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-jib-
+            jib-${{ runner.os }}-
 
-      - name: Compute image tag
-        id: tag
+      - name: Compute build metadata
         run: |
-          echo "sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+          echo "GIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Build image with Jib
+      - name: Build impacted modules
         run: |
           mvn \
             -B \
-            -pl ${{ matrix.module }} \
+            -T 1C \
+            -pl "${{ needs.detect-changes.outputs.modules }}" \
             -am \
-            -Dimage.tag=${{ steps.tag.outputs.sha }} \
-            jib:dockerBuild
+            clean verify \
+            -Pci-image \
+            -Drevision=${GIT_SHA}
