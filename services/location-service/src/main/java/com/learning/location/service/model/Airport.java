@@ -7,7 +7,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.learning.common.embeddable.Address;
@@ -24,10 +27,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "airport")
 public class Airport {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "airport_seq")
+    @SequenceGenerator(name = "airport_seq", sequenceName = "airport_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false, unique = true, length = 3)
@@ -47,6 +52,7 @@ public class Airport {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+    @JoinColumn(name = "city_id")
     private City city;
 
     @Transient

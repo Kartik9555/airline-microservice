@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,9 +20,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "city")
 public class City {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "city_seq")
+    @SequenceGenerator(name = "city_seq", sequenceName = "city_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)

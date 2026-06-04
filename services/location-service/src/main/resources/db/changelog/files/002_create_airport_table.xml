@@ -1,0 +1,25 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="001" author="kartik9555">
+        <createSequence sequenceName="airport_id_seq"/>
+        <createTable tableName="airport">
+            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="airport_id_seq">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="iata_code" type="varchar(3)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street" type="text"/>
+            <column name="postal_code" type="text"/>
+            <column name="latitude" type="decimal(9,6)"/>
+            <column name="longitude" type="decimal(9,6)"/>
+            <column name="time_zone_id" type="varchar(50)"/>
+            <column name="city_id" type="bigint">
+                <constraints nullable="false" referencedTableName="city" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: files/001_create_payment_table.xml
+      relativeToChangelogFile: true
