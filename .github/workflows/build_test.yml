@@ -64,8 +64,8 @@ jobs:
         with:
           filters: |
 
-            common:
-              - 'common/**'
+            common-lib:
+              - 'common-lib/**'
 
             api-gateway:
               - 'cloud/api-gateway/**'
