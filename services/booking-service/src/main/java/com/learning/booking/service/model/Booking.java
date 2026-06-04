@@ -15,6 +15,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,9 +39,11 @@ import java.util.Set;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "booking")
 public class Booking {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_seq")
+    @SequenceGenerator(name = "booking_seq", sequenceName = "booking_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false, unique = true)

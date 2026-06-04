@@ -17,10 +17,12 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "ticket")
 public class Ticket {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticket_seq")
+    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)
@@ -33,9 +35,11 @@ public class Ticket {
     private LocalDateTime issueDate;
 
     @ManyToOne
+    @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 
     @ManyToOne
+    @JoinColumn(name = "booking_id")
     private Booking booking;
 
     @CreatedDate

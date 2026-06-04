@@ -1,0 +1,45 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="001" author="kartik9555">
+        <createSequence sequenceName="booking_id_seq"/>
+        <createTable tableName="booking">
+            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="booking_id_seq">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="booking_reference" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flight_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flight_instance_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="airline_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cabin_class_type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fare_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flexible_ticket" type="boolean" defaultValueBoolean="false"/>
+            <column name="ticket_time_limit" type="timestamp"/>
+            <column name="payment_id" type="bigint"/>
+            <column name="status" type="text"/>
+            <column name="ticket_issued" type="boolean"/>
+            <column name="email" type="text"/>
+            <column name="phone" type="text"/>
+            <column name="booking_date" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

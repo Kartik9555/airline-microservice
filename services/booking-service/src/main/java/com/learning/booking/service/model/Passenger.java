@@ -9,7 +9,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,9 +33,11 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "passenger")
 public class Passenger {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passenger_seq")
+    @SequenceGenerator(name = "passenger_seq", sequenceName = "passenger_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)
@@ -61,6 +66,7 @@ public class Passenger {
     private Long primaryUserId;
 
     @ManyToOne
+    @JoinColumn(name = "booking_id")
     private Booking booking;
 
     @Builder.Default
