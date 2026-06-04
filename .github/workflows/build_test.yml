@@ -117,7 +117,7 @@ jobs:
             MODULES=$(echo "${ALL_SERVICES}" | tr -d ' ')
           elif [[ "$FORCE_ALL" == "true" ]]; then
             MODULES=$(echo "${ALL_SERVICES}" | tr -d ' ')
-          elif [[ "${{ steps.filter.outputs.common }}" == "true" ]]; then
+          elif [[ "${{ steps.filter.outputs.common-lib }}" == "true" ]]; then
             MODULES=$(echo "${ALL_SERVICES}" | tr -d ' ')
           else
 
