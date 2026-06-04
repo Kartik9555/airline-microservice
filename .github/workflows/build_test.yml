@@ -28,19 +28,19 @@ concurrency:
 
 env:
   ALL_SERVICES: >-
-    api-gateway,
-    config-server,
-    service-registry,
-    airline-core-service,
-    ancillary-service,
-    booking-service,
-    flight-ops-service,
-    location-service,
-    notification-service,
-    payment-service,
-    pricing-service,
-    seat-service,
-    user-service
+    cloud/api-gateway,
+    cloud/config-server,
+    cloud/service-registry,
+    services/airline-core-service,
+    services/ancillary-service,
+    services/booking-service,
+    services/flight-ops-service,
+    services/location-service,
+    services/notification-service,
+    services/payment-service,
+    services/pricing-service,
+    services/seat-service,
+    services/user-service
 
 jobs:
 
