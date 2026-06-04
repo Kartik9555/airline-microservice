@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: files/001_create_flight_table.xml
+      relativeToChangelogFile: true
+  - include:
+      file: files/002_create_flight_instance_table.xml
+      relativeToChangelogFile: true
+  - include:
+      file: files/003_create_flight_schedule_table.xml
+      relativeToChangelogFile: true
+  - include:
+      file: files/004_createairport_operating_days_table.xml
+      relativeToChangelogFile: true

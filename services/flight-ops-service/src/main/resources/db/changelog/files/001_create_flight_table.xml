@@ -1,0 +1,35 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="001" author="kartik9555">
+        <createSequence sequenceName="flight_id_seq"/>
+        <createTable tableName="flight">
+            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="flight_id_seq">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="flight_number" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="airline_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aircraft_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="departure_airport_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="arrival_airport_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

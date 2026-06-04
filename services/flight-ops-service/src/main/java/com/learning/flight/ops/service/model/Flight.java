@@ -9,6 +9,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,9 +29,11 @@ import java.time.Instant;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "flight")
 public class Flight {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flight_seq")
+    @SequenceGenerator(name = "flight_seq", sequenceName = "flight_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)

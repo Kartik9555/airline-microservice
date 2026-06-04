@@ -10,7 +10,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,15 +32,18 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "flight_instance")
 public class FlightInstance {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flight_instance_seq")
+    @SequenceGenerator(name = "flight_instance_seq", sequenceName = "flight_instance_id_seq", allocationSize = 1)
     private Long id;
 
     private Long airlineId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "flight_id")
     private Flight flight;
 
     @Column(nullable = false)
