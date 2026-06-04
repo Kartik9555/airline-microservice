@@ -25,10 +25,13 @@ import java.time.Instant;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "fare")
 public class Fare {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fare_seq")
+    @SequenceGenerator(name = "fare_seq", sequenceName = "fare_id_seq", allocationSize = 1)
+
     private Long id;
 
     @Column(nullable = false)

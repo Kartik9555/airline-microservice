@@ -1,0 +1,30 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="003" author="kartik9555">
+        <createSequence sequenceName="fare_rule_id_seq"/>
+        <createTable tableName="fare_rule">
+            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="fare_rule_id_seq">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rule_name" type="text"/>
+            <column name="airline_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fare_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_fare_rule_fare" referencedTableName="fare" referencedColumnNames="id"/>
+            </column>
+            <column name="is_refundable" type="boolean"/>
+            <column name="is_changeable" type="boolean"/>
+            <column name="change_fee" type="numeric(12,2)"/>
+            <column name="cancellation_fee" type="numeric(12,2)"/>
+            <column name="refund_deadline_days" type="integer"/>
+            <column name="change_deadline_hours" type="integer"/>
+            <column name="created_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

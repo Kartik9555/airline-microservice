@@ -7,7 +7,10 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,14 +29,17 @@ import java.time.Instant;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "baggage_policy")
 public class BaggagePolicy {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "baggage_policy_seq")
+    @SequenceGenerator(name = "baggage_policy_seq", sequenceName = "baggage_policy_id_seq", allocationSize = 1)
     private Long id;
 
     @OneToOne
     @JsonIgnore
+    @JoinColumn(name = "fare_id", nullable = false)
     private Fare fare;
 
     @Column(nullable = false)

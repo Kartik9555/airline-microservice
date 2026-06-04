@@ -1,0 +1,94 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="002" author="kartik9555">
+        <createSequence sequenceName="fare_id_seq"/>
+        <createTable tableName="fare">
+            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="fare_id_seq">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rbd_code" type="char(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flight_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cabin_class_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cabin_class" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="base_fare" type="numeric(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taxes_and_fees" type="numeric(12,2)"/>
+            <column name="airline_fees" type="numeric(12,2)"/>
+            <column name="current_price" type="numeric(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fare_label" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="extra_seat_space" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preferred_seat_choice" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="advance_seat_selection" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="guaranteed_seat_together" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="priority_boarding" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="priority_checkin" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fast_track_security" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="complimentary_meals" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="complimentary_beverage" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="premium_meal_choice" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="in_flight_internet" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="in_flight_entertainment" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="free_date_change" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partial_refund" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_refund" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lounge_access" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="airport_transfer" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
