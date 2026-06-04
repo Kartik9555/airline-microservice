@@ -166,7 +166,7 @@ jobs:
           cache: maven
 
       - name: Cache Jib
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cache/google-cloud-tools-java
@@ -187,5 +187,4 @@ jobs:
             -pl "${{ needs.detect-changes.outputs.modules }}" \
             -am \
             clean verify \
-            -Pci-image \
             -Drevision=${GIT_SHA}
