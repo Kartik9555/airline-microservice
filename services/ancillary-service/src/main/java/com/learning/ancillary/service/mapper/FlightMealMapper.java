@@ -2,7 +2,6 @@ package com.learning.ancillary.service.mapper;
 
 import com.learning.ancillary.service.model.FlightMeal;
 import com.learning.ancillary.service.model.Meal;
-import com.learning.ancillary.service.model.MealMapper;
 import com.learning.common.payload.request.FlightMealRequest;
 import com.learning.common.payload.response.FlightMealResponse;
 

@@ -1,0 +1,29 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="002" author="kartik9555">
+        <createSequence sequenceName="insurance_coverage_id_seq"/>
+        <createTable tableName="insurance_coverage">
+            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="insurance_coverage_id_seq">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ancillary_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_ancillary_insurance_coverage" referencedTableName="ancillary" referencedColumnNames="id"/>
+            </column>
+            <column name="coverage_type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)"/>
+            <column name="coverage_amount" type="numeric(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_flat" type="boolean" defaultValueBoolean="false"/>
+            <column name="claim_condition" type="text"/>
+            <column name="display_order" type="integer"/>
+            <column name="active" type="boolean" defaultValueBoolean="true"/>
+            <column name="emergency_contact" type="text"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

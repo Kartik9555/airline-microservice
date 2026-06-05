@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - include:
+      file: files/001_create_ancillary_table.xml
+      relativeToChangelogFile: true
+  - include:
+      file: files/002_create_insurance_coverage_table.xml
+      relativeToChangelogFile: true
+  - include:
+      file: files/003_create_flight_cabin_ancillary_table.xml
+      relativeToChangelogFile: true
+  - include:
+      file: files/004_create_meal_table.xml
+      relativeToChangelogFile: true
+  - include:
+      file: files/005_create_flight_meal_table.xml
+      relativeToChangelogFile: true

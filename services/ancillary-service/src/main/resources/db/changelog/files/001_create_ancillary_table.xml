@@ -1,0 +1,31 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="001" author="kartik9555">
+        <createSequence sequenceName="ancillary_id_seq"/>
+        <createTable tableName="ancillary">
+            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="ancillary_id_seq">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sub_type" type="text"/>
+            <column name="rfisc" type="text"/>
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="metadata" type="jsonb"/>
+            <column name="display_order" type="integer"/>
+            <column name="airline_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

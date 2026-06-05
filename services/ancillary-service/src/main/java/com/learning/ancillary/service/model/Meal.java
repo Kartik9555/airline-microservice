@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,10 +29,12 @@ import java.util.List;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "meal")
 public class Meal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "meal_seq")
+    @SequenceGenerator(name = "meal_seq", sequenceName = "meal_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)
@@ -63,7 +67,7 @@ public class Meal {
     private Long airlineId;
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Meal> meals;
+    private List<FlightMeal> meals;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)

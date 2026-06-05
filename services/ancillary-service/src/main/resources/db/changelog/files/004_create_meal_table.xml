@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="004" author="kartik9555">
+        <createSequence sequenceName="meal_id_seq"/>
+        <createTable tableName="meal">
+            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="meal_id_seq">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="meal_type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="numeric(12,2)"/>
+            <column name="dietary_restriction" type="text"/>
+            <column name="ingredients" type="text"/>
+            <column name="image_url" type="text"/>
+            <column name="currency" type="text"/>
+            <column name="available" type="boolean" defaultValueBoolean="true"/>
+            <column name="requires_advance_booking" type="boolean" defaultValueBoolean="false"/>
+            <column name="advance_booking_hours" type="integer"/>
+            <column name="display_order" type="integer" defaultValue="0"/>
+            <column name="airline_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

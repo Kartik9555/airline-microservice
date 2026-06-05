@@ -1,5 +1,6 @@
-package com.learning.ancillary.service.model;
+package com.learning.ancillary.service.mapper;
 
+import com.learning.ancillary.service.model.Meal;
 import com.learning.common.payload.request.MealRequest;
 import com.learning.common.payload.response.MealResponse;
 

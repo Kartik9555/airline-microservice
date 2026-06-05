@@ -1,7 +1,7 @@
 package com.learning.ancillary.service.service.impl;
 
 import com.learning.ancillary.service.model.Meal;
-import com.learning.ancillary.service.model.MealMapper;
+import com.learning.ancillary.service.mapper.MealMapper;
 import com.learning.ancillary.service.repository.MealRepository;
 import com.learning.ancillary.service.service.MealService;
 import com.learning.ancillary.service.service.outbound.AirlineOutboundService;

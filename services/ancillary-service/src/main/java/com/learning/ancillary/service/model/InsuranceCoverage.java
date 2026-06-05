@@ -9,7 +9,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,13 +27,16 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "insurance_coverage")
 public class InsuranceCoverage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "insurance_coverage_seq")
+    @SequenceGenerator(name = "insurance_coverage_seq", sequenceName = "insurance_coverage_id_seq", allocationSize = 1)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "ancillary_id")
     private Ancillary ancillary;
 
     @Enumerated(EnumType.STRING)
