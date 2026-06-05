@@ -21,9 +21,11 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "aircraft")
 public class Aircraft {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aircraft_seq")
+    @SequenceGenerator(name = "aircraft_seq", sequenceName = "aircraft_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -78,6 +80,7 @@ public class Aircraft {
     private Boolean isAvailable = Boolean.TRUE;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "airline_id")
     private Airline airline;
 
     private Long currentAirportId;

@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: files/001_create_airline_table.xml
+      relativeToChangelogFile: true
+  - include:
+      file: files/002_create_aircraft_table.xml
+      relativeToChangelogFile: true

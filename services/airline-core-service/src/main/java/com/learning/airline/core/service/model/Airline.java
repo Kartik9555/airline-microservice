@@ -19,9 +19,11 @@ import static com.learning.common.enums.AirlineStatus.ACTIVE;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "airline")
 public class Airline {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "airline_seq")
+    @SequenceGenerator(name = "airline_seq", sequenceName = "airline_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(unique = true, nullable = false)
