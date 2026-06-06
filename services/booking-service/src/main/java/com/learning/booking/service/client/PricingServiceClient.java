@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface PricingServiceClient {
 
     @GetMapping("/api/v1/fares/{id}")
-    FareResponse getFareById(@PathVariable Long id);
+    FareResponse getFareById(@PathVariable("id") Long id);
 }

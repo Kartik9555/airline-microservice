@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 public interface AirlineCoreServiceClient {
 
     @GetMapping("/api/v1/aircrafts/{id}")
-    AircraftResponse getAircraftById(@PathVariable Long id);
+    AircraftResponse getAircraftById(@PathVariable("id") Long id);
 
     @GetMapping("/api/v1/airlines/{id}")
-    AirlineResponse getAirlineById(@PathVariable Long id);
+    AirlineResponse getAirlineById(@PathVariable("id") Long id);
 
     @GetMapping("/api/v1/airlines/admin")
     AirlineResponse getAirlineByOwner(@RequestHeader("X-User-Id") Long ownerId);

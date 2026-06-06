@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface SeatServiceClient {
 
     @GetMapping("/api/v1/cabin-classes/{name}/aircrat/{aircraftId}")
-    CabinClassResponse getCabinClassByAircraftIdAndName(@PathVariable Long aircraftId, @PathVariable CabinClassType name);
+    CabinClassResponse getCabinClassByAircraftIdAndName(@PathVariable("aircraftId") Long aircraftId, @PathVariable("name") CabinClassType name);
 }

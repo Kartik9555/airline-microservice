@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface FlightOpsServiceClient {
 
     @GetMapping("/api/v1/flights/{id}")
-    FlightResponse getFlightById(@PathVariable Long id);
+    FlightResponse getFlightById(@PathVariable("id") Long id);
 
     @GetMapping("/api/v1/flight-instances/{id}")
-    FlightInstanceResponse getFlightInstanceById(@PathVariable Long id);
+    FlightInstanceResponse getFlightInstanceById(@PathVariable("id") Long id);
 }

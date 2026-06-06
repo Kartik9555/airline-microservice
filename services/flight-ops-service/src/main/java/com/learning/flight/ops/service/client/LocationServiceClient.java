@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface LocationServiceClient {
 
     @GetMapping("/api/v1/airports/{id}")
-    AirportResponse getAirportById(@PathVariable Long id);
+    AirportResponse getAirportById(@PathVariable("id") Long id);
 }
