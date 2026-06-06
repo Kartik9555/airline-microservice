@@ -12,14 +12,14 @@ import java.util.List;
 public interface AncillaryClient {
 
     @GetMapping("/api/v1/flight-cabin-ancillaries/price/total")
-    Double calculateAncillaryPrice(@RequestParam List<Long> ids);
+    Double calculateAncillaryPrice(@RequestParam("id") List<Long> ids);
 
     @GetMapping("/api/v1/flight-cabin-ancillaries")
-    List<FlightCabinAncillaryResponse> getAllFlightCabinAncillaryByIds(@RequestParam List<Long> ids);
+    List<FlightCabinAncillaryResponse> getAllFlightCabinAncillaryByIds(@RequestParam("ids") List<Long> ids);
 
     @GetMapping("/api/v1/flight-meals/price/total")
-    Double calculateMealPrice(@RequestParam List<Long> ids);
+    Double calculateMealPrice(@RequestParam("ids") List<Long> ids);
 
     @GetMapping("/api/v1/flight-meals/all")
-    List<FlightMealResponse> getAllFlightMealByIds(@RequestParam List<Long> ids);
+    List<FlightMealResponse> getAllFlightMealByIds(@RequestParam("ids") List<Long> ids);
 }

@@ -20,5 +20,5 @@ public interface PaymentClient {
     PaymentDTO verifyPayment(@RequestBody PaymentVerifyRequest request);
 
     @GetMapping("/api/v1/payments/{id}")
-    PaymentDTO getPaymentById(@PathVariable Long id);
+    PaymentDTO getPaymentById(@PathVariable("id") Long id);
 }
