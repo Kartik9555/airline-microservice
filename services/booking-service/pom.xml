@@ -95,7 +95,7 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <configuration>
                     <from>
-                        <image>amazoncorretto:25-alpine3.23-jdk@sha256:80667e38af71ac103a3ae36a0b531d54c73c4da28fc02b57f69bce8993c0e1b0</image>
+                        <image>kartik9555/java25-curl:1.0@sha256:1bb983c0373eea5c36e82591107c4fc8905268584a39ec7a8b92522c3a179c6e</image>
                     </from>
                     <to>
                         <image>kartik9555/booking-service:${project.version}</image>

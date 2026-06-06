@@ -1,4 +1,19 @@
 # airline-microservice
+## Steps to build
+1. Build and Push Java-Curl Docker Image first
+   docker build -t kartik9555/java25-curl:1.0 .
+   docker push kartik9555/java25-curl:1.0
+2. Build the project
+    mvn clean install
+3. Start all the containers
+   docker compose -f common.yml -f services.yml up -d
+4. Inspect health for any of the service
+   docker inspect service-registry --format='{{json .State.Health}}'
+5. Test the endpoints
+6. Stop the containers
+   docker compose -f common.yml -f services.yml down
+
+## Steps to test
 1. Create City
 2. Create Airport for the City
 3. Create Airline for the Airport
