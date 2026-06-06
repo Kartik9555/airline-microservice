@@ -9,5 +9,5 @@ databaseChangeLog:
       file: files/003_create_flight_schedule_table.xml
       relativeToChangelogFile: true
   - include:
-      file: files/004_createairport_operating_days_table.xml
+      file: files/004_create_flight_schedule_operating_days_table.xml
       relativeToChangelogFile: true

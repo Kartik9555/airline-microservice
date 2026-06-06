@@ -1,9 +1,9 @@
 databaseChangeLog:
   - include:
-      file: files/001_create_baggage_policy_table.xml
+      file: files/001_create_fare_table.xml
       relativeToChangelogFile: true
   - include:
-      file: files/002_create_fare_table.xml
+      file: files/002_create_baggage_policy_table.xml
       relativeToChangelogFile: true
   - include:
       file: files/003_create_fare_rule_table.xml

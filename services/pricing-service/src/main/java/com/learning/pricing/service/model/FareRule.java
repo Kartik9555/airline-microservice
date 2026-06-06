@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,10 +29,8 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "fare_rule")
 public class FareRule {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fare_rule_seq")
-    @SequenceGenerator(name = "fare_rule_seq", sequenceName = "fare_rule_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String ruleName;

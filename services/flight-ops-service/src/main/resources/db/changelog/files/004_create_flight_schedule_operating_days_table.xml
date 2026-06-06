@@ -1,9 +1,9 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
     <changeSet id="004" author="kartik9555">
-        <createTable tableName="airport_operating_days">
-            <column name="airport_id" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="fk_operating_day_airport" referencedTableName="airport" referencedColumnNames="id"/>
+        <createTable tableName="flight_schedule_operating_days">
+            <column name="flight_schedule_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_flight_schedule_operating_days" referencedTableName="flight_schedule" referencedColumnNames="id"/>
             </column>
             <column name="operating_day" type="VARCHAR(9)">
                 <constraints nullable="false"/>

@@ -1,4 +1,7 @@
 databaseChangeLog:
   - include:
-      file: files/001_create_payment_table.xml
+      file: files/001_create_city_table.xml
+      relativeToChangelogFile: true
+  - include:
+      file: files/002_create_airport_table.xml
       relativeToChangelogFile: true

@@ -1,9 +1,8 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
     <changeSet id="004" author="kartik9555">
-        <createSequence sequenceName="seat_instance_id_seq"/>
         <createTable tableName="seat_instance">
-            <column name="id" type="bigint" autoIncrement="true" defaultValueSequenceNext="seat_instance_id_seq">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="flight_id" type="bigint">
@@ -29,10 +28,10 @@
             <column name="version" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_at" type="timestampz">
+            <column name="created_at" type="timestamptz">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="timestampz">
+            <column name="updated_at" type="timestamptz">
                 <constraints nullable="false"/>
             </column>
         </createTable>

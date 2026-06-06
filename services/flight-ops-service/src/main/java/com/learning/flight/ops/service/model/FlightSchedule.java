@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,10 +31,8 @@ import java.util.List;
 @Entity
 @Table(name = "flight_schedule")
 public class FlightSchedule {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flight_schedule_seq")
-    @SequenceGenerator(name = "flight_schedule_seq", sequenceName = "flight_schedule_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

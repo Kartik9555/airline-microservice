@@ -6,11 +6,11 @@ databaseChangeLog:
       file: files/002_create_flight_instance_cabin_table.xml
       relativeToChangelogFile: true
   - include:
-      file: files/003_create_seat_table.xml
+      file: files/003_create_seat_map_table.xml
       relativeToChangelogFile: true
   - include:
-      file: files/004_create_seat_instance_table.xml
+      file: files/004_create_seat_table.xml
       relativeToChangelogFile: true
   - include:
-      file: files/005_create_seat_map_table.xml
+      file: files/005_create_seat_instance_table.xml
       relativeToChangelogFile: true

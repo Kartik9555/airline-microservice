@@ -1,7 +1,18 @@
 package com.learning.airline.core.service.model;
 
 import com.learning.common.enums.AircraftStatus;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,8 +35,7 @@ import java.time.LocalDate;
 @Table(name = "aircraft")
 public class Aircraft {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aircraft_seq")
-    @SequenceGenerator(name = "aircraft_seq", sequenceName = "aircraft_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)

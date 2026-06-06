@@ -6,7 +6,18 @@ import com.learning.common.embeddable.InFlightBenefits;
 import com.learning.common.embeddable.PremiumServiceBenefits;
 import com.learning.common.embeddable.SeatBenefits;
 import com.learning.common.enums.CabinClassType;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,10 +38,8 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "fare")
 public class Fare {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fare_seq")
-    @SequenceGenerator(name = "fare_seq", sequenceName = "fare_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
 

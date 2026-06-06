@@ -1,7 +1,17 @@
 package com.learning.seat.service.model;
 
 import com.learning.common.enums.CabinClassType;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,8 +33,7 @@ import java.time.Instant;
 @Table(name = "cabin_class")
 public class CabinClass {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cabin_class_seq")
-    @SequenceGenerator(name = "cabin_class_seq", sequenceName = "cabin_class_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)

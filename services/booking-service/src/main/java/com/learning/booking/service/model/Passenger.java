@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
@@ -36,8 +35,7 @@ import java.time.LocalDate;
 @Table(name = "passenger")
 public class Passenger {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passenger_seq")
-    @SequenceGenerator(name = "passenger_seq", sequenceName = "passenger_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

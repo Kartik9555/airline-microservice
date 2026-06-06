@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -34,10 +33,8 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "flight_instance")
 public class FlightInstance {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flight_instance_seq")
-    @SequenceGenerator(name = "flight_instance_seq", sequenceName = "flight_instance_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long airlineId;

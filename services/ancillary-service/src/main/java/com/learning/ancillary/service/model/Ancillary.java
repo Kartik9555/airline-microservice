@@ -14,7 +14,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,8 +37,7 @@ import java.util.List;
 @Table(name = "ancillary")
 public class Ancillary {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ancillary_seq")
-    @SequenceGenerator(name = "ancillary_seq", sequenceName = "ancillary_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
