@@ -9,3 +9,7 @@ eureka:
   client:
     fetch-registry: false
     register-with-eureka: false
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
