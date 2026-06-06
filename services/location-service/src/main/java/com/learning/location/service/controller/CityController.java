@@ -60,7 +60,7 @@ public class CityController {
         return ResponseEntity.ok(cityResponses);
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public ResponseEntity<Page<CityResponse>> searchCities(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "0") int page,
