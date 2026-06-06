@@ -9,7 +9,7 @@ import java.util.function.Function;
 @Configuration
 public class KeyResolverConfig {
 
-    @Bean
+    @Bean(name = "ipKeyResolver")
     Function<ServerRequest, String> ipKeyResolver() {
 
         return request -> {
@@ -27,7 +27,7 @@ public class KeyResolverConfig {
         };
     }
 
-    @Bean
+    @Bean(name = "userKeyResolver")
     Function<ServerRequest, String> userKeyResolver(JwtUtil jwtService) {
 
         return request -> {
