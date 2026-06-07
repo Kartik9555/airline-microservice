@@ -34,7 +34,7 @@ public class RouteConfig {
     @Bean
     public RouterFunction<ServerResponse> authRoutes(@Qualifier("ipKeyResolver") Function<ServerRequest, String> ipKeyResolver) {
         return GatewayRouterFunctions.route("auth-routes")
-                .route(RequestPredicates.path("/auth/**"), HandlerFunctions.http())
+                .route(RequestPredicates.path("/api/v1/auth/**"), HandlerFunctions.http())
                 .filter(LoadBalancerFilterFunctions.lb("user-service"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("user-service-cb", URI.create("forward:/fallback")))
 //                .filter(rateLimit(c -> c
@@ -45,6 +45,7 @@ public class RouteConfig {
     }
 
     @Bean
+    @Order(1)
     public RouterFunction<ServerResponse> adminLocationServiceRoutes(@Qualifier("userKeyResolver") Function<ServerRequest, String> userKeyResolver) {
         return GatewayRouterFunctions.route("admin-location-routes")
                 .route(RequestPredicates.POST("/api/v1/cities/**"), HandlerFunctions.http())
