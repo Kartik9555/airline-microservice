@@ -5,13 +5,10 @@ import com.learning.common.embeddable.Support;
 import com.learning.common.payload.request.AirlineRequest;
 import com.learning.common.payload.response.AirlineResponse;
 
-import java.time.Instant;
-
 public class AirlineMapper {
     public static Airline toAirline(AirlineRequest request, Long ownerId) {
         if(request == null) return null;
 
-        final Instant now = Instant.now();
         final Airline airline = Airline.builder()
                 .iataCode(request.getIataCode())
                 .icaoCode(request.getIcaoCode())
@@ -23,6 +20,7 @@ public class AirlineMapper {
                 .status(request.getStatus())
                 .alliance(request.getAlliance())
                 .headquarterCityId(request.getHeadquarterCityId())
+                .updatedById(ownerId)
                 .build();
 
         if(request.getSupportEmail() != null || request.getSupportPhone() != null || request.getSupportHours() != null) {
