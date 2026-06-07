@@ -293,6 +293,8 @@ services:
   user-service:
     image: kartik9555/user-service:1.0-SNAPSHOT
     container_name: user-service
+    ports:
+      - "5001:5001"
     mem_limit: 512m
     mem_reservation: 256m
     cpus: 0.5
@@ -318,6 +320,8 @@ services:
   airline-core-service:
     image: kartik9555/airline-core-service:1.0-SNAPSHOT
     container_name: airline-core-service
+    ports:
+      - "5002:5002"
     mem_limit: 512m
     mem_reservation: 256m
     cpus: 0.5
@@ -347,6 +351,8 @@ services:
   flight-ops-service:
     image: kartik9555/flight-ops-service:1.0-SNAPSHOT
     container_name: flight-ops-service
+    ports:
+      - "5005:5005"
     mem_limit: 512m
     mem_reservation: 256m
     cpus: 0.5
@@ -379,6 +385,8 @@ services:
   location-service:
     image: kartik9555/location-service:1.0-SNAPSHOT
     container_name: location-service
+    ports:
+      - "5004:5004"
     mem_limit: 512m
     mem_reservation: 256m
     cpus: 0.5
@@ -408,6 +416,8 @@ services:
   seat-service:
     image: kartik9555/seat-service:1.0-SNAPSHOT
     container_name: seat-service
+    ports:
+      - "5006:5006"
     mem_limit: 512m
     mem_reservation: 256m
     cpus: 0.5
@@ -440,6 +450,8 @@ services:
   pricing-service:
     image: kartik9555/pricing-service:1.0-SNAPSHOT
     container_name: pricing-service
+    ports:
+      - "5003:5003"
     mem_limit: 512m
     mem_reservation: 256m
     cpus: 0.5
@@ -470,6 +482,8 @@ services:
   ancillary-service:
     image: kartik9555/ancillary-service:1.0-SNAPSHOT
     container_name: ancillary-service
+    ports:
+      - "5007:5007"
     mem_limit: 512m
     mem_reservation: 256m
     cpus: 0.5
@@ -495,6 +509,8 @@ services:
   booking-service:
     image: kartik9555/booking-service:1.0-SNAPSHOT
     container_name: booking-service
+    ports:
+      - "5008:5008"
     mem_limit: 512m
     mem_reservation: 256m
     cpus: 0.5
@@ -523,6 +539,8 @@ services:
   payment-service:
     image: kartik9555/payment-service:1.0-SNAPSHOT
     container_name: payment-service
+    ports:
+      - "5009:5009"
     mem_limit: 512m
     mem_reservation: 256m
     cpus: 0.5
@@ -555,7 +573,7 @@ services:
     mem_reservation: 256m
     cpus: 0.5
     ports:
-      - "5000:5000"
+      - "6000:6000"
     depends_on:
       service-registry:
         condition: service_healthy
@@ -576,6 +594,8 @@ services:
   notification-service:
     image: kartik9555/notification-service:1.0-SNAPSHOT
     container_name: notification-service
+    ports:
+      - "5010:5010"
     mem_limit: 512m
     mem_reservation: 256m
     cpus: 0.5
