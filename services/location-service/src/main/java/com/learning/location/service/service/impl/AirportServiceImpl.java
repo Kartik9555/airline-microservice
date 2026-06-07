@@ -65,7 +65,7 @@ public class AirportServiceImpl implements AirportService {
 
             Airport airport = AirportMapper.toAirport(request);
             airport.setCity(cityOpt.get());
-
+            airport.setTimeZoneId(cityOpt.get().getTimeZoneId());
             Airport savedAirport = airportRepository.save(airport);
             createdAirports.add(AirportMapper.toAirport(savedAirport));
         }
