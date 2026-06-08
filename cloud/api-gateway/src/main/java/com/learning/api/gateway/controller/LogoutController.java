@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.Map;
@@ -31,25 +32,25 @@ public class LogoutController {
     private final TokenBlacklistService blacklistService;
 
     @PostMapping("/logout")
-    public ResponseEntity<Map<String, String>> logout(
+    public Mono<ResponseEntity<Map<String, String>>> logout(
             @RequestHeader(value = JwtConstant.JWT_HEADER, required = false) String authHeader) {
 
         if (authHeader == null || !authHeader.startsWith(JwtConstant.TOKEN_PREFIX)) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("message", "Missing or invalid Authorization header"));
+            return Mono.just(ResponseEntity.badRequest()
+                    .body(Map.of("message", "Missing or invalid Authorization header")));
         }
 
         String token = authHeader.substring(JwtConstant.TOKEN_PREFIX.length());
 
         if (!jwtUtil.isTokenValid(token)) {
             // Already expired — nothing to do
-            return ResponseEntity.ok(Map.of("message", "Token already invalid"));
+            return Mono.just(ResponseEntity.ok(Map.of("message", "Token already invalid")));
         }
 
         Duration ttl = jwtUtil.getRemainingValidity(token);
         blacklistService.blacklist(token, ttl);
 
         log.info("User logged out — token blacklisted for {}s", ttl.toSeconds());
-        return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
+        return Mono.just(ResponseEntity.ok(Map.of("message", "Logged out successfully")));
     }
 }

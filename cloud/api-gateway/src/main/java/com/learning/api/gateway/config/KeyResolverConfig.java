@@ -1,50 +1,61 @@
 package com.learning.api.gateway.config;
 
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.function.ServerRequest;
-
-import java.util.function.Function;
+import reactor.core.publisher.Mono;
 
 @Configuration
 public class KeyResolverConfig {
 
-    @Bean(name = "ipKeyResolver")
-    Function<ServerRequest, String> ipKeyResolver() {
+    @Bean(name = "keyResolver")
+    public KeyResolver keyResolver() {
+        return exchange -> {
 
-        return request -> {
+            // 1. Try JWT user
+            String userId = exchange.getRequest()
+                    .getHeaders()
+                    .getFirst("X-User-Id");
 
-            String ip = request.headers()
-                    .firstHeader("X-Forwarded-For");
-
-            if (ip != null) {
-                ip = ip.split(",")[0].trim();
-            } else {
-                ip = request.servletRequest().getRemoteAddr();
+            if (userId != null && !userId.isBlank()) {
+                return Mono.just("USER_" + userId);
             }
 
-            return "ip:" + ip;
+            // 2. Try forwarded IP
+            String ip = exchange.getRequest()
+                    .getHeaders()
+                    .getFirst("X-Forwarded-For");
+
+            if (ip != null && !ip.isBlank()) {
+                ip = ip.split(",")[0].trim();
+                return Mono.just("IP_" + ip);
+            }
+
+            // 3. Fallback to remote address
+            if (exchange.getRequest().getRemoteAddress() != null) {
+                String fallbackIp = exchange.getRequest()
+                        .getRemoteAddress()
+                        .getAddress()
+                        .getHostAddress();
+
+                return Mono.just("IP_" + fallbackIp);
+            }
+
+            return Mono.just("UNKNOWN");
         };
     }
 
-    @Bean(name = "userKeyResolver")
-    Function<ServerRequest, String> userKeyResolver(JwtUtil jwtService) {
-
-        return request -> {
-
-            String auth = request.headers()
-                    .firstHeader("Authorization");
-
-            if (auth == null || !auth.startsWith("Bearer ")) {
-                return "anonymous";
-            }
-
-            try {
-                Long userId = jwtService.extractUserId(auth.substring(7));
-                return "user:" + userId;
-            } catch (Exception e) {
-                return "invalid";
-            }
+    @Bean
+    public GlobalFilter timingFilter() {
+        return (exchange, chain) -> {
+            long start = System.currentTimeMillis();
+            return chain.filter(exchange)
+                    .doFinally(signalType -> {
+                        long time = System.currentTimeMillis() - start;
+                        System.out.println("GATEWAY TIME: " + time + "ms " +
+                                exchange.getRequest().getURI());
+                    });
         };
     }
 }
