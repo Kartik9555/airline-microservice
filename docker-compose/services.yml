@@ -220,7 +220,7 @@ services:
       KAFKA_PROCESS_ROLES: broker, controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -258,7 +258,7 @@ services:
         condition: service_healthy
     environment:
       - SPRING_CLOUD_CONFIG_SERVER_GIT_URI=https://github.com/Kartik9555/airline-config
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - EUREKA_URL=http://service-registry:8761/eureka/
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
       interval: 10s
@@ -279,7 +279,7 @@ services:
     environment:
       - SPRING_APPLICATION_NAME=service-registry
       - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
+      - JAVA_TOOL_OPTIONS=-Xms256m -Xmx384m -XX:+UseG1GC
       - EUREKA_INSTANCE_HOSTNAME=service-registry
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
@@ -313,7 +313,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - EUREKA_URL=http://service-registry:8761/eureka/
       - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
     networks:
       - airline-microservice
@@ -342,7 +342,7 @@ services:
         - SPRING_DATASOURCE_USERNAME=postgres
         - SPRING_DATASOURCE_PASSWORD=admin
         - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+        - EUREKA_URL=http://service-registry:8761/eureka/
         - SPRING_DATA_REDIS_HOST=redis
         - SPRING_DATA_REDIS_PORT=6379
         - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
@@ -375,7 +375,7 @@ services:
         - SPRING_DATASOURCE_USERNAME=postgres
         - SPRING_DATASOURCE_PASSWORD=admin
         - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+        - EUREKA_URL=http://service-registry:8761/eureka/
         - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 #        - SPRING_DATA_REDIS_HOST=redis
 #        - SPRING_DATA_REDIS_PORT=6379
@@ -407,7 +407,7 @@ services:
         - SPRING_DATASOURCE_USERNAME=postgres
         - SPRING_DATASOURCE_PASSWORD=admin
         - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+        - EUREKA_URL=http://service-registry:8761/eureka/
         - SPRING_DATA_REDIS_HOST=redis
         - SPRING_DATA_REDIS_PORT=6379
         - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
@@ -440,7 +440,7 @@ services:
         - SPRING_DATASOURCE_USERNAME=postgres
         - SPRING_DATASOURCE_PASSWORD=admin
         - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+        - EUREKA_URL=http://service-registry:8761/eureka/
         - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 #        - SPRING_DATA_REDIS_HOST=redis
 #        - SPRING_DATA_REDIS_PORT=6379
@@ -472,7 +472,7 @@ services:
         - SPRING_DATASOURCE_USERNAME=postgres
         - SPRING_DATASOURCE_PASSWORD=admin
         - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+        - EUREKA_URL=http://service-registry:8761/eureka/
 #        - SPRING_DATA_REDIS_HOST=redis
 #        - SPRING_DATA_REDIS_PORT=6379
         - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
@@ -502,7 +502,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - EUREKA_URL=http://service-registry:8761/eureka/
       - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
     networks:
       - airline-microservice
@@ -531,7 +531,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - EUREKA_URL=http://service-registry:8761/eureka/
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
     networks:
@@ -561,7 +561,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - EUREKA_URL=http://service-registry:8761/eureka/
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
     networks:
@@ -585,7 +585,7 @@ services:
       - SPRING_APPLICATION_NAME=api-gateway
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888
       - SPRING_PROFILES_ACTIVE=prod
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - EUREKA_URL=http://service-registry:8761/eureka/
       - SPRING_DATA_REDIS_HOST=redis
       - SPRING_DATA_REDIS_PORT=6379
       - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
@@ -608,7 +608,7 @@ services:
       - SPRING_APPLICATION_NAME=notification-service
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888
       - SPRING_PROFILES_ACTIVE=prod
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+      - EUREKA_URL=http://service-registry:8761/eureka/
       - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m -XX:+UseG1GC
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     networks:
