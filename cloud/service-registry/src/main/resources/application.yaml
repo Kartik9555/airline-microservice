@@ -6,10 +6,15 @@ spring:
     name: service-registry
 
 eureka:
-  client:
-    fetch-registry: false
-    register-with-eureka: false
   instance:
+    hostname: service-registry
     prefer-ip-address: true
-    metadata-map:
-      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    enable-self-preservation: true
+    eviction-interval-timer-in-ms: 10000
+    response-cache-update-interval-ms: 5000
+    use-read-only-response-cache: false
