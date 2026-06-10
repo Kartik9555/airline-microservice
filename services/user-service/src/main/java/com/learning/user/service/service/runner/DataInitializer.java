@@ -23,7 +23,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void initializeAdminUser() {
-        final String email = "admin@example.com";
+        final String email = "admin@gmail.com";
         final String password = "admin";
         log.info("DataInitializer is running...");
         if(userRepository.findUserByEmail(email).isPresent()) {
