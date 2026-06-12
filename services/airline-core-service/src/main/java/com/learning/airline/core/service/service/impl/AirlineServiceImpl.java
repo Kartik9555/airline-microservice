@@ -54,7 +54,7 @@ public class AirlineServiceImpl implements AirlineService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "airlines", key = "#id")
+    @Cacheable(cacheNames = "airlines", key = "#airlineId")
     public AirlineResponse getAirlineById(Long airlineId) throws Exception {
         final Airline airline = airlineRepository.findById(airlineId)
                 .orElseThrow(() -> new Exception("Airline not found for id: " + airlineId));
@@ -97,7 +97,7 @@ public class AirlineServiceImpl implements AirlineService {
     @Override
     @Transactional
     @Caching(evict = {
-            @CacheEvict(cacheNames = "airlines", key = "#id"),
+            @CacheEvict(cacheNames = "airlines", key = "#airlineId"),
             @CacheEvict(cacheNames = "airlinesByOwner", allEntries = true),
             @CacheEvict(cacheNames = "airlinesByIata", allEntries = true),
             @CacheEvict(cacheNames = "airlinesByAlliance", allEntries = true)

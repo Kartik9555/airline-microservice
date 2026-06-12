@@ -17,7 +17,7 @@ public class FareRequest {
     @NotBlank(message = "Fare name is required")
     private String name;
 
-    @NotBlank(message = "Fare code is required")
+    @NotNull(message = "Fare code is required")
     private Character rbdCode;
 
     @NotNull(message = "Flight ID is required")

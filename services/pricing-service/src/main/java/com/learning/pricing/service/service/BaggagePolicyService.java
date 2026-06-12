@@ -9,7 +9,7 @@ public interface BaggagePolicyService {
     BaggagePolicyResponse getBaggagePolicyById(Long id) throws Exception;
     BaggagePolicyResponse getBaggagePolicyByFareId(Long fareId) throws Exception;
     List<BaggagePolicyResponse> getBaggagePoliciesByAirlineId(Long airlineId) throws Exception;
-    BaggagePolicyResponse createBaggagePolicy(BaggagePolicyRequest request) throws Exception;
+    BaggagePolicyResponse createBaggagePolicy(Long userId, BaggagePolicyRequest request) throws Exception;
     BaggagePolicyResponse updateBaggagePolicy(Long id, BaggagePolicyRequest request) throws Exception;
     void deleteBaggagePolicy(Long id) throws Exception;
 }

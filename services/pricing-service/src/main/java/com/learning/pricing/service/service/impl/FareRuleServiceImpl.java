@@ -1,6 +1,7 @@
 package com.learning.pricing.service.service.impl;
 
 import com.learning.common.payload.request.FareRuleRequest;
+import com.learning.common.payload.response.AirlineResponse;
 import com.learning.common.payload.response.FareRuleResponse;
 import com.learning.pricing.service.mapper.FareRuleMapper;
 import com.learning.pricing.service.model.Fare;
@@ -8,6 +9,7 @@ import com.learning.pricing.service.model.FareRule;
 import com.learning.pricing.service.repository.FareRepository;
 import com.learning.pricing.service.repository.FareRuleRepository;
 import com.learning.pricing.service.service.FareRuleService;
+import com.learning.pricing.service.service.outbound.AirlineOutboundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ public class FareRuleServiceImpl implements FareRuleService {
 
     private final FareRuleRepository fareRulesRepository;
     private final FareRepository fareRepository;
+    private final AirlineOutboundService airlineService;
 
     @Override
     @Transactional(readOnly = true)
@@ -48,15 +51,16 @@ public class FareRuleServiceImpl implements FareRuleService {
 
     @Override
     @Transactional
-    public FareRuleResponse createFareRule(FareRuleRequest request) throws Exception {
+    public FareRuleResponse createFareRule(Long userId, FareRuleRequest request) throws Exception {
         final Fare fare = fareRepository.findById(request.getFareId())
                 .orElseThrow(() -> new Exception("Fare not found with id: " + request.getFareId()));
 
         if(fareRulesRepository.existsByFareId(fare.getId())) {
             throw new Exception("Fare Rules already exists with id: " + fare.getId());
         }
-
+        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         final FareRule fareRule = FareRuleMapper.toFareRule(request, fare);
+        fareRule.setAirlineId(airline.getId());
         return FareRuleMapper.toFareRule(fareRulesRepository.save(fareRule));
     }
 

@@ -54,6 +54,7 @@ public class FlightInstanceEventListener {
                             .status(SeatAvailabilityStatus.AVAILABLE)
                             .isAvailable(true)
                             .isBooked(false)
+                            .fare(seat.getBasePrice())
                             .premiumSurcharge(getPremiumSurcharge(seat.getSeatType(), 1000.0, 500.0))
                             .build())
                     .toList();

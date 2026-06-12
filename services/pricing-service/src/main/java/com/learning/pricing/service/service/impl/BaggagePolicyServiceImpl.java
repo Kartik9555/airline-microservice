@@ -1,6 +1,7 @@
 package com.learning.pricing.service.service.impl;
 
 import com.learning.common.payload.request.BaggagePolicyRequest;
+import com.learning.common.payload.response.AirlineResponse;
 import com.learning.common.payload.response.BaggagePolicyResponse;
 import com.learning.pricing.service.mapper.BaggagePolicyMapper;
 import com.learning.pricing.service.model.BaggagePolicy;
@@ -8,6 +9,7 @@ import com.learning.pricing.service.model.Fare;
 import com.learning.pricing.service.repository.BaggagePolicyRepository;
 import com.learning.pricing.service.repository.FareRepository;
 import com.learning.pricing.service.service.BaggagePolicyService;
+import com.learning.pricing.service.service.outbound.AirlineOutboundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ public class BaggagePolicyServiceImpl implements BaggagePolicyService {
 
     private final BaggagePolicyRepository baggagePolicyRepository;
     private final FareRepository fareRepository;
+    private final AirlineOutboundService airlineService;
 
     @Override
     @Transactional(readOnly = true)
@@ -48,15 +51,16 @@ public class BaggagePolicyServiceImpl implements BaggagePolicyService {
 
     @Override
     @Transactional
-    public BaggagePolicyResponse createBaggagePolicy(BaggagePolicyRequest request) throws Exception {
+    public BaggagePolicyResponse createBaggagePolicy(Long userId, BaggagePolicyRequest request) throws Exception {
         final Fare fare = fareRepository.findById(request.getFareId())
                 .orElseThrow(() -> new Exception("Fare id not found"));
 
         if(baggagePolicyRepository.existsByFareId(request.getFareId())) {
             throw new Exception("Baggage Policy already exists");
         }
-
+        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         final BaggagePolicy baggagePolicy = BaggagePolicyMapper.toBaggagePolicy(request, fare);
+        baggagePolicy.setAirlineId(airline.getId());
         return BaggagePolicyMapper.toBaggagePolicy(baggagePolicyRepository.save(baggagePolicy));
     }
 

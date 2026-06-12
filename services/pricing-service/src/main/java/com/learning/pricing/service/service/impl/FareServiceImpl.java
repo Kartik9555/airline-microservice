@@ -1,12 +1,16 @@
 package com.learning.pricing.service.service.impl;
 
+import com.learning.common.enums.CabinClassType;
 import com.learning.common.payload.request.FareRequest;
+import com.learning.common.payload.response.CabinClassResponse;
 import com.learning.common.payload.response.FareResponse;
 import com.learning.pricing.service.mapper.FareMapper;
 import com.learning.pricing.service.model.Fare;
 import com.learning.pricing.service.repository.FareRepository;
 import com.learning.pricing.service.service.FareService;
+import com.learning.pricing.service.service.outbound.SeatOutboundService;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,14 +25,18 @@ import java.util.stream.Collectors;
 public class FareServiceImpl implements FareService {
 
     private final FareRepository fareRepository;
+    private final SeatOutboundService seatService;
 
     @Override
     @Transactional
     public FareResponse createFare(FareRequest request) throws Exception {
+        final CabinClassType cabinClassType = getCabinClassType(request);
+
         if(fareRepository.existsByFlightIdAndCabinClassIdAndName(request.getFlightId(), request.getCabinClassId(), request.getName())) {
             throw new Exception("Fare with the same name already exists for this flight and cabin class");
         }
         final Fare fare = FareMapper.toFare(request);
+        fare.setCabinClass(cabinClassType);
         return FareMapper.toFare(fareRepository.save(fare));
     }
 
@@ -110,5 +118,13 @@ public class FareServiceImpl implements FareService {
                 .min(Comparator.comparingDouble(Fare::getTotalPrice))
                 .orElse(null);
         return FareMapper.toFare(lowestFare);
+    }
+
+    private @NonNull CabinClassType getCabinClassType(FareRequest request) throws Exception {
+        final CabinClassResponse cabinClass = seatService.getCabinClassById(request.getCabinClassId());
+        if(cabinClass == null){
+            throw new Exception("Cabin Class Not Found");
+        }
+        return CabinClassType.valueOf(cabinClass.getName());
     }
 }

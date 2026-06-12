@@ -50,17 +50,17 @@ public class MealMapper {
 
     public static void toMeal(MealRequest request, Meal meal) {
         if(request == null || meal == null) return;
-        if(meal.getCode() != null) request.setCode(meal.getCode());
-        if(meal.getName() != null) request.setName(meal.getName());
-        if(meal.getDescription() != null) request.setDescription(meal.getDescription());
-        if(meal.getPrice() != null) request.setPrice(meal.getPrice());
-        if(meal.getRequiresAdvanceBooking() != null) request.setRequiresAdvanceBooking(meal.getRequiresAdvanceBooking());
-        if(meal.getImageUrl() != null) request.setImageUrl(meal.getImageUrl());
-        if(meal.getCurrency() != null) request.setCurrency(meal.getCurrency());
-        if(meal.getDisplayOrder() != null) request.setDisplayOrder(meal.getDisplayOrder());
-        if(meal.getAdvanceBookingHours() != null) request.setAdvanceBookingHours(meal.getAdvanceBookingHours());
-        if(meal.getMealType() != null) request.setMealType(meal.getMealType());
-        if(meal.getDietaryRestriction() != null) request.setDietaryRestriction(meal.getDietaryRestriction());
-        if(meal.getIngredients() != null) request.setIngredients(meal.getIngredients());
+        if(request.getCode() != null) meal.setCode(request.getCode());
+        if(request.getName() != null) meal.setName(request.getName());
+        if(request.getDescription() != null) meal.setDescription(request.getDescription());
+        if(request.getPrice() != null) meal.setPrice(request.getPrice());
+        if(request.getRequiresAdvanceBooking() != null) meal.setRequiresAdvanceBooking(request.getRequiresAdvanceBooking());
+        if(request.getImageUrl() != null) meal.setImageUrl(request.getImageUrl());
+        if(request.getCurrency() != null) meal.setCurrency(request.getCurrency());
+        if(request.getDisplayOrder() != null) meal.setDisplayOrder(request.getDisplayOrder());
+        if(request.getAdvanceBookingHours() != null) meal.setAdvanceBookingHours(request.getAdvanceBookingHours());
+        if(request.getMealType() != null) meal.setMealType(request.getMealType());
+        if(request.getDietaryRestriction() != null) meal.setDietaryRestriction(request.getDietaryRestriction());
+        if(request.getIngredients() != null) meal.setIngredients(request.getIngredients());
     }
 }

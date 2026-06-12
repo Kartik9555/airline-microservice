@@ -9,7 +9,7 @@ public interface FareRuleService {
     FareRuleResponse getFareRuleById(Long fareRuleId) throws Exception;
     FareRuleResponse getFareRuleByFareId(Long fareId) throws Exception;
     List<FareRuleResponse> getFareRulesByAirlineId(Long airlineId) throws Exception;
-    FareRuleResponse createFareRule(FareRuleRequest request) throws Exception;
+    FareRuleResponse createFareRule(Long userId, FareRuleRequest request) throws Exception;
     FareRuleResponse updateFareRule(Long fareRuleId, FareRuleRequest request) throws Exception;
     void deleteFareRule(Long fareRuleId) throws Exception;
 }

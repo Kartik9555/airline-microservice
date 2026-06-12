@@ -15,6 +15,7 @@ public class BaggagePolicyMapper {
                 .maxWeight(baggagePolicy.getCabinBaggageMaxWeight())
                 .pieces(baggagePolicy.getCabinBaggagePieces())
                 .weightPerPiece(baggagePolicy.getCabinBaggageWeightPerPiece())
+                .maxDimension(baggagePolicy.getCabinBaggageMaxDimension())
                 .build();
 
         final Baggage checkinBaggage = Baggage.builder()

@@ -51,7 +51,6 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
 
     @Override
     public FlightScheduleResponse createFlightSchedule(Long userId, FlightScheduleRequest request) throws Exception {
-        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         final Flight flight = flightRepository.findById(request.getFlightId())
                 .orElseThrow(() -> new Exception("Flight not found with id: " + request.getFlightId()));
 
@@ -79,7 +78,7 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
             if(operatingDays.contains(date.getDayOfWeek())) {
                 flightInstanceRequest.setDepartureDateTime(LocalDateTime.of(date, saved.getDepartureTime()));
                 flightInstanceRequest.setArrivalDateTime(LocalDateTime.of(date, saved.getArrivalTime()));
-                flightInstanceService.createFlightInstance(airline.getId(), flightInstanceRequest);
+                flightInstanceService.createFlightInstance(userId, flightInstanceRequest);
             }
         }
         return getFlightScheduleResponse(saved);

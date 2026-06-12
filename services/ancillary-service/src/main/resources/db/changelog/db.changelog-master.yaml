@@ -14,3 +14,9 @@ databaseChangeLog:
   - include:
       file: files/005_create_flight_meal_table.xml
       relativeToChangelogFile: true
+  - include:
+      file: files/006_update_ancillary_metadata_column_type.xml
+      relativeToChangelogFile: true
+  - include:
+      file: files/007_update_meal_table_add_column.xml
+      relativeToChangelogFile: true

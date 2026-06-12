@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,9 +44,10 @@ public class BaggagePolicyController {
 
     @PostMapping
     public ResponseEntity<BaggagePolicyResponse> createBaggagePolicy(
+            @RequestHeader("X-User-Id") Long userId,
             @Valid @RequestBody BaggagePolicyRequest baggagePolicyRequest) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(baggagePolicyService.createBaggagePolicy(baggagePolicyRequest));
+                .body(baggagePolicyService.createBaggagePolicy(userId, baggagePolicyRequest));
     }
 
     @PutMapping("/{id}")

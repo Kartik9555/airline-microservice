@@ -4,6 +4,7 @@ import com.learning.common.enums.AircraftStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,13 +33,13 @@ public class AircraftRequest {
     @Positive(message = "Economy seats count must be a positive number")
     private Integer economySeats;
 
-    @Positive(message = "Premium economy seats count must be a positive number")
+    @PositiveOrZero(message = "Premium economy seats count must be a positive number")
     private Integer premiumEconomySeats;
 
-    @Positive(message = "Business seats count must be a positive number")
+    @PositiveOrZero(message = "Business seats count must be a positive number")
     private Integer businessSeats;
 
-    @Positive(message = "First class seats count must be a positive number")
+    @PositiveOrZero(message = "First class seats count must be a positive number")
     private Integer firstClassSeats;
 
     @Positive(message = "Range must be a positive number")

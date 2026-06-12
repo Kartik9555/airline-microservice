@@ -1,9 +1,11 @@
 package com.learning.seat.service.service.impl;
 
+import com.learning.common.enums.CabinClassType;
 import com.learning.common.enums.SeatType;
 import com.learning.common.payload.request.SeatRequest;
 import com.learning.common.payload.response.SeatResponse;
 import com.learning.seat.service.mapper.SeatMapper;
+import com.learning.seat.service.model.CabinClass;
 import com.learning.seat.service.model.Seat;
 import com.learning.seat.service.model.SeatMap;
 import com.learning.seat.service.repository.SeatMapRepository;
@@ -36,6 +38,7 @@ public class SeatServiceImpl implements SeatService {
         final SeatMap seatMap = seatMapRepository.findById(seatMapId)
                 .orElseThrow(() -> new Exception("Seats with Seat Map id: " + seatMapId + " not found"));
 
+        final CabinClass cabinClass = seatMap.getCabinClass();
         int leftSeatsPerRow = seatMap.getLeftSeatsPerRow();
         int rightSeatsPerRow = seatMap.getRightSeatsPerRow();
         int totalRows = seatMap.getTotalRows();
@@ -53,6 +56,14 @@ public class SeatServiceImpl implements SeatService {
                         .seatType(seatType)
                         .seatMap(seatMap)
                         .cabinClass(seatMap.getCabinClass())
+                        .hasExtraLegRoom(hasExtraLegRoom(cabinClass.getName()))
+                        .isWheelChairAccessible(isWheelChairAccessible(cabinClass.getName()))
+                        .isPremiumSeat(isPremiumSeat(cabinClass.getName()))
+                        .hasPowerOutlet(isPremiumSeat(cabinClass.getName()))
+                        .hasTvScreen(isPremiumSeat(cabinClass.getName()))
+                        .hasExtraWidth(hasExtraWidth(cabinClass.getName()))
+                        .seatPitch(cabinClass.getTypicalSeatPitch())
+                        .seatWidth(cabinClass.getTypicalSeatWidth())
                         .build();
                 seats.add(seat);
             }
@@ -70,11 +81,41 @@ public class SeatServiceImpl implements SeatService {
 
     private String getSeatLetter(int col) {
         StringBuilder sb = new StringBuilder();
+        col++; // convert 0-based to 1-based
         while (col > 0) {
-            sb.insert(0, (char) ('A' + col % 26));
-            col /= 26-1;
+            col--;
+            sb.insert(0, (char) ('A' + (col % 26)));
+            col /= 26;
         }
         return sb.toString();
+    }
+
+    private boolean isPremiumSeat(CabinClassType cabinClass) {
+        return switch (cabinClass) {
+            case BUSINESS, FIRST, PREMIUM_ECONOMY ->  true;
+            case ECONOMY -> false;
+        };
+    }
+
+    private boolean isWheelChairAccessible(CabinClassType cabinClass) {
+        return switch (cabinClass) {
+            case BUSINESS, FIRST, PREMIUM_ECONOMY ->  true;
+            case ECONOMY -> false;
+        };
+    }
+
+    private boolean hasExtraWidth(CabinClassType cabinClass) {
+        return switch (cabinClass) {
+            case BUSINESS, FIRST, PREMIUM_ECONOMY ->  true;
+            case ECONOMY -> false;
+        };
+    }
+
+    private boolean hasExtraLegRoom(CabinClassType cabinClass) {
+        return switch (cabinClass) {
+            case BUSINESS, FIRST ->  true;
+            case  PREMIUM_ECONOMY, ECONOMY -> false;
+        };
     }
 
     @Override
