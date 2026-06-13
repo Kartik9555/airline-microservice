@@ -71,6 +71,7 @@ public class FlightScheduleServiceImpl implements FlightScheduleService {
                 .departureAirportId(flightSchedule.getDepartureAirportId())
                 .arrivalAirportId(flightSchedule.getArrivalAirportId())
                 .status(FlightStatus.SCHEDULED)
+                .isActive(true)
                 .build();
 
         for(LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
