@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1flights")
+@RequestMapping("/api/v1/flights")
 @RequiredArgsConstructor
 public class FlightSearchController {
     private final FlightSearchService flightSearchService;
@@ -31,7 +31,7 @@ public class FlightSearchController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate arrivalDate,
             @RequestParam Integer passengers,
             @RequestParam CabinClassType cabinClassType,
-            @RequestParam(required = false)List<Long> airlines,
+            @RequestParam(required = false) List<Long> airlines,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) String departureTimeRange,
