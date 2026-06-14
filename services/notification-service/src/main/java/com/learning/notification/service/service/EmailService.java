@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.io.UnsupportedEncodingException;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -31,11 +33,10 @@ public class EmailService {
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
     private static final DateTimeFormatter DT_FMT = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm", Locale.ENGLISH);
 
-    public void sendBookingConfirmation(BookingConfirmedEvent event) throws MessagingException {
+    public void sendBookingConfirmation(BookingConfirmedEvent event) throws MessagingException, UnsupportedEncodingException {
         final MimeMessage mimeMessage = mailSender.createMimeMessage();
         final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-        helper.setFrom(fromEmail);
-        helper.setFrom(fromName);
+        helper.setFrom(fromEmail, fromName);
         helper.setTo(event.getContactEmail());
         helper.setSubject(buildSubject(event));
         helper.setText(buildHtmlBody(event), true);
@@ -50,8 +51,8 @@ public class EmailService {
         context.setVariable("depTime", event.getDepartureDateTime() != null ? TIME_FMT.format(event.getDepartureDateTime()) : "N/A");
         context.setVariable("arrDate", event.getArrivalDateTime() != null ? DATE_FMT.format(event.getArrivalDateTime()) : "N/A");
         context.setVariable("arrTime", event.getArrivalDateTime() != null ? TIME_FMT.format(event.getArrivalDateTime()) : "N/A");
-        context.setVariable("paidAt", event.getPaidAt() != null ? DT_FMT.format(event.getPaidAt()) : "N/A");
-        context.setVariable("bookingDate", event.getBookingDate() != null ? DT_FMT.format(event.getBookingDate()) : "N/A");
+        context.setVariable("paidAt", event.getPaidAt() != null ? DT_FMT.format(event.getPaidAt().atZone(ZoneId.systemDefault())) : "N/A");
+        context.setVariable("bookingDate", event.getBookingDate() != null ? DT_FMT.format(event.getBookingDate().atZone(ZoneId.systemDefault())) : "N/A");
 
         double base = orZero(event.getBaseFare());
         double taxes = orZero(event.getTaxesAndFees());

@@ -2,7 +2,6 @@ package com.learning.notification.service.event;
 
 import com.learning.common.event.BookingConfirmedEvent;
 import com.learning.notification.service.service.EmailService;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -17,7 +16,7 @@ public class BookingNotificationListener {
 
     @KafkaListener(topics = "booking_confirmed", groupId = "notification-service-group")
     @Transactional
-    public void handleBookingConfirmedEvent(@Payload BookingConfirmedEvent event) throws MessagingException {
+    public void handleBookingConfirmedEvent(@Payload BookingConfirmedEvent event) throws Exception {
         emailService.sendBookingConfirmation(event);
     }
 }
