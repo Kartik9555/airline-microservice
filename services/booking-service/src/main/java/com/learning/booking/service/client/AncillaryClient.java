@@ -12,7 +12,7 @@ import java.util.List;
 public interface AncillaryClient {
 
     @GetMapping("/api/v1/flight-cabin-ancillaries/price/total")
-    Double calculateAncillaryPrice(@RequestParam("id") List<Long> ids);
+    Double calculateAncillaryPrice(@RequestParam("ids") List<Long> ids);
 
     @GetMapping("/api/v1/flight-cabin-ancillaries")
     List<FlightCabinAncillaryResponse> getAllFlightCabinAncillaryByIds(@RequestParam("ids") List<Long> ids);
