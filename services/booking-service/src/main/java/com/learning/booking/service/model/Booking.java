@@ -105,4 +105,11 @@ public class Booking {
     @UpdateTimestamp
     @Column(nullable = false)
     private Instant lastModified;
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets.clear();
+        if (tickets != null) {
+            this.tickets.addAll(tickets);
+        }
+    }
 }
