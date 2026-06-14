@@ -1,0 +1,10 @@
+name: test
+variables:
+  - name: admin_user
+    value: british_airways_owner@gmail.com
+  - secret: true
+    name: admin_password
+  - name: owner_role
+    value: AIRLINE_OWNER
+  - name: user_role
+    value: USER

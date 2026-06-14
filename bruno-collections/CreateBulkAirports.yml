@@ -1,0 +1,740 @@
+info:
+  name: CreateBulkAirports
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/airports/bulk
+  body:
+    type: json
+    data: |-
+      [
+        {
+          "iataCode": "FRA",
+          "icaoCode": "EDDF",
+          "name": "Frankfurt Airport",
+          "cityId": 1,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "Hugo Eckner Ring 1",
+            "postalCode": "60549",
+            "city": "Frankfurt am Main",
+            "country": "Germany"
+          },
+          "geoCode": { "latitude": 50.0379, "longitude": 8.5622 }
+        },
+        {
+          "iataCode": "MUC",
+          "icaoCode": "EDDM",
+          "name": "Munich Airport",
+          "cityId": 2,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "Nordallee 25",
+            "postalCode": "85356",
+            "city": "Munich",
+            "country": "Germany"
+          },
+          "geoCode": { "latitude": 48.3538, "longitude": 11.7861 }
+        },
+        {
+          "iataCode": "BER",
+          "icaoCode": "EDDB",
+          "name": "Berlin Brandenburg Airport",
+          "cityId": 3,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "Willy-Brandt-Platz",
+            "postalCode": "12529",
+            "city": "Berlin",
+            "country": "Germany"
+          },
+          "geoCode": { "latitude": 52.3667, "longitude": 13.5033 }
+        },
+
+        {
+          "iataCode": "LHR",
+          "icaoCode": "EGLL",
+          "name": "Heathrow Airport",
+          "cityId": 6,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "Longford TW6",
+            "postalCode": "TW6 1QG",
+            "city": "London",
+            "country": "United Kingdom"
+          },
+          "geoCode": { "latitude": 51.4700, "longitude": -0.4543 }
+        },
+        {
+          "iataCode": "LGW",
+          "icaoCode": "EGKK",
+          "name": "Gatwick Airport",
+          "cityId": 6,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "Horley",
+            "postalCode": "RH6 0NP",
+            "city": "London",
+            "country": "United Kingdom"
+          },
+          "geoCode": { "latitude": 51.1537, "longitude": -0.1821 }
+        },
+
+        {
+          "iataCode": "JFK",
+          "icaoCode": "KJFK",
+          "name": "John F. Kennedy International Airport",
+          "cityId": 16,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "Jamaica",
+            "postalCode": "11430",
+            "city": "New York",
+            "country": "United States"
+          },
+          "geoCode": { "latitude": 40.6413, "longitude": -73.7781 }
+        },
+        {
+          "iataCode": "LGA",
+          "icaoCode": "KLGA",
+          "name": "LaGuardia Airport",
+          "cityId": 16,
+          "type": "DOMESTIC",
+          "address": {
+            "street": "Queens",
+            "postalCode": "11371",
+            "city": "New York",
+            "country": "United States"
+          },
+          "geoCode": { "latitude": 40.7769, "longitude": -73.8740 }
+        },
+
+        {
+          "iataCode": "CDG",
+          "icaoCode": "LFPG",
+          "name": "Charles de Gaulle Airport",
+          "cityId": 7,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "95700 Roissy-en-France",
+            "postalCode": "95700",
+            "city": "Paris",
+            "country": "France"
+          },
+          "geoCode": { "latitude": 49.0097, "longitude": 2.5479 }
+        },
+
+        {
+          "iataCode": "DXB",
+          "icaoCode": "OMDB",
+          "name": "Dubai International Airport",
+          "cityId": 23,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "Garhoud",
+            "postalCode": "Dubai Intl",
+            "city": "Dubai",
+            "country": "United Arab Emirates"
+          },
+          "geoCode": { "latitude": 25.2532, "longitude": 55.3657 }
+        },
+
+        {
+          "iataCode": "DOH",
+          "icaoCode": "OTHH",
+          "name": "Hamad International Airport",
+          "cityId": 25,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "Airport St",
+            "postalCode": "Qatar",
+            "city": "Doha",
+            "country": "Qatar"
+          },
+          "geoCode": { "latitude": 25.2731, "longitude": 51.6081 }
+        },
+
+        {
+          "iataCode": "SIN",
+          "icaoCode": "WSSS",
+          "name": "Changi Airport",
+          "cityId": 27,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "Airport Blvd",
+            "postalCode": "819643",
+            "city": "Singapore",
+            "country": "Singapore"
+          },
+          "geoCode": { "latitude": 1.3644, "longitude": 103.9915 }
+        },
+
+        {
+          "iataCode": "HKG",
+          "icaoCode": "VHHH",
+          "name": "Hong Kong International Airport",
+          "cityId": 31,
+          "type": "INTERNATIONAL",
+          "address": {
+            "street": "Chek Lap Kok",
+            "postalCode": "Hong Kong",
+            "city": "Hong Kong",
+            "country": "China"
+          },
+          "geoCode": { "latitude": 22.3080, "longitude": 113.9185 }
+        },
+          {
+          "iataCode": "AMS",
+          "name": "Amsterdam Airport Schiphol",
+          "address": {
+            "street": "Evert van de Beekstraat 202",
+            "city": "Amsterdam",
+            "state": "North Holland",
+            "postalCode": "1118 CP",
+            "countryCode": "NL"
+          },
+          "cityId": 8,
+          "geoCode": {
+            "latitude": 52.3105,
+            "longitude": 4.7683
+          }
+        },
+        {
+          "iataCode": "MAD",
+          "name": "Adolfo Suárez Madrid–Barajas Airport",
+          "address": {
+            "street": "Av de la Hispanidad",
+            "city": "Madrid",
+            "state": "Madrid",
+            "postalCode": "28042",
+            "countryCode": "ES"
+          },
+          "cityId": 10,
+          "geoCode": {
+            "latitude": 40.4983,
+            "longitude": -3.5676
+          }
+        },
+        {
+          "iataCode": "FCO",
+          "name": "Leonardo da Vinci Rome Fiumicino Airport",
+          "address": {
+            "street": "Via dell'Aeroporto di Fiumicino",
+            "city": "Rome",
+            "state": "Lazio",
+            "postalCode": "00054",
+            "countryCode": "IT"
+          },
+          "cityId": 9,
+          "geoCode": {
+            "latitude": 41.8003,
+            "longitude": 12.2389
+          }
+        },
+        {
+          "iataCode": "NRT",
+          "name": "Narita International Airport",
+          "address": {
+            "street": "1-1 Furugome",
+            "city": "Tokyo",
+            "state": "Chiba",
+            "postalCode": "282-0004",
+            "countryCode": "JP"
+          },
+          "cityId": 28,
+          "geoCode": {
+            "latitude": 35.7719,
+            "longitude": 140.3929
+          }
+        },
+        {
+          "iataCode": "HND",
+          "name": "Tokyo Haneda Airport",
+          "address": {
+            "street": "Hanedakuko",
+            "city": "Tokyo",
+            "state": "Tokyo",
+            "postalCode": "144-0041",
+            "countryCode": "JP"
+          },
+          "cityId": 28,
+          "geoCode": {
+            "latitude": 35.5494,
+            "longitude": 139.7798
+          }
+        },
+        {
+          "iataCode": "ICN",
+          "name": "Incheon International Airport",
+          "address": {
+            "street": "272 Gonghang-ro",
+            "city": "Seoul",
+            "state": "Incheon",
+            "postalCode": "22382",
+            "countryCode": "KR"
+          },
+          "cityId": 30,
+          "geoCode": {
+            "latitude": 37.4602,
+            "longitude": 126.4407
+          }
+        },{
+        "iataCode": "LAX",
+        "name": "Los Angeles International Airport",
+        "address": {
+          "street": "1 World Way",
+          "city": "Los Angeles",
+          "state": "CA",
+          "postalCode": "90045",
+          "countryCode": "US"
+        },
+        "cityId": 20,
+        "geoCode": {
+          "latitude": 33.9416,
+          "longitude": -118.4085
+        }
+      },
+        {
+          "iataCode": "ORD",
+          "name": "Chicago O'Hare International Airport",
+          "address": {
+            "street": "10000 W O'Hare Ave",
+            "city": "Chicago",
+            "state": "IL",
+            "postalCode": "60666",
+            "countryCode": "US"
+          },
+          "cityId": 18,
+          "geoCode": {
+            "latitude": 41.9742,
+            "longitude": -87.9073
+          }
+        },
+        {
+          "iataCode": "IST",
+          "name": "Istanbul Airport",
+          "address": {
+            "street": "Tayakadın Terminal Caddesi",
+            "city": "Istanbul",
+            "state": "Istanbul",
+            "postalCode": "34283",
+            "countryCode": "TR"
+          },
+          "cityId": 26,
+          "geoCode": {
+            "latitude": 41.2753,
+            "longitude": 28.7519
+          }
+        },
+        {
+          "iataCode": "YYZ",
+          "name": "Toronto Pearson International Airport",
+          "address": {
+            "street": "6301 Silver Dart Dr",
+            "city": "Toronto",
+            "state": "Ontario",
+            "postalCode": "L5P 1B2",
+            "countryCode": "CA"
+          },
+          "cityId": 50,
+          "geoCode": {
+            "latitude": 43.6777,
+            "longitude": -79.6248
+          }
+        },
+        {
+          "iataCode": "YYC",
+          "name": "Calgary International Airport",
+          "address": {
+            "street": "2000 Airport Rd NE",
+            "city": "Calgary",
+            "state": "Alberta",
+            "postalCode": "T2E 6W5",
+            "countryCode": "CA"
+          },
+          "cityId": 53,
+          "geoCode": {
+            "latitude": 51.1215,
+            "longitude": -114.0076
+          }
+        },
+        {
+          "iataCode": "SYD",
+          "name": "Sydney Kingsford Smith Airport",
+          "address": {
+            "street": "Mascot NSW 2020",
+            "city": "Sydney",
+            "state": "NSW",
+            "postalCode": "2020",
+            "countryCode": "AU"
+          },
+          "cityId": 38,
+          "geoCode": {
+            "latitude": -33.9399,
+            "longitude": 151.1753
+          }
+        },
+        {
+          "iataCode": "BRU",
+          "name": "Brussels Airport",
+          "address": {
+            "street": "Leopoldlaan",
+            "city": "Brussels",
+            "state": "Brussels",
+            "postalCode": "1930",
+            "countryCode": "BE"
+          },
+          "cityId": 13,
+          "geoCode": {
+            "latitude": 50.9010,
+            "longitude": 4.4844
+          }
+        },
+        {
+          "iataCode": "ZRH",
+          "name": "Zurich Airport",
+          "address": {
+            "street": "Zurich Airport",
+            "city": "Zurich",
+            "state": "Zurich",
+            "postalCode": "8058",
+            "countryCode": "CH"
+          },
+          "cityId": 11,
+          "geoCode": {
+            "latitude": 47.4581,
+            "longitude": 8.5555
+          }
+        },
+        {
+          "iataCode": "WAW",
+          "name": "Warsaw Chopin Airport",
+          "address": {
+            "street": "Żwirki i Wigury 1",
+            "city": "Warsaw",
+            "state": "Mazowieckie",
+            "postalCode": "00-001",
+            "countryCode": "PL"
+          },
+          "cityId": 46,
+          "geoCode": {
+            "latitude": 52.1657,
+            "longitude": 20.9671
+          }
+        },
+        {
+          "iataCode": "CPH",
+          "name": "Copenhagen Airport",
+          "address": {
+            "street": "Lufthavnsboulevarden 6",
+            "city": "Copenhagen",
+            "state": "Capital Region",
+            "postalCode": "2770",
+            "countryCode": "DK"
+          },
+          "cityId": 48,
+          "geoCode": {
+            "latitude": 55.6181,
+            "longitude": 12.6560
+          }
+        },
+        {
+          "iataCode": "KEF",
+          "name": "Keflavik International Airport",
+          "address": {
+            "street": "235 Keflavik",
+            "city": "Reykjavik",
+            "state": "Southern Peninsula",
+            "postalCode": "235",
+            "countryCode": "IS"
+          },
+          "cityId": 76,
+          "geoCode": {
+            "latitude": 63.9850,
+            "longitude": -22.6056
+          }
+        },
+        {
+          "iataCode": "EZE",
+          "name": "Ministro Pistarini International Airport",
+          "address": {
+            "street": "Autopista Riccheri",
+            "city": "Buenos Aires",
+            "state": "Buenos Aires",
+            "postalCode": "1802",
+            "countryCode": "AR"
+          },
+          "cityId": 75,
+          "geoCode": {
+            "latitude": -34.8222,
+            "longitude": -58.5358
+          }
+        },
+        {
+          "iataCode": "SCL",
+          "name": "Arturo Merino Benitez Airport",
+          "address": {
+            "street": "Pudahuel",
+            "city": "Santiago",
+            "state": "Santiago Metropolitan",
+            "postalCode": "9020000",
+            "countryCode": "CL"
+          },
+          "cityId": 77,
+          "geoCode": {
+            "latitude": -33.3930,
+            "longitude": -70.7858
+          }
+        },
+        {
+          "iataCode": "JNB",
+          "name": "O. R. Tambo International Airport",
+          "address": {
+            "street": "Jones Rd",
+            "city": "Johannesburg",
+            "state": "Gauteng",
+            "postalCode": "1627",
+            "countryCode": "ZA"
+          },
+          "cityId": 43,
+          "geoCode": {
+            "latitude": -26.1337,
+            "longitude": 28.2420
+          }
+        },
+        {
+          "iataCode": "ADD",
+          "name": "Addis Ababa Bole International Airport",
+          "address": {
+            "street": "Airport Rd",
+            "city": "Addis Ababa",
+            "state": "Addis Ababa",
+            "postalCode": "1000",
+            "countryCode": "ET"
+          },
+          "cityId": 78,
+          "geoCode": {
+            "latitude": 8.9779,
+            "longitude": 38.7993
+          }
+        },
+        {
+          "iataCode": "DEL",
+          "name": "Indira Gandhi International Airport",
+          "address": {
+            "street": "New Delhi",
+            "city": "Delhi",
+            "state": "Delhi",
+            "postalCode": "110037",
+            "countryCode": "IN"
+          },
+          "cityId": 36,
+          "geoCode": {
+            "latitude": 28.5562,
+            "longitude": 77.1000
+          }
+        },
+        {
+          "iataCode": "BLR",
+          "name": "Kempegowda International Airport",
+          "address": {
+            "street": "KIAL Rd",
+            "city": "Bengaluru",
+            "state": "Karnataka",
+            "postalCode": "560300",
+            "countryCode": "IN"
+          },
+          "cityId": 37,
+          "geoCode": {
+            "latitude": 13.1986,
+            "longitude": 77.7066
+          }
+        },
+        {
+          "iataCode": "CAN",
+          "name": "Guangzhou Baiyun International Airport",
+          "address": {
+            "street": "Baiyun District",
+            "city": "Guangzhou",
+            "state": "Guangdong",
+            "postalCode": "510470",
+            "countryCode": "CN"
+          },
+          "cityId": 34,
+          "geoCode": {
+            "latitude": 23.3924,
+            "longitude": 113.2988
+          }
+        },
+        {
+          "iataCode": "PVG",
+          "name": "Shanghai Pudong International Airport",
+          "address": {
+            "street": "Pudong",
+            "city": "Shanghai",
+            "state": "Shanghai",
+            "postalCode": "201207",
+            "countryCode": "CN"
+          },
+          "cityId": 33,
+          "geoCode": {
+            "latitude": 31.1443,
+            "longitude": 121.8083
+          }
+        },
+        {
+          "iataCode": "PEK",
+          "name": "Beijing Capital International Airport",
+          "address": {
+            "street": "Shunyi District",
+            "city": "Beijing",
+            "state": "Beijing",
+            "postalCode": "100621",
+            "countryCode": "CN"
+          },
+          "cityId": 32,
+          "geoCode": {
+            "latitude": 40.0799,
+            "longitude": 116.6031
+          }
+        },
+        {
+          "iataCode": "VCP",
+          "name": "Viracopos International Airport",
+          "address": {
+            "street": "Rod. Santos Dumont",
+            "city": "Campinas",
+            "state": "São Paulo",
+            "postalCode": "13052-970",
+            "countryCode": "BR"
+          },
+          "cityId": 40,
+          "geoCode": {
+            "latitude": -23.0074,
+            "longitude": -47.1345
+          }
+        },
+        {
+          "iataCode": "CGH",
+          "name": "São Paulo Congonhas Airport",
+          "address": {
+            "street": "Av. Washington Luís",
+            "city": "São Paulo",
+            "state": "São Paulo",
+            "postalCode": "04626-911",
+            "countryCode": "BR"
+          },
+          "cityId": 40,
+          "geoCode": {
+            "latitude": -23.6261,
+            "longitude": -46.6566
+          }
+        },
+        {
+          "iataCode": "BCN",
+          "name": "Barcelona-El Prat Airport",
+          "address": {
+            "street": "08820 El Prat",
+            "city": "Barcelona",
+            "state": "Catalonia",
+            "postalCode": "08820",
+            "countryCode": "ES"
+          },
+          "cityId": 79,
+          "geoCode": {
+            "latitude": 41.2974,
+            "longitude": 2.0833
+          }
+        },
+        {
+          "iataCode": "LTN",
+          "name": "London Luton Airport",
+          "address": {
+            "street": "Airport Way",
+            "city": "London",
+            "state": "England",
+            "postalCode": "LU2 9LY",
+            "countryCode": "GB"
+          },
+          "cityId": 6,
+          "geoCode": {
+            "latitude": 51.8747,
+            "longitude": -0.3683
+          }
+        },
+        {
+          "iataCode": "DUB",
+          "name": "Dublin Airport",
+          "address": {
+            "street": "Collinstown",
+            "city": "Dublin",
+            "state": "Dublin",
+            "postalCode": "K67",
+            "countryCode": "IE"
+          },
+          "cityId": 14,
+          "geoCode": {
+            "latitude": 53.4213,
+            "longitude": -6.2701
+          }
+        },
+        {
+          "iataCode": "BUD",
+          "name": "Budapest Ferenc Liszt International Airport",
+          "address": {
+            "street": "Budapest Airport",
+            "city": "Budapest",
+            "state": "Budapest",
+            "postalCode": "1185",
+            "countryCode": "HU"
+          },
+          "cityId": 80,
+          "geoCode": {
+            "latitude": 47.4369,
+            "longitude": 19.2556
+          }
+        },
+        {
+          "iataCode": "RUH",
+          "name": "King Khalid International Airport",
+          "address": {
+            "street": "Airport Road",
+            "city": "Riyadh",
+            "state": "Riyadh",
+            "postalCode": "13458",
+            "countryCode": "SA"
+          },
+          "cityId": 24,
+          "geoCode": {
+            "latitude": 24.9576,
+            "longitude": 46.6988
+          }
+        },
+        {
+          "iataCode": "CAI",
+          "name": "Cairo International Airport",
+          "address": {
+            "street": "Airport Rd",
+            "city": "Cairo",
+            "state": "Cairo",
+            "postalCode": "11776",
+            "countryCode": "EG"
+          },
+          "cityId": 45,
+          "geoCode": {
+            "latitude": 30.1219,
+            "longitude": 31.4056
+          }
+        }
+      ]
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

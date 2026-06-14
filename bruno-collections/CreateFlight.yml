@@ -1,0 +1,28 @@
+info:
+  name: CreateFlight
+  type: http
+  seq: 15
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/flights
+  body:
+    type: json
+    data: |-
+      {
+          "flightNumber": "BA910",
+          "airlineId": 5,
+          "aircraftId": 10,
+          "departureAirportId": 4,
+          "arrivalAirportId": 35,
+          "status": "SCHEDULED"
+        }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

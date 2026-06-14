@@ -1,0 +1,17 @@
+info:
+  name: LogoutAdmin
+  type: http
+  seq: 9
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/auth/logout
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

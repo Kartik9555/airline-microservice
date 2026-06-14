@@ -1,0 +1,30 @@
+info:
+  name: SignUpAnAdmin
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/auth/signup
+  body:
+    type: json
+    data: |-
+      {
+        "email": "china_southern_airlines_owner@gmail.com",
+        "password": "china_southern_airlines_owner@123",
+        "fullName": "China Southern Airlines Owner",
+        "role": "ROLE_AIRLINE_OWNER",
+        "phone": "9876543211"
+      }
+  auth: inherit
+
+runtime:
+  variables:
+    - name: owner_role
+      value: ROLE_AIRLINE_OWNER
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

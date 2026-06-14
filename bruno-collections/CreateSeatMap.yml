@@ -1,0 +1,29 @@
+info:
+  name: CreateSeatMap
+  type: http
+  seq: 14
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/seat-maps
+  body:
+    type: json
+    data: |-
+      {
+        "name": "CRJ800 Economy",
+        "totalRows": 15,
+        "leftSeatsPerRow": 2,
+        "rightSeatsPerRow": 2,
+        "cabinClassId": 16,
+        "basePrice": 120.0,
+        "premiumSurcharge": 0.0
+      }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

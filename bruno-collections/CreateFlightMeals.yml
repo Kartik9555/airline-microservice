@@ -1,0 +1,28 @@
+info:
+  name: CreateFlightMeals
+  type: http
+  seq: 19
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/flight-meals
+  body:
+    type: json
+    data: |-
+      {
+          "flightId": 1,
+          "mealId": 10,
+          "price": 12.00,
+          "available": true,
+          "displayOrder": 10,
+          "notes": "Vegan curry meal."
+        }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,39 @@
+info:
+  name: CreateFlightSchedule
+  type: http
+  seq: 21
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/flight-schedules
+  body:
+    type: json
+    data: |-
+      {
+        "flightId": 83,
+        "departureAirportId": 4,
+        "arrivalAirportId": 34,
+        "departureTime": "22:00:00",
+        "arrivalTime": "17:00:00",
+        "startDate": "2026-05-01",
+        "endDate": "2026-12-31",
+        "operatingDays": [
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY",
+          "SUNDAY"
+        ],
+        "isActive": true
+      }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

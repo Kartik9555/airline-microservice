@@ -1,0 +1,32 @@
+info:
+  name: CreateCabinClass
+  type: http
+  seq: 13
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/cabin-classes
+  body:
+    type: json
+    data: |-
+      {
+          "name": "ECONOMY",
+          "code": "Y",
+          "description": "Standard economy seating.",
+          "aircraftId": 10,
+          "displayOrder": 4,
+          "isActive": true,
+          "isBookable": true,
+          "typicalSeatPitch": 30,
+          "typicalSeatWidth": 15,
+          "seatType": "STANDARD"
+        }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

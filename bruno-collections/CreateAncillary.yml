@@ -1,0 +1,33 @@
+info:
+  name: CreateAncillary
+  type: http
+  seq: 10
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/ancillaries
+  body:
+    type: json
+    data: |-
+      {
+        "type": "SERVICE",
+        "subType": "LOUNGE_ACCESS",
+        "rfisc": "0L1",
+        "name": "Airport Lounge Access",
+        "description": "Access premium airport lounges before departure.",
+        "iconUrl": "https://cdn.airline.com/icons/lounge.png",
+        "metadata": {
+          "specialServiceDetails": "Includes food, drinks, Wi-Fi",
+          "upgradeDetails": "Available 3 hours before departure"
+        },
+        "displayOrder": 41
+      }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

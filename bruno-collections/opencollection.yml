@@ -1,0 +1,22 @@
+opencollection: 1.0.0
+
+info:
+  name: airline-microservice
+config:
+  proxy:
+    inherit: false
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+    disabled: true
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

@@ -1,0 +1,31 @@
+info:
+  name: CreateFareRulesRequest
+  type: http
+  seq: 18
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/fare-rules
+  body:
+    type: json
+    data: |-
+      {
+          "ruleName": "Economy Flex Rules",
+          "airlineId": 1,
+          "fareId": 17,
+          "isRefundable": true,
+          "changeFee": 0.0,
+          "cancellationFee": 50.0,
+          "changeDeadlineHours": 2,
+          "refundDeadlineDays": 1,
+          "isChangeable": true
+        }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

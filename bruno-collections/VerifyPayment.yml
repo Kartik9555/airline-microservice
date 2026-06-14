@@ -1,0 +1,23 @@
+info:
+  name: VerifyPayment
+  type: http
+  seq: 27
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/payments/verify
+  body:
+    type: json
+    data: |-
+      {
+        "razorpayPaymentId": "pay_T1OsTGyVTUlkaF"
+      }
+  auth:
+    type: bearer
+    token: "{{user_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

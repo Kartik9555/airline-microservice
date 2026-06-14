@@ -1,0 +1,33 @@
+info:
+  name: LoginAsUser
+  type: http
+  seq: 24
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/auth/login
+  body:
+    type: json
+    data: |-
+      {
+        "email": "test_user@gmail.com",
+        "password": "test_user@123"
+      } 
+  auth: inherit
+
+runtime:
+  actions:
+    - type: set-variable
+      phase: after-response
+      selector:
+        expression: res.body.token
+        method: jsonq
+      variable:
+        name: user_token
+        scope: runtime
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

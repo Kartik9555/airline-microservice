@@ -1,0 +1,39 @@
+info:
+  name: CreateFlightCabinAncillary
+  type: http
+  seq: 20
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/flight-cabin-ancillaries
+  body:
+    type: json
+    data: |-
+      {
+        "flightId": 101,
+        "departureAirportId": 1,
+        "arrivalAirportId": 2,
+        "departureTime": "07:30:00",
+        "arrivalTime": "08:40:00",
+        "startDate": "2026-01-01",
+        "endDate": "2026-12-31",
+        "operatingDays": [
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY",
+          "SUNDAY"
+        ],
+        "isActive": true
+      }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

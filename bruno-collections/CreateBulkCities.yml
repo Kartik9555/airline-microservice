@@ -1,0 +1,726 @@
+info:
+  name: CreateBulkCities
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/cities/bulk
+  headers:
+    - name: Authorization
+      value: Bearer {{admin_token}}
+  body:
+    type: json
+    data: |-
+      [
+        {
+          "name": "Frankfurt am Main",
+          "cityCode": "FRA",
+          "countryCode": "DE",
+          "countryName": "Germany",
+          "regionCode": "HE",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Munich",
+          "cityCode": "MUC",
+          "countryCode": "DE",
+          "countryName": "Germany",
+          "regionCode": "BY",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Berlin",
+          "cityCode": "BER",
+          "countryCode": "DE",
+          "countryName": "Germany",
+          "regionCode": "BE",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Hamburg",
+          "cityCode": "HAM",
+          "countryCode": "DE",
+          "countryName": "Germany",
+          "regionCode": "HH",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Düsseldorf",
+          "cityCode": "DUS",
+          "countryCode": "DE",
+          "countryName": "Germany",
+          "regionCode": "NW",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "London",
+          "cityCode": "LON",
+          "countryCode": "GB",
+          "countryName": "United Kingdom",
+          "regionCode": "ENG",
+          "timeZoneOffset": "+01:00"
+        },
+        {
+          "name": "Paris",
+          "cityCode": "PAR",
+          "countryCode": "FR",
+          "countryName": "France",
+          "regionCode": "IDF",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Amsterdam",
+          "cityCode": "AMS",
+          "countryCode": "NL",
+          "countryName": "Netherlands",
+          "regionCode": "NH",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Rome",
+          "cityCode": "ROM",
+          "countryCode": "IT",
+          "countryName": "Italy",
+          "regionCode": "LAZ",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Madrid",
+          "cityCode": "MAD",
+          "countryCode": "ES",
+          "countryName": "Spain",
+          "regionCode": "MD",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Zurich",
+          "cityCode": "ZRH",
+          "countryCode": "CH",
+          "countryName": "Switzerland",
+          "regionCode": "ZH",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Vienna",
+          "cityCode": "VIE",
+          "countryCode": "AT",
+          "countryName": "Austria",
+          "regionCode": "W",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Brussels",
+          "cityCode": "BRU",
+          "countryCode": "BE",
+          "countryName": "Belgium",
+          "regionCode": "BRU",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Dublin",
+          "cityCode": "DUB",
+          "countryCode": "IE",
+          "countryName": "Ireland",
+          "regionCode": "L",
+          "timeZoneOffset": "+01:00"
+        },
+        {
+          "name": "Lisbon",
+          "cityCode": "LIS",
+          "countryCode": "PT",
+          "countryName": "Portugal",
+          "regionCode": "LIS",
+          "timeZoneOffset": "+01:00"
+        },
+        {
+          "name": "New York",
+          "cityCode": "NYC",
+          "countryCode": "US",
+          "countryName": "United States",
+          "regionCode": "NY",
+          "timeZoneOffset": "-04:00"
+        },
+        {
+          "name": "Atlanta",
+          "cityCode": "ATL",
+          "countryCode": "US",
+          "countryName": "United States",
+          "regionCode": "GA",
+          "timeZoneOffset": "-04:00"
+        },
+        {
+          "name": "Chicago",
+          "cityCode": "CHI",
+          "countryCode": "US",
+          "countryName": "United States",
+          "regionCode": "IL",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Dallas",
+          "cityCode": "DFW",
+          "countryCode": "US",
+          "countryName": "United States",
+          "regionCode": "TX",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Los Angeles",
+          "cityCode": "LAX",
+          "countryCode": "US",
+          "countryName": "United States",
+          "regionCode": "CA",
+          "timeZoneOffset": "-07:00"
+        },
+        {
+          "name": "San Francisco",
+          "cityCode": "SFO",
+          "countryCode": "US",
+          "countryName": "United States",
+          "regionCode": "CA",
+          "timeZoneOffset": "-07:00"
+        },
+        {
+          "name": "Seattle",
+          "cityCode": "SEA",
+          "countryCode": "US",
+          "countryName": "United States",
+          "regionCode": "WA",
+          "timeZoneOffset": "-07:00"
+        },
+        {
+          "name": "Dubai",
+          "cityCode": "DXB",
+          "countryCode": "AE",
+          "countryName": "United Arab Emirates",
+          "regionCode": "DU",
+          "timeZoneOffset": "+04:00"
+        },
+        {
+          "name": "Abu Dhabi",
+          "cityCode": "AUH",
+          "countryCode": "AE",
+          "countryName": "United Arab Emirates",
+          "regionCode": "AZ",
+          "timeZoneOffset": "+04:00"
+        },
+        {
+          "name": "Doha",
+          "cityCode": "DOH",
+          "countryCode": "QA",
+          "countryName": "Qatar",
+          "regionCode": "DA",
+          "timeZoneOffset": "+03:00"
+        },
+        {
+          "name": "Istanbul",
+          "cityCode": "IST",
+          "countryCode": "TR",
+          "countryName": "Turkey",
+          "regionCode": "34",
+          "timeZoneOffset": "+03:00"
+        },
+        {
+          "name": "Singapore",
+          "cityCode": "SIN",
+          "countryCode": "SG",
+          "countryName": "Singapore",
+          "regionCode": "SG",
+          "timeZoneOffset": "+08:00"
+        },
+        {
+          "name": "Tokyo",
+          "cityCode": "TYO",
+          "countryCode": "JP",
+          "countryName": "Japan",
+          "regionCode": "13",
+          "timeZoneOffset": "+09:00"
+        },
+        {
+          "name": "Osaka",
+          "cityCode": "OSA",
+          "countryCode": "JP",
+          "countryName": "Japan",
+          "regionCode": "27",
+          "timeZoneOffset": "+09:00"
+        },
+        {
+          "name": "Seoul",
+          "cityCode": "SEL",
+          "countryCode": "KR",
+          "countryName": "South Korea",
+          "regionCode": "11",
+          "timeZoneOffset": "+09:00"
+        },
+        {
+          "name": "Hong Kong",
+          "cityCode": "HKG",
+          "countryCode": "HK",
+          "countryName": "Hong Kong",
+          "regionCode": "HK",
+          "timeZoneOffset": "+08:00"
+        },
+        {
+          "name": "Beijing",
+          "cityCode": "BJS",
+          "countryCode": "CN",
+          "countryName": "China",
+          "regionCode": "BJ",
+          "timeZoneOffset": "+08:00"
+        },
+        {
+          "name": "Shanghai",
+          "cityCode": "SHA",
+          "countryCode": "CN",
+          "countryName": "China",
+          "regionCode": "SH",
+          "timeZoneOffset": "+08:00"
+        },
+        {
+          "name": "Guangzhou",
+          "cityCode": "CAN",
+          "countryCode": "CN",
+          "countryName": "China",
+          "regionCode": "GD",
+          "timeZoneOffset": "+08:00"
+        },
+        {
+          "name": "Mumbai",
+          "cityCode": "BOM",
+          "countryCode": "IN",
+          "countryName": "India",
+          "regionCode": "MH",
+          "timeZoneOffset": "+05:30"
+        },
+        {
+          "name": "Delhi",
+          "cityCode": "DEL",
+          "countryCode": "IN",
+          "countryName": "India",
+          "regionCode": "DL",
+          "timeZoneOffset": "+05:30"
+        },
+        {
+          "name": "Bangalore",
+          "cityCode": "BLR",
+          "countryCode": "IN",
+          "countryName": "India",
+          "regionCode": "KA",
+          "timeZoneOffset": "+05:30"
+        },
+        {
+          "name": "Sydney",
+          "cityCode": "SYD",
+          "countryCode": "AU",
+          "countryName": "Australia",
+          "regionCode": "NSW",
+          "timeZoneOffset": "+11:00"
+        },
+        {
+          "name": "Melbourne",
+          "cityCode": "MEL",
+          "countryCode": "AU",
+          "countryName": "Australia",
+          "regionCode": "VIC",
+          "timeZoneOffset": "+11:00"
+        },
+        {
+          "name": "São Paulo",
+          "cityCode": "SAO",
+          "countryCode": "BR",
+          "countryName": "Brazil",
+          "regionCode": "SP",
+          "timeZoneOffset": "-03:00"
+        },
+        {
+          "name": "Rio de Janeiro",
+          "cityCode": "RIO",
+          "countryCode": "BR",
+          "countryName": "Brazil",
+          "regionCode": "RJ",
+          "timeZoneOffset": "-03:00"
+        },
+        {
+          "name": "Mexico City",
+          "cityCode": "MEX",
+          "countryCode": "MX",
+          "countryName": "Mexico",
+          "regionCode": "CMX",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Johannesburg",
+          "cityCode": "JNB",
+          "countryCode": "ZA",
+          "countryName": "South Africa",
+          "regionCode": "GP",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Nairobi",
+          "cityCode": "NBO",
+          "countryCode": "KE",
+          "countryName": "Kenya",
+          "regionCode": "110",
+          "timeZoneOffset": "+03:00"
+        },
+        {
+          "name": "Cairo",
+          "cityCode": "CAI",
+          "countryCode": "EG",
+          "countryName": "Egypt",
+          "regionCode": "C",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Warsaw",
+          "cityCode": "WAW",
+          "countryCode": "PL",
+          "countryName": "Poland",
+          "regionCode": "MZ",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Helsinki",
+          "cityCode": "HEL",
+          "countryCode": "FI",
+          "countryName": "Finland",
+          "regionCode": "ES",
+          "timeZoneOffset": "+03:00"
+        },
+        {
+          "name": "Copenhagen",
+          "cityCode": "CPH",
+          "countryCode": "DK",
+          "countryName": "Denmark",
+          "regionCode": "84",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Oslo",
+          "cityCode": "OSL",
+          "countryCode": "NO",
+          "countryName": "Norway",
+          "regionCode": "03",
+          "timeZoneOffset": "+02:00"
+        },
+        {
+          "name": "Toronto",
+          "cityCode": "YTO",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "ON",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Montreal",
+          "cityCode": "YMQ",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "QC",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Vancouver",
+          "cityCode": "YVR",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "BC",
+          "timeZoneOffset": "-08:00"
+        },
+        {
+          "name": "Calgary",
+          "cityCode": "YYC",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "AB",
+          "timeZoneOffset": "-07:00"
+        },
+        {
+          "name": "Edmonton",
+          "cityCode": "YEA",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "AB",
+          "timeZoneOffset": "-07:00"
+        },
+        {
+          "name": "Ottawa",
+          "cityCode": "YOW",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "ON",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Winnipeg",
+          "cityCode": "YWG",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "MB",
+          "timeZoneOffset": "-06:00"
+        },
+        {
+          "name": "Halifax",
+          "cityCode": "YHZ",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "NS",
+          "timeZoneOffset": "-04:00"
+        },
+        {
+          "name": "Quebec City",
+          "cityCode": "YQB",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "QC",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Victoria",
+          "cityCode": "YYJ",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "BC",
+          "timeZoneOffset": "-08:00"
+        },
+        {
+          "name": "Saskatoon",
+          "cityCode": "YXE",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "SK",
+          "timeZoneOffset": "-06:00"
+        },
+        {
+          "name": "Regina",
+          "cityCode": "YQR",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "SK",
+          "timeZoneOffset": "-06:00"
+        },
+        {
+          "name": "St. John's",
+          "cityCode": "YYT",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "NL",
+          "timeZoneOffset": "-03:30"
+        },
+        {
+          "name": "Kelowna",
+          "cityCode": "YLW",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "BC",
+          "timeZoneOffset": "-08:00"
+        },
+        {
+          "name": "Moncton",
+          "cityCode": "YQM",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "NB",
+          "timeZoneOffset": "-04:00"
+        },
+        {
+          "name": "Thunder Bay",
+          "cityCode": "YQT",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "ON",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "London",
+          "cityCode": "YXU",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "ON",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Windsor",
+          "cityCode": "YQG",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "ON",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Hamilton",
+          "cityCode": "YHM",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "ON",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Yellowknife",
+          "cityCode": "YZF",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "NT",
+          "timeZoneOffset": "-07:00"
+        },
+        {
+          "name": "Whitehorse",
+          "cityCode": "YXY",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "YT",
+          "timeZoneOffset": "-07:00"
+        },
+        {
+          "name": "Iqaluit",
+          "cityCode": "YFB",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "NU",
+          "timeZoneOffset": "-05:00"
+        },
+        {
+          "name": "Prince George",
+          "cityCode": "YXS",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "BC",
+          "timeZoneOffset": "-08:00"
+        },
+        {
+          "name": "Charlottetown",
+          "cityCode": "YYG",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "PE",
+          "timeZoneOffset": "-04:00"
+        },
+        {
+          "name": "Abbotsford",
+          "cityCode": "YXX",
+          "countryCode": "CA",
+          "countryName": "Canada",
+          "regionCode": "BC",
+          "timeZoneOffset": "-08:00"
+        },
+        {
+          "name": "Buenos Aires",
+          "cityCode": "BUE",
+          "countryCode": "AR",
+          "countryName": "Argentina",
+          "regionCode": "BA",
+          "timeZoneOffset": "-03:00"
+        },
+        {
+          "name": "Reykjavik",
+          "cityCode": "REK",
+          "countryCode": "IS",
+          "countryName": "Iceland",
+          "regionCode": "IS",
+          "timeZoneOffset": "+00:00"
+        },
+        {
+          "name": "Santiago",
+          "cityCode": "SCL",
+          "countryCode": "CL",
+          "countryName": "Chile",
+          "regionCode": "RM",
+          "timeZoneOffset": "-04:00"
+        },
+        {
+          "name": "Addis Ababa",
+          "cityCode": "ADD",
+          "countryCode": "ET",
+          "countryName": "Ethiopia",
+          "regionCode": "AA",
+          "timeZoneOffset": "+03:00"
+        },
+        {
+          "name": "Barcelona",
+          "cityCode": "BCN",
+          "countryCode": "ES",
+          "countryName": "Spain",
+          "regionCode": "CT",
+          "timeZoneOffset": "+01:00"
+        },
+        {
+          "name": "Budapest",
+          "cityCode": "BUD",
+          "countryCode": "HU",
+          "countryName": "Hungary",
+          "regionCode": "BU",
+          "timeZoneOffset": "+01:00"
+        },
+        {
+          "name": "Istanbul",
+          "cityCode": "IST",
+          "countryCode": "TR",
+          "countryName": "Turkey",
+          "regionCode": "34",
+          "timeZoneOffset": "+03:00"
+        },
+        {
+          "name": "Seoul",
+          "cityCode": "SEL",
+          "countryCode": "KR",
+          "countryName": "South Korea",
+          "regionCode": "11",
+          "timeZoneOffset": "+09:00"
+        },
+        {
+          "name": "Zurich",
+          "cityCode": "ZRH",
+          "countryCode": "CH",
+          "countryName": "Switzerland",
+          "regionCode": "ZH",
+          "timeZoneOffset": "+01:00"
+        },
+        {
+          "name": "Warsaw",
+          "cityCode": "WAW",
+          "countryCode": "PL",
+          "countryName": "Poland",
+          "regionCode": "MZ",
+          "timeZoneOffset": "+01:00"
+        },
+        {
+          "name": "Copenhagen",
+          "cityCode": "CPH",
+          "countryCode": "DK",
+          "countryName": "Denmark",
+          "regionCode": "84",
+          "timeZoneOffset": "+01:00"
+        },
+        {
+          "name": "Brussels",
+          "cityCode": "BRU",
+          "countryCode": "BE",
+          "countryName": "Belgium",
+          "regionCode": "BRU",
+          "timeZoneOffset": "+01:00"
+        },
+        {
+          "name": "Riyadh",
+          "cityCode": "RUH",
+          "countryCode": "SA",
+          "countryName": "Saudi Arabia",
+          "regionCode": "01",
+          "timeZoneOffset": "+03:00"
+        },
+        {
+          "name": "Cairo",
+          "cityCode": "CAI",
+          "countryCode": "EG",
+          "countryName": "Egypt",
+          "regionCode": "C",
+          "timeZoneOffset": "+02:00"
+        }
+      ]
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

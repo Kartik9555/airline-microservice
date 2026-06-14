@@ -1,0 +1,39 @@
+info:
+  name: CreateAircraft
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/aircrafts
+  body:
+    type: json
+    data: |-
+      {
+        "code": "A521-001",
+        "model": "A521-200",
+        "manufacturer": "Airbus",
+        "seatingCapacity": 222,
+        "economySeats": 132,
+        "premiumEconomySeats": 30,
+        "businessSeats": 24,
+        "firstClassSeats": 36,
+        "rangeKm": 5900,
+        "cruisingSpeedKmh": 828,
+        "maxAltitudeFt": 39000,
+        "yearOfManufacture": 2017,
+        "registrationDate": "2017-03-21",
+        "nextMaintenanceDate": "2026-09-10",
+        "status": "ACTIVE",
+        "isAvailable": true,
+        "currentAirportId": 17
+      }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

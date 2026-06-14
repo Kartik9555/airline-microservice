@@ -1,0 +1,53 @@
+info:
+  name: CreateFare
+  type: http
+  seq: 16
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/fares
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Economy Saver",
+          "rbdCode": "Y",
+          "flightId": 4,
+          "cabinClassId": 772,
+          "baseFare": 120.0,
+          "taxesAndFees": 35.5,
+          "airlineFees": 10.0,
+          "currentPrice": 165.5,
+          "fareLabel": "Saver Economy",
+
+          "extraSeatSpace": false,
+          "preferredSeatChoice": false,
+          "advanceSeatSelection": false,
+          "guaranteedSeatTogether": false,
+
+          "priorityBoarding": false,
+          "priorityCheckin": false,
+          "fastTrackSecurity": false,
+
+          "complimentaryMeals": false,
+          "premiumMealChoice": false,
+          "inFlightInternet": false,
+          "inFlightEntertainment": true,
+          "complimentaryBeverages": false,
+
+          "freeDateChange": false,
+          "partialRefund": false,
+          "fullRefund": false,
+
+          "loungeAccess": false,
+          "airportTransfer": false
+        }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

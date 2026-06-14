@@ -1,0 +1,40 @@
+info:
+  name: CreateBaggagePolicies
+  type: http
+  seq: 17
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/api/v1/baggage-policies
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Economy Standard Baggage Policy",
+        "fareId": 17,
+        "description": "Includes 1 checked bag and standard cabin baggage.",
+        "cabinBaggage": {
+          "maxWeight": 8.0,
+          "pieces": 1,
+          "weightPerPiece": 8.0,
+          "maxDimension": 115
+        },
+        "checkinBaggage": {
+          "maxWeight": 23.0,
+          "pieces": 1,
+          "weightPerPiece": 23.0,
+          "maxDimension": 158
+        },
+        "freeCheckedBagsAllowance": 1,
+        "priorityBaggage": false,
+        "extraBaggageAllowance": false
+      }
+  auth:
+    type: bearer
+    token: "{{admin_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

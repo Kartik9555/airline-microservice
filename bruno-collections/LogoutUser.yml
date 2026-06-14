@@ -1,0 +1,17 @@
+info:
+  name: LogoutUser
+  type: http
+  seq: 25
+
+http:
+  method: POST
+  url: http://127.0.0.1:6000/auth/logout
+  auth:
+    type: bearer
+    token: "{{user_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
