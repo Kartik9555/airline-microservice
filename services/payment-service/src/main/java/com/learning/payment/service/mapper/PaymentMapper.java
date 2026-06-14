@@ -38,6 +38,8 @@ public class PaymentMapper {
                 .initiatedAt(payment.getCreatedAt())
                 .createdAt(payment.getCreatedAt())
                 .updatedAt(payment.getUpdatedAt())
+                .completedAt(payment.getPaidAt())
+                .providerOrderId(payment.getOrderId())
                 .build();
     }
 

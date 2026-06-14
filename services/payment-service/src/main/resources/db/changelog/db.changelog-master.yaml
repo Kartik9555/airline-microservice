@@ -2,3 +2,6 @@ databaseChangeLog:
   - include:
       file: files/001_create_payment_table.xml
       relativeToChangelogFile: true
+  - include:
+      file: files/002_alter_payment_table_add_orderid_column.xml
+      relativeToChangelogFile: true

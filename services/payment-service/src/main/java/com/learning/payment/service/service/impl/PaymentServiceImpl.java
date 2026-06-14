@@ -67,7 +67,8 @@ public class PaymentServiceImpl implements PaymentService {
         final JSONObject paymentDetails = razorpayService.fetchPaymentDetails(request.getRazorpayPaymentId());
         final String status = paymentDetails.optString("status");
         final JSONObject notes = paymentDetails.optJSONObject("notes");
-        final Long paymentId = Long.parseLong(notes.optString("paymentId"));
+        final Long paymentId = Long.parseLong(notes.optString("payment_id"));
+        final String orderId = paymentDetails.optString("order_id");
         final Payment payment = paymentRepository.findById(paymentId)
                 .orElseThrow(() -> new Exception("Payment not found for id: " + paymentId));
 
@@ -78,6 +79,7 @@ public class PaymentServiceImpl implements PaymentService {
             }
             payment.setStatus(PaymentStatus.SUCCESS);
             payment.setPaidAt(Instant.now());
+            payment.setOrderId(orderId);
             paymentRepository.save(payment);
             producer.sendPaymentCompleted(payment);
         } else {
