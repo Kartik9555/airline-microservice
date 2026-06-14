@@ -84,10 +84,9 @@ public class BookingServiceImpl implements BookingService {
             final Passenger passenger = passengerService.createPassenger(userId, passengerRequest);
             passengers.add(passenger);
         }
-        final AirlineResponse airline = airlineService.getAirlineByUserId(userId);
         final FlightResponse flight = flightService.getFlightById(request.getFlightId());
         final Booking booking = BookingMapper.toBooking(request, userId, passengers, bookingReference);
-        booking.setAirlineId(airline.getId());
+        booking.setAirlineId(flight.getAirline().getId());
 
         List<Long> seatInstanceIds = request.getPassengers().stream().map(PassengerRequest::getSeatInstanceId).toList();
         booking.setSeatInstanceIds(seatInstanceIds);
@@ -95,7 +94,7 @@ public class BookingServiceImpl implements BookingService {
         passengers.forEach(p -> p.setBooking(saved));
         List<Ticket> tickets = ticketService.generateTicketsForBooking(saved);
         saved.setTickets(new HashSet<>(tickets));
-
+        saved.setTicketIssued(true);
         final Double totalFare = priceService.calculateTotalFare(request.getFareId());
         final Double seatPrice = seatService.calculatePrice(seatInstanceIds);
         final Double ancillaryPrice = ancillaryService.calculateAncillaryPrice(request.getAncillaryIds());

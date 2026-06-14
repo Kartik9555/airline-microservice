@@ -32,6 +32,7 @@ public class PaymentEventListener {
         bookingRepository.findById(event.getBookingId())
                 .ifPresent(booking -> {
                     booking.setStatus(BookingStatus.CONFIRMED);
+                    booking.setPaymentId(event.getPaymentId());
                     bookingRepository.save(booking);
                     final FlightInstanceResponse flightInstance = flightService.getFlightInstanceById(booking.getFlightInstanceId());
                     final FareResponse fare = priceService.getFareById(booking.getFareId());
