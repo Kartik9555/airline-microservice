@@ -17,3 +17,6 @@ databaseChangeLog:
   - include:
       file: files/006_create_ticket_table.xml
       relativeToChangelogFile: true
+  - include:
+      file: files/007_alter_passenger_table_booking_id_column.xml
+      relativeToChangelogFile: true

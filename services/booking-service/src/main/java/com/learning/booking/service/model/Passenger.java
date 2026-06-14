@@ -64,7 +64,7 @@ public class Passenger {
     private Long primaryUserId;
 
     @ManyToOne
-    @JoinColumn(name = "booking_id")
+    @JoinColumn(name = "booking_id", nullable = true)
     private Booking booking;
 
     @Builder.Default
