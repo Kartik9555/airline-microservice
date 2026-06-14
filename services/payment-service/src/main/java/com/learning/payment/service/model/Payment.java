@@ -64,6 +64,8 @@ public class Payment {
 
     private String description;
 
+    private String orderId;
+
     @CreationTimestamp
     @Column(nullable = false)
     private Instant createdAt;
