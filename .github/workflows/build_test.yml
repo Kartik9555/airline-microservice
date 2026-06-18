@@ -1,0 +1,190 @@
+name: Build
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+    inputs:
+      force_all:
+        description: Build all services
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ALL_SERVICES: >-
+    cloud/api-gateway,
+    cloud/config-server,
+    cloud/service-registry,
+    services/airline-core-service,
+    services/ancillary-service,
+    services/booking-service,
+    services/flight-ops-service,
+    services/location-service,
+    services/notification-service,
+    services/payment-service,
+    services/pricing-service,
+    services/seat-service,
+    services/user-service
+
+jobs:
+
+  detect-changes:
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      modules: ${{ steps.resolve.outputs.modules }}
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Detect file changes
+        uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+
+            common-lib:
+              - 'common-lib/**'
+
+            api-gateway:
+              - 'cloud/api-gateway/**'
+
+            config-server:
+              - 'cloud/config-server/**'
+
+            service-registry:
+              - 'cloud/service-registry/**'
+
+            airline-core-service:
+              - 'services/airline-core-service/**'
+
+            ancillary-service:
+              - 'services/ancillary-service/**'
+
+            booking-service:
+              - 'services/booking-service/**'
+ 
+            flight-ops-service:
+              - 'services/flight-ops-service/**'
+
+            location-service:
+              - 'services/location-service/**'
+            
+            notification-service:
+              - 'services/notification-service/**'
+            
+            payment-service:
+              - 'services/payment-service/**'
+            
+            pricing-service:
+              - 'services/pricing-service/**'
+
+            seat-service:
+              - 'services/seat-service/**'
+
+            user-service:
+              - 'services/user-service/**'
+
+      - name: Resolve impacted services
+        id: resolve
+        shell: bash
+        run: |
+
+          FORCE_ALL="${{ github.event.inputs.force_all || 'false' }}"
+
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            MODULES=$(echo "${ALL_SERVICES}" | tr -d ' ')
+          elif [[ "$FORCE_ALL" == "true" ]]; then
+            MODULES=$(echo "${ALL_SERVICES}" | tr -d ' ')
+          elif [[ "${{ steps.filter.outputs.common-lib }}" == "true" ]]; then
+            MODULES=$(echo "${ALL_SERVICES}" | tr -d ' ')
+          else
+
+            LIST=()
+
+            [[ "${{ steps.filter.outputs.api-gateway }}" == "true" ]] && modules+=('"cloud/api-gateway"')
+            [[ "${{ steps.filter.outputs.config-server }}" == "true" ]] && modules+=('"cloud/config-server"')
+            [[ "${{ steps.filter.outputs.service-registry }}" == "true" ]] && modules+=('"cloud/service-registry"')
+            [[ "${{ steps.filter.outputs.airline-core-service }}" == "true" ]] && modules+=('"services/airline-core-service"')
+            [[ "${{ steps.filter.outputs.ancillary-service }}" == "true" ]] && modules+=('"services/ancillary-service"')
+            [[ "${{ steps.filter.outputs.booking-service }}" == "true" ]] && modules+=('"services/booking-service"')
+            [[ "${{ steps.filter.outputs.flight-ops-service }}" == "true" ]] && modules+=('"services/flight-ops-service"')
+            [[ "${{ steps.filter.outputs.location-service }}" == "true" ]] && modules+=('"services/location-service"')
+            [[ "${{ steps.filter.outputs.notification-service }}" == "true" ]] && modules+=('"services/notification-service"')
+            [[ "${{ steps.filter.outputs.payment-service }}" == "true" ]] && modules+=('"services/payment-service"')
+            [[ "${{ steps.filter.outputs.pricing-service }}" == "true" ]] && modules+=('"services/pricing-service"')
+            [[ "${{ steps.filter.outputs.seat-service }}" == "true" ]] && modules+=('"services/seat-service"')
+            [[ "${{ steps.filter.outputs.user-service }}" == "true" ]] && modules+=('"services/user-service"')
+
+            MODULES=$(IFS=, ; echo "${LIST[*]}")
+          fi
+
+          echo "modules=$MODULES" >> "$GITHUB_OUTPUT"
+
+          echo "Impacted modules:"
+          echo "$MODULES"
+
+  build:
+
+    needs: detect-changes
+
+    if: needs.detect-changes.outputs.modules != ''
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: corretto
+          java-version: '25'
+          cache: maven
+
+      - name: Cache Jib
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cache/google-cloud-tools-java
+            ~/.cache/jib
+          key: jib-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            jib-${{ runner.os }}-
+
+      - name: Compute build metadata
+        run: |
+          echo "GIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build impacted modules
+        run: |
+          mvn \
+            -B \
+            -T 1C \
+            -pl "${{ needs.detect-changes.outputs.modules }}" \
+            -am \
+            clean verify \
+            -Drevision=${GIT_SHA}
